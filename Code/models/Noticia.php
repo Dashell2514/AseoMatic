@@ -13,6 +13,8 @@ class Noticia extends DataBase{
         }
     }
 
+     
+
     public function storeAddNew($tituloNoticia,$descripcionNoticia,$fechaPublicacion,$imgNew,$newUser)
     {
         try {

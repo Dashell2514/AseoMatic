@@ -207,7 +207,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title font-weight-bold"><?php echo $evento->titulo_evento?></h5>
                                     <p class="card-subtitle"><?php echo Login::limitar_cadena($evento->descripcion_evento,100,'...')?></p>
-                                    <a data-id="<?php echo $evento->id_evento?>" data-tipo="evento"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow">Leer Mas</a>
+                                    <a data-id="<?php echo $evento->id_evento?>" data-tipo="evento"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow text-white">Leer Mas</a>
                                 </div>
                             </div>
 

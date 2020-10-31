@@ -9,6 +9,8 @@ $controller=$controller.'Controller';
 $controllerFile='controllers/'.$controller.'.php';
 
 
+require_once 'core/autoload.php';
+
 if(file_exists($controllerFile))
 {
     require_once($controllerFile);
