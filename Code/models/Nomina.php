@@ -35,11 +35,21 @@ class Nomina extends DataBase{
         }
     }
 
-    public function consultarUnaNominas($id_nomina){
+    public function consultarUnaNomina($id_nomina){
         try{
             $str = parent::conectar()->prepare("SELECT * FROM nominas WHERE id_nomina = $id_nomina");
             $str->execute();
             return $str->fetch(PDO::FETCH_OBJ);
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
+
+    public function consultarNominasPorUsuario($fk_usuario){
+        try{
+            $str = parent::conectar()->prepare("SELECT * FROM nominas WHERE fk_usuario = $fk_usuario");
+            $str->execute();
+            return $str->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $e){
             die('mal'.$e->getMessage());
         }
