@@ -1,7 +1,6 @@
 <?php
 
 class Nomina extends DataBase{
-
     public function createNomina($id_usuario, $dateFrom, $dateTo){
         try{
             $str = parent::conectar()->prepare("INSERT INTO nominas(fk_usuario, fecha_de, fecha_hasta) VALUES (?,?,?) ");
@@ -90,5 +89,7 @@ class Nomina extends DataBase{
             die('mal'.$e->getMessage());
         }
     }
+
+    
 
 }

@@ -16,7 +16,7 @@ class NominasController extends Nomina{
             die('Error de Instancia');
         }
 
-    }   
+    }
 
     public function index()
     {
