@@ -42,9 +42,6 @@
   
               <button type="button" id="sidebarCollapse" class="btn btn-primary  b-custom ">
                 &#9776;
-              </button>    
-
-             
-
-              
-          </div>
+              </button>   
+               
+            </div>
