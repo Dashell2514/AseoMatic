@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-10-2020 a las 21:50:59
+-- Tiempo de generación: 05-11-2020 a las 20:19:07
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.4
 
@@ -42,25 +42,15 @@ INSERT INTO `cargos` (`id_cargo`, `nombre_cargo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `eps`
+-- Estructura de tabla para la tabla `conceptos`
 --
 
-CREATE TABLE `eps` (
-  `id_eps` int(11) NOT NULL,
-  `nombre_eps` varchar(25) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `eps`
---
-
-INSERT INTO `eps` (`id_eps`, `nombre_eps`) VALUES
-(1, 'Sanitas'),
-(2, 'COOSALUD'),
-(3, 'COMFASUCRE'),
-(4, 'SALUDVIDA'),
-(5, 'CAFESALUD'),
-(6, 'COOSALUD');
+CREATE TABLE `conceptos` (
+  `id_concepto` int(11) NOT NULL,
+  `concepto` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `total_pago` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fk_nomina` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -97,27 +87,6 @@ INSERT INTO `eventos` (`id_evento`, `titulo_evento`, `descripcion_evento`, `fech
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `fondos_pension`
---
-
-CREATE TABLE `fondos_pension` (
-  `id_fondo_pension` int(11) NOT NULL,
-  `nombre_fondo_pension` varchar(25) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `fondos_pension`
---
-
-INSERT INTO `fondos_pension` (`id_fondo_pension`, `nombre_fondo_pension`) VALUES
-(1, 'Porvenir S.A.'),
-(2, 'Protección S.A.'),
-(3, 'Colfondos S.A.'),
-(4, 'Colpensiones');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `logs_contactenos`
 --
 
@@ -131,6 +100,19 @@ CREATE TABLE `logs_contactenos` (
   `mensaje_contactenos` longtext DEFAULT NULL,
   `fecha_envio` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `nominas`
+--
+
+CREATE TABLE `nominas` (
+  `id_nomina` int(11) NOT NULL,
+  `fecha_de` date DEFAULT NULL,
+  `fecha_hasta` date DEFAULT NULL,
+  `fk_usuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -199,7 +181,51 @@ CREATE TABLE `tipos_documentos` (
 
 INSERT INTO `tipos_documentos` (`id_tipo_documento`, `tipo_documento`) VALUES
 (1, 'Cedula de Ciudadania'),
-(2, 'Tarjeta de Identidad');
+(2, 'Tarjeta de Identidad'),
+(3, 'Cedula de Extranjeria');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_concepto`
+--
+
+CREATE TABLE `tipo_concepto` (
+  `id_tipo_concepto` int(11) NOT NULL,
+  `fk_concepto` int(11) DEFAULT NULL,
+  `descripcion` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT NULL,
+  `asiento_contable` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `valor` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_concepto`
+--
+
+INSERT INTO `tipo_concepto` (`id_tipo_concepto`, `fk_concepto`, `descripcion`, `estado`, `asiento_contable`, `valor`) VALUES
+(2, NULL, 'salud,pension,arl,etc', 1, 'devengado-deducido', 'total ');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_contrato`
+--
+
+CREATE TABLE `tipo_contrato` (
+  `id_tipo_contrato` int(11) NOT NULL,
+  `tipo_contrato` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_contrato`
+--
+
+INSERT INTO `tipo_contrato` (`id_tipo_contrato`, `tipo_contrato`) VALUES
+(1, 'Contrato indefinido'),
+(2, 'Contrato temporal'),
+(3, 'Contrato para la formación y el aprendizaje'),
+(4, 'Contrato en prácticas');
 
 -- --------------------------------------------------------
 
@@ -209,18 +235,17 @@ INSERT INTO `tipos_documentos` (`id_tipo_documento`, `tipo_documento`) VALUES
 
 CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
-  `nombres` varchar(25) DEFAULT NULL,
-  `apellidos` varchar(25) DEFAULT NULL,
-  `correo` varchar(35) DEFAULT NULL,
-  `clave` longtext DEFAULT NULL,
-  `img_usuario` text NOT NULL,
-  `numero_documento` varchar(20) DEFAULT NULL,
+  `nombres` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `apellidos` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `correo` varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `clave` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `img_usuario` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `numero_documento` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `fk_rol` int(11) DEFAULT NULL,
-  `fk_fondo_pension` int(11) DEFAULT NULL,
   `fk_cargo` int(11) DEFAULT NULL,
   `fk_tipo_documento` int(11) DEFAULT NULL,
-  `fk_eps` int(11) DEFAULT NULL,
-  `token` text NOT NULL,
+  `fk_tipo_contrato` int(11) DEFAULT NULL,
+  `token` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -229,14 +254,15 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `correo`, `clave`, `img_usuario`, `numero_documento`, `fk_rol`, `fk_fondo_pension`, `fk_cargo`, `fk_tipo_documento`, `fk_eps`, `token`, `created_at`, `updated_at`) VALUES
-(1, 'david andres', 'hernandez juajinoy', 'david22@mail.com', '$2y$10$eSK8U.C54AnstHeeNNW0D.Zn3JehTwqJ90D1xTDZBMcuyoA2T.w.G', 'assets/uploud/profile/1600640609evento7.jpg', '1234567891', 1, 1, 1, 1, 1, '$2a$07$Da22vidJuAjiNoYyZlXGhuVQMplmBYGVLwggskr3EnUqNBxdpBp6y', '2020-09-20', '2020-09-23'),
-(2, 'fabian ricardo', 'aldana garay', 'fabian@mail.com', '$2y$10$gJwdz8k2lXxgAe0uAf2v0.GTYLtOL89UbdZQJMEVPJHuRFlO1V4BS', 'assets/uploud/profile/default.svg', '1233905589', 1, 3, 1, 1, 6, '$2a$07$Da22vidJuAjiNoYyZlXGhunYyXVZ1lVA7pBzaZUSmqTBlz621Aeme', '2020-09-23', '2020-09-23'),
-(3, 'dashell alexander', 'carrero fuentes', 'dashel@mail.com', '$2y$10$SqQk2oahlcx1oa29W1nmRufafqyZwi54T8NKmljBc6ofTz0t.g9M6', 'assets/uploud/profile/default.svg', '1018516607', 1, 2, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhu8sX/l5I13uTBMdSAsYrz4b88PO6B/72', '2020-09-23', '2020-09-23'),
-(4, 'andres felipe', 'chacon cifuentes', 'andres@mail.com', '$2y$10$bd/oXVxVJj.cw58jECgwp.Tsfa9pdZIo/S8TlKcIEX/9x0tV3g5Ei', 'assets/uploud/profile/default.svg', '1005813772', 1, 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuspify4MH6zZ5zPJcZoW84yUdlw9eSnm', '2020-09-23', '2020-09-23'),
-(5, 'vanesa', 'vega santa', 'vanesa@mail.com', '$2y$10$1t/ND7gnTzLpxn1MWUbboOgLO4tji6rRUdwwaXsR6TuHhke8SCsY2', 'assets/uploud/profile/default.svg', '1006093649', 1, 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuZKRrFl7EKnNfTHoMhZjN6JcFEFWwThS', '2020-09-23', '2020-09-23'),
-(6, 'jhon alexander', 'ramos vides', 'alex@mail.com', '$2y$10$a6lhpwQLCF2akcv4QpCMze3eIlVivXxKYmKFEx8o2VCl.Pdy3rmai', 'assets/uploud/profile/default.svg', '1233890166', 1, 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuvwi5OH4NMElrfPb0eq.h7XsWf2KpW1q', '2020-09-23', '2020-09-23'),
-(7, 'andres', 'hernandez juajinoy', 'david@mail.com', '$2y$10$kY9TKoXxTd0WhkFoNs4MB.wVJnmbD2lsv0m1cHx5mRnfbt1allDle', 'assets/uploud/profile/160192619535682510F.jpg', '1234567891', 2, 3, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuzukPrxgTrWdtfNWwNTqBCOOPZ7Tf1e6', '2020-10-04', '2020-10-05');
+INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `correo`, `clave`, `img_usuario`, `numero_documento`, `fk_rol`, `fk_cargo`, `fk_tipo_documento`, `fk_tipo_contrato`, `token`, `created_at`, `updated_at`) VALUES
+(1, 'david andres', 'hernandez juajinoy', 'david22@mail.com', '$2y$10$eSK8U.C54AnstHeeNNW0D.Zn3JehTwqJ90D1xTDZBMcuyoA2T.w.G', 'assets/uploud/profile/default.svg', '1234567891', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuVQMplmBYGVLwggskr3EnUqNBxdpBp6y', '2020-09-20', '2020-11-05'),
+(2, 'fabian ricardo', 'aldana garay', 'fabian@mail.com', '$2y$10$gJwdz8k2lXxgAe0uAf2v0.GTYLtOL89UbdZQJMEVPJHuRFlO1V4BS', 'assets/uploud/profile/default.svg', '1233905589', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhunYyXVZ1lVA7pBzaZUSmqTBlz621Aeme', '2020-09-23', '2020-09-23'),
+(3, 'dashell alexander', 'carrero fuentes', 'dashel@mail.com', '$2y$10$SqQk2oahlcx1oa29W1nmRufafqyZwi54T8NKmljBc6ofTz0t.g9M6', 'assets/uploud/profile/default.svg', '1018516607', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhu8sX/l5I13uTBMdSAsYrz4b88PO6B/72', '2020-09-23', '2020-09-23'),
+(4, 'andres felipe', 'chacon cifuentes', 'andres@mail.com', '$2y$10$bd/oXVxVJj.cw58jECgwp.Tsfa9pdZIo/S8TlKcIEX/9x0tV3g5Ei', 'assets/uploud/profile/default.svg', '1005813772', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuspify4MH6zZ5zPJcZoW84yUdlw9eSnm', '2020-09-23', '2020-09-23'),
+(5, 'vanesa', 'vega santa', 'vanesa@mail.com', '$2y$10$1t/ND7gnTzLpxn1MWUbboOgLO4tji6rRUdwwaXsR6TuHhke8SCsY2', 'assets/uploud/profile/default.svg', '1006093649', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuZKRrFl7EKnNfTHoMhZjN6JcFEFWwThS', '2020-09-23', '2020-09-23'),
+(6, 'jhon alexander', 'ramos vides', 'alex@mail.com', '$2y$10$a6lhpwQLCF2akcv4QpCMze3eIlVivXxKYmKFEx8o2VCl.Pdy3rmai', 'assets/uploud/profile/default.svg', '1233890166', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuvwi5OH4NMElrfPb0eq.h7XsWf2KpW1q', '2020-09-23', '2020-09-23'),
+(7, 'andres', 'hernandez juajinoy', 'david@mail.com', '$2y$10$kY9TKoXxTd0WhkFoNs4MB.wVJnmbD2lsv0m1cHx5mRnfbt1allDle', 'assets/uploud/profile/default.svg', '1234567891', 2, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuzukPrxgTrWdtfNWwNTqBCOOPZ7Tf1e6', '2020-10-04', '2020-10-05'),
+(8, 'prueba', 'prueba', 'prueba@gmial.com', '$2y$10$LzxRP8Upw5on1HSwQnr74eVspJKgbztxRankNoo9IjOZ4k9A6kwt6', 'assets/uploud/profile/default.svg', '1233455744', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuHHPizBYgBZ07PK.eCM6NRM1mhdWlr/y', '2020-11-05', '2020-11-05');
 
 --
 -- Índices para tablas volcadas
@@ -249,10 +275,11 @@ ALTER TABLE `cargos`
   ADD PRIMARY KEY (`id_cargo`);
 
 --
--- Indices de la tabla `eps`
+-- Indices de la tabla `conceptos`
 --
-ALTER TABLE `eps`
-  ADD PRIMARY KEY (`id_eps`);
+ALTER TABLE `conceptos`
+  ADD PRIMARY KEY (`id_concepto`),
+  ADD KEY `fk_nomina` (`fk_nomina`);
 
 --
 -- Indices de la tabla `eventos`
@@ -262,16 +289,17 @@ ALTER TABLE `eventos`
   ADD KEY `fk_usuario` (`fk_usuario`);
 
 --
--- Indices de la tabla `fondos_pension`
---
-ALTER TABLE `fondos_pension`
-  ADD PRIMARY KEY (`id_fondo_pension`);
-
---
 -- Indices de la tabla `logs_contactenos`
 --
 ALTER TABLE `logs_contactenos`
   ADD PRIMARY KEY (`id_log_contactenos`);
+
+--
+-- Indices de la tabla `nominas`
+--
+ALTER TABLE `nominas`
+  ADD PRIMARY KEY (`id_nomina`),
+  ADD KEY `fk_usuario` (`fk_usuario`);
 
 --
 -- Indices de la tabla `noticias`
@@ -293,15 +321,27 @@ ALTER TABLE `tipos_documentos`
   ADD PRIMARY KEY (`id_tipo_documento`);
 
 --
+-- Indices de la tabla `tipo_concepto`
+--
+ALTER TABLE `tipo_concepto`
+  ADD PRIMARY KEY (`id_tipo_concepto`),
+  ADD KEY `fk_concepto` (`fk_concepto`);
+
+--
+-- Indices de la tabla `tipo_contrato`
+--
+ALTER TABLE `tipo_contrato`
+  ADD PRIMARY KEY (`id_tipo_contrato`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usuario`),
   ADD KEY `fk_rol` (`fk_rol`),
-  ADD KEY `fk_fondo_pension` (`fk_fondo_pension`),
   ADD KEY `fk_cargo` (`fk_cargo`),
   ADD KEY `fk_tipo_documento` (`fk_tipo_documento`),
-  ADD KEY `fk_eps` (`fk_eps`);
+  ADD KEY `fk_tipo_contrato` (`fk_tipo_contrato`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -314,10 +354,10 @@ ALTER TABLE `cargos`
   MODIFY `id_cargo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `eps`
+-- AUTO_INCREMENT de la tabla `conceptos`
 --
-ALTER TABLE `eps`
-  MODIFY `id_eps` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `conceptos`
+  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `eventos`
@@ -326,16 +366,16 @@ ALTER TABLE `eventos`
   MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT de la tabla `fondos_pension`
---
-ALTER TABLE `fondos_pension`
-  MODIFY `id_fondo_pension` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT de la tabla `logs_contactenos`
 --
 ALTER TABLE `logs_contactenos`
   MODIFY `id_log_contactenos` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `nominas`
+--
+ALTER TABLE `nominas`
+  MODIFY `id_nomina` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
@@ -353,17 +393,35 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tipos_documentos`
 --
 ALTER TABLE `tipos_documentos`
-  MODIFY `id_tipo_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tipo_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_concepto`
+--
+ALTER TABLE `tipo_concepto`
+  MODIFY `id_tipo_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_contrato`
+--
+ALTER TABLE `tipo_contrato`
+  MODIFY `id_tipo_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `conceptos`
+--
+ALTER TABLE `conceptos`
+  ADD CONSTRAINT `conceptos_ibfk_2` FOREIGN KEY (`fk_nomina`) REFERENCES `nominas` (`id_nomina`);
 
 --
 -- Filtros para la tabla `eventos`
@@ -372,20 +430,31 @@ ALTER TABLE `eventos`
   ADD CONSTRAINT `eventos_ibfk_1` FOREIGN KEY (`fk_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
 --
+-- Filtros para la tabla `nominas`
+--
+ALTER TABLE `nominas`
+  ADD CONSTRAINT `nominas_ibfk_2` FOREIGN KEY (`fk_usuario`) REFERENCES `usuarios` (`id_usuario`);
+
+--
 -- Filtros para la tabla `noticias`
 --
 ALTER TABLE `noticias`
   ADD CONSTRAINT `noticias_ibfk_1` FOREIGN KEY (`fk_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
 --
+-- Filtros para la tabla `tipo_concepto`
+--
+ALTER TABLE `tipo_concepto`
+  ADD CONSTRAINT `tipo_concepto_ibfk_1` FOREIGN KEY (`fk_concepto`) REFERENCES `conceptos` (`id_concepto`);
+
+--
 -- Filtros para la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`fk_rol`) REFERENCES `roles` (`id_rol`),
-  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`fk_fondo_pension`) REFERENCES `fondos_pension` (`id_fondo_pension`),
   ADD CONSTRAINT `usuarios_ibfk_3` FOREIGN KEY (`fk_cargo`) REFERENCES `cargos` (`id_cargo`),
   ADD CONSTRAINT `usuarios_ibfk_4` FOREIGN KEY (`fk_tipo_documento`) REFERENCES `tipos_documentos` (`id_tipo_documento`),
-  ADD CONSTRAINT `usuarios_ibfk_5` FOREIGN KEY (`fk_eps`) REFERENCES `eps` (`id_eps`);
+  ADD CONSTRAINT `usuarios_ibfk_6` FOREIGN KEY (`fk_tipo_contrato`) REFERENCES `tipo_contrato` (`id_tipo_contrato`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
