@@ -24,8 +24,7 @@
               </div>
               <div class="menu-settings text-capitalize">
                 <a href="?c=Usuarios&m=show" class="list-group-item list-group-item-action bg-dark text-white">Administrar Usuarios</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Administrar Nominas</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Administrar Certificados</a>
+                <a href="?c=Nominas&m=index" class="list-group-item list-group-item-action bg-dark text-white">Administrar Nominas</a>
                 <a href="?c=Noticias&m=showNews" class="list-group-item list-group-item-action bg-dark text-white">Administrar Noticias</a>
                 <a href="?c=Eventos&m=showEvents" class="list-group-item list-group-item-action bg-dark text-white">Administrar Eventos</a>
                 <a href="?c=Login&m=destroy" class="list-group-item list-group-item-action bg-dark text-white">Salir</a>
