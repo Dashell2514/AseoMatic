@@ -3234,9 +3234,9 @@
 										"$ref": "AAAAAAF1hUhr+5GJeVA="
 									},
 									"font": "Arial;13;0",
-									"left": 631,
+									"left": 625,
 									"top": 451,
-									"width": 14.82177734375,
+									"width": 27.1044921875,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -3244,7 +3244,7 @@
 										"$ref": "AAAAAAF1hUhr+5GMRC4="
 									},
 									"edgePosition": 2,
-									"text": "+1"
+									"text": "+1..*"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -3298,12 +3298,12 @@
 										"$ref": "AAAAAAF1hUhr+5GKSQY="
 									},
 									"font": "Arial;13;0",
-									"left": 676,
+									"left": 672,
 									"top": 395,
 									"width": 27.1044921875,
 									"height": 13,
-									"alpha": -0.5235987755982988,
-									"distance": 30,
+									"alpha": -0.6498703000288695,
+									"distance": 31.400636936215164,
 									"hostEdge": {
 										"$ref": "AAAAAAF1hUhr+5GMRC4="
 									},
@@ -4037,9 +4037,9 @@
 										"$ref": "AAAAAAF1hZGVuPfo2wM="
 									},
 									"font": "Arial;13;0",
-									"left": 642,
+									"left": 636,
 									"top": 240,
-									"width": 14.82177734375,
+									"width": 27.1044921875,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -4047,7 +4047,7 @@
 										"$ref": "AAAAAAF1hZGVuvfrkEQ="
 									},
 									"edgePosition": 2,
-									"text": "+1"
+									"text": "+1..*"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -4110,7 +4110,7 @@
 									"hostEdge": {
 										"$ref": "AAAAAAF1hZGVuvfrkEQ="
 									},
-									"text": "+1..*"
+									"text": "+1"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -5433,7 +5433,7 @@
 								"_parent": {
 									"$ref": "AAAAAAF1hUhr+5GIG0I="
 								},
-								"name": "1",
+								"name": "1..*",
 								"reference": {
 									"$ref": "AAAAAAFyYsxTv8zAcW8="
 								}
@@ -6475,7 +6475,7 @@
 								"_parent": {
 									"$ref": "AAAAAAF1hZGVuPfnixE="
 								},
-								"name": "1",
+								"name": "1..*",
 								"reference": {
 									"$ref": "AAAAAAF1YPVYUlbZSqI="
 								}
@@ -6486,7 +6486,7 @@
 								"_parent": {
 									"$ref": "AAAAAAF1hZGVuPfnixE="
 								},
-								"name": "1..*",
+								"name": "1",
 								"reference": {
 									"$ref": "AAAAAAF1hXCK6draWo4="
 								},
