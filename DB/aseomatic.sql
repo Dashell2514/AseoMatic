@@ -47,8 +47,11 @@ INSERT INTO `cargos` (`id_cargo`, `nombre_cargo`) VALUES
 
 CREATE TABLE `conceptos` (
   `id_concepto` int(11) NOT NULL,
-  `concepto` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `total_pago` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `descripcion` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT NULL,
+  `asiento_contable` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `valor` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fk_tipo_concepto` int(11) NOT NULL,
   `fk_nomina` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -64,7 +67,7 @@ CREATE TABLE `eventos` (
   `descripcion_evento` longtext DEFAULT NULL,
   `fecha_publicado` date DEFAULT NULL,
   `imagen_evento` longtext DEFAULT NULL,
-  `fk_usuario` int(11) DEFAULT NULL
+  `fk_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -126,7 +129,7 @@ CREATE TABLE `noticias` (
   `descripcion_noticia` longtext DEFAULT NULL,
   `fecha_publicado` date DEFAULT NULL,
   `imagen_noticia` longtext DEFAULT NULL,
-  `fk_usuario` int(11) DEFAULT NULL
+  `fk_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -170,6 +173,7 @@ INSERT INTO `roles` (`id_rol`, `nombre_rol`) VALUES
 -- Estructura de tabla para la tabla `tipos_documentos`
 --
 
+
 CREATE TABLE `tipos_documentos` (
   `id_tipo_documento` int(11) NOT NULL,
   `tipo_documento` varchar(25) DEFAULT NULL
@@ -192,19 +196,12 @@ INSERT INTO `tipos_documentos` (`id_tipo_documento`, `tipo_documento`) VALUES
 
 CREATE TABLE `tipo_concepto` (
   `id_tipo_concepto` int(11) NOT NULL,
-  `fk_concepto` int(11) DEFAULT NULL,
-  `descripcion` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(1) DEFAULT NULL,
-  `asiento_contable` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `valor` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
+  `tipo_concepto` varchar(35) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `tipo_concepto`
 --
-
-INSERT INTO `tipo_concepto` (`id_tipo_concepto`, `fk_concepto`, `descripcion`, `estado`, `asiento_contable`, `valor`) VALUES
-(2, NULL, 'salud,pension,arl,etc', 1, 'devengado-deducido', 'total ');
 
 -- --------------------------------------------------------
 
@@ -242,10 +239,10 @@ CREATE TABLE `usuarios` (
   `clave` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `img_usuario` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `numero_documento` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `fk_rol` int(11) DEFAULT NULL,
-  `fk_cargo` int(11) DEFAULT NULL,
-  `fk_tipo_documento` int(11) DEFAULT NULL,
-  `fk_tipo_contrato` int(11) DEFAULT NULL,
+  `fk_rol` int(11) NOT NULL,
+  `fk_cargo` int(11) NOT NULL,
+  `fk_tipo_documento` int(11) NOT NULL,
+  `fk_tipo_contrato` int(11) NOT NULL,
   `token` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL
@@ -280,6 +277,7 @@ ALTER TABLE `cargos`
 --
 ALTER TABLE `conceptos`
   ADD PRIMARY KEY (`id_concepto`),
+  ADD KEY `fk_tipo_concepto` (`fk_tipo_concepto`),
   ADD KEY `fk_nomina` (`fk_nomina`);
 
 --
@@ -325,8 +323,7 @@ ALTER TABLE `tipos_documentos`
 -- Indices de la tabla `tipo_concepto`
 --
 ALTER TABLE `tipo_concepto`
-  ADD PRIMARY KEY (`id_tipo_concepto`),
-  ADD KEY `fk_concepto` (`fk_concepto`);
+  ADD PRIMARY KEY (`id_tipo_concepto`);
 
 --
 -- Indices de la tabla `tipo_contrato`
@@ -424,6 +421,9 @@ ALTER TABLE `usuarios`
 ALTER TABLE `conceptos`
   ADD CONSTRAINT `conceptos_ibfk_2` FOREIGN KEY (`fk_nomina`) REFERENCES `nominas` (`id_nomina`);
 
+ALTER TABLE `conceptos`
+  ADD CONSTRAINT `conceptos_ibfk_1` FOREIGN KEY (`fk_tipo_concepto`) REFERENCES `tipo_concepto` (`id_tipo_concepto`);
+
 --
 -- Filtros para la tabla `eventos`
 --
@@ -442,11 +442,6 @@ ALTER TABLE `nominas`
 ALTER TABLE `noticias`
   ADD CONSTRAINT `noticias_ibfk_1` FOREIGN KEY (`fk_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
---
--- Filtros para la tabla `tipo_concepto`
---
-ALTER TABLE `tipo_concepto`
-  ADD CONSTRAINT `tipo_concepto_ibfk_1` FOREIGN KEY (`fk_concepto`) REFERENCES `conceptos` (`id_concepto`);
 
 --
 -- Filtros para la tabla `usuarios`
