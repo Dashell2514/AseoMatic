@@ -48,7 +48,7 @@ INSERT INTO `cargos` (`id_cargo`, `nombre_cargo`) VALUES
 CREATE TABLE `conceptos` (
   `id_concepto` int(11) NOT NULL,
   `descripcion` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(1) DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT 1,
   `asiento_contable` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
   `valor` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fk_tipo_concepto` int(11) NOT NULL,
