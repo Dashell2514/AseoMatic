@@ -238,6 +238,7 @@ CREATE TABLE `usuarios` (
   `nombres` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `apellidos` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `correo` varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `salario` varchar(20) DEFAULT NULL,
   `clave` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `img_usuario` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `numero_documento` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -254,15 +255,15 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `correo`, `clave`, `img_usuario`, `numero_documento`, `fk_rol`, `fk_cargo`, `fk_tipo_documento`, `fk_tipo_contrato`, `token`, `created_at`, `updated_at`) VALUES
-(1, 'david andres', 'hernandez juajinoy', 'david22@mail.com', '$2y$10$eSK8U.C54AnstHeeNNW0D.Zn3JehTwqJ90D1xTDZBMcuyoA2T.w.G', 'assets/uploud/profile/default.svg', '1234567891', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuVQMplmBYGVLwggskr3EnUqNBxdpBp6y', '2020-09-20', '2020-11-05'),
-(2, 'fabian ricardo', 'aldana garay', 'fabian@mail.com', '$2y$10$gJwdz8k2lXxgAe0uAf2v0.GTYLtOL89UbdZQJMEVPJHuRFlO1V4BS', 'assets/uploud/profile/default.svg', '1233905589', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhunYyXVZ1lVA7pBzaZUSmqTBlz621Aeme', '2020-09-23', '2020-09-23'),
-(3, 'dashell alexander', 'carrero fuentes', 'dashel@mail.com', '$2y$10$SqQk2oahlcx1oa29W1nmRufafqyZwi54T8NKmljBc6ofTz0t.g9M6', 'assets/uploud/profile/default.svg', '1018516607', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhu8sX/l5I13uTBMdSAsYrz4b88PO6B/72', '2020-09-23', '2020-09-23'),
-(4, 'andres felipe', 'chacon cifuentes', 'andres@mail.com', '$2y$10$bd/oXVxVJj.cw58jECgwp.Tsfa9pdZIo/S8TlKcIEX/9x0tV3g5Ei', 'assets/uploud/profile/default.svg', '1005813772', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuspify4MH6zZ5zPJcZoW84yUdlw9eSnm', '2020-09-23', '2020-09-23'),
-(5, 'vanesa', 'vega santa', 'vanesa@mail.com', '$2y$10$1t/ND7gnTzLpxn1MWUbboOgLO4tji6rRUdwwaXsR6TuHhke8SCsY2', 'assets/uploud/profile/default.svg', '1006093649', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuZKRrFl7EKnNfTHoMhZjN6JcFEFWwThS', '2020-09-23', '2020-09-23'),
-(6, 'jhon alexander', 'ramos vides', 'alex@mail.com', '$2y$10$a6lhpwQLCF2akcv4QpCMze3eIlVivXxKYmKFEx8o2VCl.Pdy3rmai', 'assets/uploud/profile/default.svg', '1233890166', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuvwi5OH4NMElrfPb0eq.h7XsWf2KpW1q', '2020-09-23', '2020-09-23'),
-(7, 'andres', 'hernandez juajinoy', 'david@mail.com', '$2y$10$kY9TKoXxTd0WhkFoNs4MB.wVJnmbD2lsv0m1cHx5mRnfbt1allDle', 'assets/uploud/profile/default.svg', '1234567891', 2, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuzukPrxgTrWdtfNWwNTqBCOOPZ7Tf1e6', '2020-10-04', '2020-10-05'),
-(8, 'prueba', 'prueba', 'prueba@gmial.com', '$2y$10$LzxRP8Upw5on1HSwQnr74eVspJKgbztxRankNoo9IjOZ4k9A6kwt6', 'assets/uploud/profile/default.svg', '1233455744', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuHHPizBYgBZ07PK.eCM6NRM1mhdWlr/y', '2020-11-05', '2020-11-05');
+INSERT INTO `usuarios` (`id_usuario`, `salario`, `nombres`, `apellidos`, `correo`, `clave`, `img_usuario`, `numero_documento`, `fk_rol`, `fk_cargo`, `fk_tipo_documento`, `fk_tipo_contrato`, `token`, `created_at`, `updated_at`) VALUES
+(1, '1000000', 'david andres', 'hernandez juajinoy', 'david22@mail.com', '$2y$10$eSK8U.C54AnstHeeNNW0D.Zn3JehTwqJ90D1xTDZBMcuyoA2T.w.G', 'assets/uploud/profile/default.svg', '1234567891', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuVQMplmBYGVLwggskr3EnUqNBxdpBp6y', '2020-09-20', '2020-11-05'),
+(2, '1000000', 'fabian ricardo', 'aldana garay', 'fabian@mail.com', '$2y$10$gJwdz8k2lXxgAe0uAf2v0.GTYLtOL89UbdZQJMEVPJHuRFlO1V4BS', 'assets/uploud/profile/default.svg', '1233905589', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhunYyXVZ1lVA7pBzaZUSmqTBlz621Aeme', '2020-09-23', '2020-09-23'),
+(3, '1000000', 'dashell alexander', 'carrero fuentes', 'dashel@mail.com', '$2y$10$SqQk2oahlcx1oa29W1nmRufafqyZwi54T8NKmljBc6ofTz0t.g9M6', 'assets/uploud/profile/default.svg', '1018516607', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhu8sX/l5I13uTBMdSAsYrz4b88PO6B/72', '2020-09-23', '2020-09-23'),
+(4, '1000000', 'andres felipe', 'chacon cifuentes', 'andres@mail.com', '$2y$10$bd/oXVxVJj.cw58jECgwp.Tsfa9pdZIo/S8TlKcIEX/9x0tV3g5Ei', 'assets/uploud/profile/default.svg', '1005813772', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuspify4MH6zZ5zPJcZoW84yUdlw9eSnm', '2020-09-23', '2020-09-23'),
+(5, '1000000', 'vanesa', 'vega santa', 'vanesa@mail.com', '$2y$10$1t/ND7gnTzLpxn1MWUbboOgLO4tji6rRUdwwaXsR6TuHhke8SCsY2', 'assets/uploud/profile/default.svg', '1006093649', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuZKRrFl7EKnNfTHoMhZjN6JcFEFWwThS', '2020-09-23', '2020-09-23'),
+(6, '1000000', 'jhon alexander', 'ramos vides', 'alex@mail.com', '$2y$10$a6lhpwQLCF2akcv4QpCMze3eIlVivXxKYmKFEx8o2VCl.Pdy3rmai', 'assets/uploud/profile/default.svg', '1233890166', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuvwi5OH4NMElrfPb0eq.h7XsWf2KpW1q', '2020-09-23', '2020-09-23'),
+(7, '1000000', 'andres', 'hernandez juajinoy', 'david@mail.com', '$2y$10$kY9TKoXxTd0WhkFoNs4MB.wVJnmbD2lsv0m1cHx5mRnfbt1allDle', 'assets/uploud/profile/default.svg', '1234567891', 2, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuzukPrxgTrWdtfNWwNTqBCOOPZ7Tf1e6', '2020-10-04', '2020-10-05'),
+(8, '1000000', 'prueba', 'prueba', 'prueba@gmial.com', '$2y$10$LzxRP8Upw5on1HSwQnr74eVspJKgbztxRankNoo9IjOZ4k9A6kwt6', 'assets/uploud/profile/default.svg', '1233455744', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuHHPizBYgBZ07PK.eCM6NRM1mhdWlr/y', '2020-11-05', '2020-11-05');
 
 --
 -- Índices para tablas volcadas
