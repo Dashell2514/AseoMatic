@@ -96,6 +96,7 @@
               </div>
             </div>
           </div>
+<<<<<<< HEAD
 
 
           <div class="row">
@@ -113,6 +114,41 @@
           </div>
 
      
+=======
+          <!--Asiento contable-->
+            <div>
+                <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
+                <select name="contable" id="contable" tabindex="7" class="form-control bg-white">
+                  <option value="" selected="true">---Seleccione---</option>
+                        <option value="">Devengado</option>
+                        <option value="">Deducido</option>
+                </select>
+            </div>
+          <!--FIN Asiento contable-->
+          <!--Valor-->
+          <div>
+            <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
+            <input type="text" name="valor" id="valor"placeholder="Valor" class="form-control bg-white">
+          </div>
+          <!--FIN VALOR-->
+           <!--Descripcion-->
+           <div>
+             <label for="descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripcion Nomina</label>
+                  <textarea name="descripcion_nomina" id="descripcion_nomina" class="form-control" cols="20" rows="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
+           </div><br>
+          <!--FIN Descripcion-->
+            <!--<div>
+              <div>
+                <ul id="concepto">
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+              </div>-->
+                
+            <button id="guardarArray" class="mr-3 btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" type="submit">Enviar</button>
+           
+>>>>>>> feature/dashel
 
           <input type="hidden" name="updated_at" value="<?php echo date("Y-m-d")  ?>">
 

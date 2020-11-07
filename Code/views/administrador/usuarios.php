@@ -142,12 +142,21 @@
             </div>
 
          
+<<<<<<< HEAD
 
      
 
             <div class="form-group col-md-6 col-lg-4 col-sm-12">
               <label for="rol" class="text-shadow-1 text-custom">Rol</label>
               <select name="rol" id="rol" tabindex="9" class="form-control bg-white">
+=======
+
+     
+
+            <div class="form-group col-md-6 col-lg-4 col-sm-12">
+              <label for="rol" class="text-shadow-1 text-custom">Rol</label>
+              <select name="rol" id="rol" tabindex="8" class="form-control bg-white">
+>>>>>>> feature/dashel
                 <option value="" selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('roles') as $rol) { ?>
                   <option value="<?php echo $rol->id_rol ?>"><?php echo $rol->nombre_rol ?></option>
@@ -157,7 +166,11 @@
 
             <div class="form-group col-md-12 col-lg-4 col-sm-12">
               <label for="tipo_contrato" class="text-shadow-1 text-custom">Tipo Contrato</label>
+<<<<<<< HEAD
               <select name="tipo_contrato" id="tipo_contrato" tabindex="10" class="form-control bg-white">
+=======
+              <select name="tipo_contrato" id="tipo_contrato" tabindex="9" class="form-control bg-white">
+>>>>>>> feature/dashel
                 <option value="" selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('tipo_contrato') as $tipo_contrato) { ?>
                   <option value="<?php echo $tipo_contrato->id_tipo_contrato ?>"><?php echo $tipo_contrato->tipo_contrato ?></option>
@@ -426,6 +439,7 @@
 
 
               <div class="form-group  col-12 ">
+<<<<<<< HEAD
                 <label class="text-shadow-1 text-custom">Salario</label>
                 <p id="show_salario" class="d-block"></p>
          
@@ -433,6 +447,8 @@
               </div>
 
               <div class="form-group  col-12 ">
+=======
+>>>>>>> feature/dashel
                 <label  class="text-shadow-1 text-custom">Tipo Contrato</label>
                 <select id="show_tipo_contrato" class="d-block bg-white text-capitalize" disabled>
                   <?php foreach (Administrador::allTable('tipo_contrato') as $tipo_contrato) { ?>
@@ -441,9 +457,12 @@
                 </select>
               </div>
 
+<<<<<<< HEAD
 
             
 
+=======
+>>>>>>> feature/dashel
             <input type="hidden" name="updated_at" id="updated_at" value="<?php echo date("Y-m-d")  ?>">
 
 

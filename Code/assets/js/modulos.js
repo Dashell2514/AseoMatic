@@ -414,7 +414,11 @@ if(location.search == '?c=Usuarios&m=show' )
         const tipo_documento = document.getElementById("show_tipo_documento").value=`${user.fk_tipo_documento}`;
         const numero_documento = document.getElementById("show_numero_documento").textContent=`${user.numero_documento}`;
         const cargo = document.getElementById("show_cargo").value=`${user.fk_cargo}`;
+<<<<<<< HEAD
         const salario = document.getElementById("show_salario").textContent=`${user.salario}`;
+=======
+        // const eps = document.getElementById("show_eps").value=`${user.fk_eps}`;
+>>>>>>> feature/dashel
         const show_tipo_contrato = document.getElementById("show_tipo_contrato").value=`${user.fk_tipo_contrato}`;
         const img_usuario = document.getElementById("show_user_img").src=`${user.img_usuario}`;
     }
@@ -663,7 +667,10 @@ if(location.search == '?c=Usuarios&m=show' )
                 formData.append('rol',fk_rol.value);
                 formData.append('cargo',cargo.value);
                 formData.append('fk_tipo_contrato',fk_tipo_contrato.value);
+<<<<<<< HEAD
                 formData.append('salario',salario.value);
+=======
+>>>>>>> feature/dashel
                 formData.append('user_img',img);
                 
 
@@ -2225,3 +2232,40 @@ if( location.search == '?c=Empleados&m=showPerfil')
 
 
 
+/*Array*/
+let arrayDatos = []
+
+
+//forma 1 de usarlo
+const agregar = (description, asientoContable, valor)=>{
+
+    let form = {
+        description,
+        asientoContable,
+        valor
+    }
+
+    arrayDatos.push(datos)
+}
+
+//forma 2 de hacerlo
+let description = document.getElementById('descripcion_nomina').value
+let asientoContable = document.getElementById('contable').value
+let valor = document.getElementById('valor').value
+
+
+$('#guardarArray').click(function (){
+    let form = {
+        description,
+        asientoContable,
+        valor
+    }
+    console.log(form);
+
+    arrayDatos.push(datos)
+
+    console.log(arrayDatos);
+})
+
+
+/*Fin Array*/

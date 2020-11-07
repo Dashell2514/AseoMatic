@@ -44,10 +44,16 @@ class UsuariosController extends Usuario{
            $fk_cargo = Security::verificateInt( $_POST['cargo']);
            $fk_tipo_documento = Security::verificateInt( $_POST['tipo_documento']);
            $fk_tipo_contrato = Security::verificateInt( $_POST['fk_tipo_contrato']);
+<<<<<<< HEAD
            $salario = Security::verificateInt( $_POST['salario']);
 
   
            if($nombres && $apellidos && $correo && $clave1 && $numero_documento && $fk_rol  && $fk_cargo && $fk_tipo_documento && $fk_tipo_contrato && $salario)
+=======
+
+  
+           if($nombres && $apellidos && $correo && $clave1 && $numero_documento && $fk_rol  && $fk_cargo && $fk_tipo_documento && $fk_tipo_contrato)
+>>>>>>> feature/dashel
            {
 
                if(!Login::verificarSiExisteEmail($correo))
@@ -99,7 +105,11 @@ class UsuariosController extends Usuario{
 
                    $token = $this->seguridad->encryptToken(str_replace(' ','',$nombres.$numero_documento.$apellidos));
                    $clave = password_hash($clave1,PASSWORD_DEFAULT);
+<<<<<<< HEAD
                    parent::storeUser($nombres,$apellidos,$correo,$salario,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token);
+=======
+                   parent::storeUser($nombres,$apellidos,$correo,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token);
+>>>>>>> feature/dashel
                    
                    echo json_encode(['ok' => 'usuarioCreado']);
 
@@ -127,8 +137,11 @@ class UsuariosController extends Usuario{
         $fk_tipo_contrato = Security::verificateInt( $_POST['update_tipo_contrato']);
         $fk_cargo = Security::verificateInt( $_POST['update_cargo']);
         $fk_tipo_documento = Security::verificateInt( $_POST['update_tipo_documento']);
+<<<<<<< HEAD
         $salario = Security::verificateInt( $_POST['update_salario']);
 
+=======
+>>>>>>> feature/dashel
 
         $updated_at = Security::verificateDate($_POST['updated_at']);
         $token =$_POST['token'];
@@ -155,7 +168,11 @@ class UsuariosController extends Usuario{
             $clave =password_hash($clave1,PASSWORD_DEFAULT); 
         }
 
+<<<<<<< HEAD
         if($nombres && $apellidos && $correo && $numero_documento && $fk_rol && $fk_tipo_contrato && $fk_cargo && $fk_tipo_documento  && $salario && $updated_at && $usuario->token == $token && isset($clave)  )
+=======
+        if($nombres && $apellidos && $correo && $numero_documento && $fk_rol && $fk_tipo_contrato && $fk_cargo && $fk_tipo_documento  && $updated_at && $usuario->token == $token && isset($clave) )
+>>>>>>> feature/dashel
         {
             
             if(!Login::verificarSiExisteEmail($correo) || Login::verificarSiExisteEmailUpdate($correo,$id))
@@ -213,7 +230,11 @@ class UsuariosController extends Usuario{
                  }
 
                 $token1 = $this->seguridad->encryptToken(str_replace(' ','',$nombres.$numero_documento.$apellidos));
+<<<<<<< HEAD
                 parent::UpdateUser($nombres,$apellidos,$correo,$salario,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token1,$updated_at,$id);
+=======
+                parent::UpdateUser($nombres,$apellidos,$correo,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token1,$updated_at,$id);
+>>>>>>> feature/dashel
                 echo json_encode(['ok' => 'usuarioActualizado']);
 
 
