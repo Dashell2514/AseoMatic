@@ -13,12 +13,14 @@ class Nomina extends DataBase{
         }
     }
 
-    public function createConcept($concept, $time, $pay){
+    public function createConcept($descripcion, $asiento_contable, $valor, $fk_tipo_concepto, $fk_nomina){
         try{
-            $str = parent::conectar()->prepare("INSERT INTO conceptos(concepto, horas, pago) VALUES (?,?,?) ");
-            $str->bindParam(1,$concept,PDO::PARAM_STR);
-            $str->bindParam(2,$time,PDO::PARAM_STR);
-            $str->bindParam(3,$pay,PDO::PARAM_INT);
+            $str = parent::conectar()->prepare("INSERT INTO conceptos(descripcion, asiento_contable, valor, fk_tipo_concepto, fk_nomina) VALUES (?,?,?,?,?) ");
+            $str->bindParam(1,$descripcion,PDO::PARAM_STR);
+            $str->bindParam(2,$asiento_contable,PDO::PARAM_STR);
+            $str->bindParam(3,$valor,PDO::PARAM_STR);
+            $str->bindParam(4,$fk_tipo_concepto,PDO::PARAM_INT);
+            $str->bindParam(5,$fk_nomina,PDO::PARAM_INT);
             $str->execute();
         }catch(Exception $e){
             die('mal'.$e->getMessage());
@@ -28,6 +30,27 @@ class Nomina extends DataBase{
     public function consultarNominas(){
         try{
             $str = parent::conectar()->prepare("SELECT * FROM nominas");
+            $str->execute();
+            return $str->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
+
+    public function consultarTodasLasNominas(){
+        try{
+            $str = parent::conectar()->prepare("SELECT usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.numero_documento, usuarios.salario, nominas.*, conceptos.*  FROM nominas  LEFT JOIN conceptos ON conceptos.fk_nomina = nominas.id_nomina LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario GROUP BY nominas.fecha_de ORDER BY nominas.fecha_de DESC");
+            $str->execute();
+            return $str->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
+
+    public function consultarTodasLasNominasPorUsuario($id_usuario){
+        try{
+            $str = parent::conectar()->prepare("SELECT usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.numero_documento, usuarios.salario, nominas.*, conceptos.* FROM nominas  LEFT JOIN conceptos ON conceptos.fk_nomina = nominas.id_nomina LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario WHERE usuarios.id_usuario = ? GROUP BY nominas.fecha_de ORDER BY nominas.fecha_de DESC");
+            $str->bindParam(1,$id_usuario,PDO::PARAM_INT);
             $str->execute();
             return $str->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $e){
@@ -77,18 +100,21 @@ class Nomina extends DataBase{
         }
     }
 
-    public function updateConcept($concept, $time, $pay, $id_concepto){
+
+    public function updateConcept($descripcion, $asiento_contable, $valor, $fk_tipo_concepto, $fk_nomina, $id_concepto){
         try{
-            $str = parent::conectar()->prepare("UPDATE nominas SET concepto = ?, horas = ?, pago = ? WHERE id_concepto = ?");
-            $str->bindParam(1,$concept,PDO::PARAM_STR);
-            $str->bindParam(2,$time,PDO::PARAM_STR);
-            $str->bindParam(3,$pay,PDO::PARAM_INT);            
-            $str->bindParam(4,$id_concepto,PDO::PARAM_INT);
+            $str = parent::conectar()->prepare("UPDATE conceptos descripcion = ?, asiento_contable = ?, valor = ?, fk_tipo_concepto = ?, fk_nomina = ?) WHERE id_concepto = ?");
+            $str->bindParam(1,$descripcion,PDO::PARAM_STR);
+            $str->bindParam(2,$asiento_contable,PDO::PARAM_STR);
+            $str->bindParam(3,$valor,PDO::PARAM_STR);
+            $str->bindParam(4,$fk_tipo_concepto,PDO::PARAM_INT);
+            $str->bindParam(5,$fk_nomina,PDO::PARAM_INT);
+            $str->bindParam(6,$id_concepto,PDO::PARAM_INT);
             $str->execute();
         }catch(Exception $e){
             die('mal'.$e->getMessage());
         }
-    }
+    }  
 
     
 
