@@ -40,10 +40,11 @@ class Usuario extends DataBase{
         }
     }
 
-    public function storeUser($nombres,$apellidos,$correo,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_fondo_pension,$fk_cargo,$fk_tipo_documento,$fk_eps,$token)
+    public function storeUser($nombres,$apellidos,$correo,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token)
     {
         try {
-            $stm = parent::conectar()->prepare("INSERT INTO usuarios(nombres,apellidos,correo,clave,img_usuario,numero_documento,fk_rol,fk_fondo_pension,fk_cargo,fk_tipo_documento,fk_eps,token,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIME(),CURRENT_TIME())");
+
+            $stm = parent::conectar()->prepare("INSERT INTO usuarios(nombres, apellidos, correo, clave, img_usuario, numero_documento, fk_rol, fk_cargo, fk_tipo_documento, fk_tipo_contrato, token, created_at, updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIME(),CURRENT_TIME())");
             $stm->bindParam(1,$nombres,PDO::PARAM_STR);
             $stm->bindParam(2,$apellidos,PDO::PARAM_STR);
             $stm->bindParam(3,$correo,PDO::PARAM_STR);
@@ -51,11 +52,10 @@ class Usuario extends DataBase{
             $stm->bindParam(5,$img_usuario,PDO::PARAM_STR);
             $stm->bindParam(6,$numero_documento,PDO::PARAM_STR);
             $stm->bindParam(7,$fk_rol,PDO::PARAM_INT);
-            $stm->bindParam(8,$fk_fondo_pension,PDO::PARAM_INT);
-            $stm->bindParam(9,$fk_cargo,PDO::PARAM_INT);
-            $stm->bindParam(10,$fk_tipo_documento,PDO::PARAM_INT);
-            $stm->bindParam(11,$fk_eps,PDO::PARAM_INT);
-            $stm->bindParam(12,$token,PDO::PARAM_STR);
+            $stm->bindParam(8,$fk_cargo,PDO::PARAM_INT);
+            $stm->bindParam(9,$fk_tipo_documento,PDO::PARAM_INT);
+            $stm->bindParam(10,$fk_tipo_contrato,PDO::PARAM_INT);
+            $stm->bindParam(11,$token,PDO::PARAM_INT);
             $stm->execute();
             
         } catch (Exception $e) {
@@ -63,10 +63,10 @@ class Usuario extends DataBase{
         }
     }
 
-    public function UpdateUser($nombres,$apellidos,$correo,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_fondo_pension,$fk_cargo,$fk_tipo_documento,$fk_eps,$token,$updated_at,$id)
+    public function UpdateUser($nombres,$apellidos,$correo,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token,$updated_at,$id)
     {
         try {
-            $stm = parent::conectar()->prepare("UPDATE usuarios SET nombres=? ,apellidos=? ,correo=?,clave=?,img_usuario = ?,numero_documento=?,fk_rol=?,fk_fondo_pension=?,fk_cargo=?,fk_tipo_documento=?,fk_eps=?,token =?,updated_at=? WHERE id_usuario = ?");
+            $stm = parent::conectar()->prepare("UPDATE usuarios SET nombres=? ,apellidos=? ,correo=?,clave=?,img_usuario = ?,numero_documento=?,fk_rol=?,fk_cargo=?,fk_tipo_documento=?,fk_tipo_contrato=?,token =?,updated_at=? WHERE id_usuario = ?");
             $stm->bindParam(1,$nombres,PDO::PARAM_STR);
             $stm->bindParam(2,$apellidos,PDO::PARAM_STR);
             $stm->bindParam(3,$correo,PDO::PARAM_STR);
@@ -74,13 +74,12 @@ class Usuario extends DataBase{
             $stm->bindParam(5,$img_usuario,PDO::PARAM_STR);
             $stm->bindParam(6,$numero_documento,PDO::PARAM_STR);
             $stm->bindParam(7,$fk_rol,PDO::PARAM_INT);
-            $stm->bindParam(8,$fk_fondo_pension,PDO::PARAM_INT);
-            $stm->bindParam(9,$fk_cargo,PDO::PARAM_INT);
-            $stm->bindParam(10,$fk_tipo_documento,PDO::PARAM_INT);
-            $stm->bindParam(11,$fk_eps,PDO::PARAM_INT);
-            $stm->bindParam(12,$token,PDO::PARAM_STR);
-            $stm->bindParam(13,$updated_at,PDO::PARAM_STR);
-            $stm->bindParam(14,$id,PDO::PARAM_INT);
+            $stm->bindParam(8,$fk_cargo,PDO::PARAM_INT);
+            $stm->bindParam(9,$fk_tipo_documento,PDO::PARAM_INT);
+            $stm->bindParam(10,$fk_tipo_contrato,PDO::PARAM_INT);
+            $stm->bindParam(11,$token,PDO::PARAM_STR);
+            $stm->bindParam(12,$updated_at,PDO::PARAM_STR);
+            $stm->bindParam(13,$id,PDO::PARAM_INT);
             $stm->execute();
             
         } catch (Exception $e) {

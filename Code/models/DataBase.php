@@ -4,7 +4,7 @@ class DataBase{
 
  
 
-    public function conectar()
+    public static function conectar()
     {
         try {
             $pdo = new PDO('mysql:host=localhost;dbname=aseomatic;charset:utf8','root','');
