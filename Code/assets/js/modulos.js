@@ -395,6 +395,7 @@ if(location.search == '?c=Usuarios&m=show' )
         const clave = document.getElementById("update_clave").value=``;
         const tipo_documento = document.getElementById("update_tipo_documento").value=`${user.fk_tipo_documento}`;
         const numero_documento = document.getElementById("update_numero_documento").value=`${user.numero_documento}`;
+        const update_salario = document.getElementById("update_salario").value=`${user.salario}`;
         const cargo = document.getElementById("update_cargo").value=`${user.fk_cargo}`;
         // const eps = document.getElementById("update_eps").value=`${user.fk_eps}`;
         const update_tipo_contrato = document.getElementById("update_tipo_contrato").value=`${user.fk_tipo_contrato}`;
@@ -413,7 +414,7 @@ if(location.search == '?c=Usuarios&m=show' )
         const tipo_documento = document.getElementById("show_tipo_documento").value=`${user.fk_tipo_documento}`;
         const numero_documento = document.getElementById("show_numero_documento").textContent=`${user.numero_documento}`;
         const cargo = document.getElementById("show_cargo").value=`${user.fk_cargo}`;
-        // const eps = document.getElementById("show_eps").value=`${user.fk_eps}`;
+        const salario = document.getElementById("show_salario").textContent=`${user.salario}`;
         const show_tipo_contrato = document.getElementById("show_tipo_contrato").value=`${user.fk_tipo_contrato}`;
         const img_usuario = document.getElementById("show_user_img").src=`${user.img_usuario}`;
     }
@@ -642,6 +643,7 @@ if(location.search == '?c=Usuarios&m=show' )
         const fk_tipo_contrato = document.getElementById("tipo_contrato");
         const fondo_pension = document.getElementById("fondo_pension");
         const fk_rol = document.getElementById('rol');
+        const salario = document.getElementById('salario');
         const img = userImg.files[0];
         
          const validarForm =  validarFormUsers(nombres,apellidos,correo,numero_documento,fk_rol,fk_tipo_contrato,cargo,tipo_documento);
@@ -661,6 +663,7 @@ if(location.search == '?c=Usuarios&m=show' )
                 formData.append('rol',fk_rol.value);
                 formData.append('cargo',cargo.value);
                 formData.append('fk_tipo_contrato',fk_tipo_contrato.value);
+                formData.append('salario',salario.value);
                 formData.append('user_img',img);
                 
 
@@ -720,6 +723,7 @@ if(location.search == '?c=Usuarios&m=show' )
         const update_clave = document.getElementById("update_clave");
         const update_tipo_documento = document.getElementById("update_tipo_documento");
         const update_numero_documento = document.getElementById("update_numero_documento");
+        const update_salario = document.getElementById("update_salario");
         const update_cargo = document.getElementById("update_cargo");
     
         const update_tipo_contrato = document.getElementById("update_tipo_contrato");
@@ -752,6 +756,7 @@ if(location.search == '?c=Usuarios&m=show' )
             formData.append('update_cargo',update_cargo.value);
             formData.append('update_tipo_contrato',update_tipo_contrato.value);
             formData.append('update_rol',update_fk_rol.value);
+            formData.append('update_salario',update_salario.value);
             formData.append('updated_at',update_updated_at.value);
             formData.append('token',token.value);
             formData.append('clave_antigua',clave_antigua.value);
