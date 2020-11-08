@@ -51,12 +51,12 @@
       <div class="modal-header border-0 b-custom">
         <h5 class="modal-title text-center h4 font-weight-bold text-shadow-1
               text-white" id="informationModal">Ingreso Nomina</h5>
-        <button type="button" id="cerrarModalUsuario" tabindex="-1" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button"  data-class="nomina_cancel" tabindex="-1" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST">
+        <form >
           <div class="row">
             
 
@@ -96,68 +96,73 @@
               </div>
             </div>
           </div>
-<<<<<<< HEAD
 
-
-          <div class="row">
-            <div class="form-group col-md-12 col-lg-12 col-sm-12">
-              <label for="cargo" class="text-shadow-1 text-custom">Concepto de nomina</label>
-              <select name="cargo" id="cargo" tabindex="7"class="form-control bg-white">
-                <option value=""  selected="true">-- Seleccione --</option>
-                
-                  <option value="">ID: DESCRIPCION</option>
-                  <option value="">ID: DESCRIPCION</option>
-                  <option value="">ID: DESCRIPCION</option>
-                
-              </select>
-            </div>
-          </div>
-
-     
-=======
-          <!--Asiento contable-->
-            <div>
+      
+        <div class="row">
+                   <!--Descripcion-->
+          <div class="col-md-6 col-lg-4 col-sm-6 col-6">
+                  <label for="descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripcion Nomina</label>
+                  <textarea name="descripcion_nomina" id="descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
+           </div>
+          <!--FIN Descripcion-->
+           <!--Asiento contable-->
+          <div class="col-md-6 col-lg-4 col-sm-6 col-6">
                 <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
                 <select name="contable" id="contable" tabindex="7" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
-                        <option value="">Devengado</option>
-                        <option value="">Deducido</option>
+                        <option value="Devengado">Devengado</option>
+                        <option value="Deducido">Deducido</option>
                 </select>
-            </div>
+
+           
+          </div>
           <!--FIN Asiento contable-->
           <!--Valor-->
-          <div>
+          <div class="col-md-6 col-lg-4 col-sm-6 col-6">
             <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
             <input type="text" name="valor" id="valor"placeholder="Valor" class="form-control bg-white">
           </div>
           <!--FIN VALOR-->
-           <!--Descripcion-->
-           <div>
-             <label for="descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripcion Nomina</label>
-                  <textarea name="descripcion_nomina" id="descripcion_nomina" class="form-control" cols="20" rows="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
-           </div><br>
-          <!--FIN Descripcion-->
-            <!--<div>
-              <div>
-                <ul id="concepto">
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                </ul>
-              </div>-->
-                
-            <button id="guardarArray" class="mr-3 btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" type="submit">Enviar</button>
-           
->>>>>>> feature/dashel
+  
+              <div class="col-lg-8 col-md-12 col-sm-12 col-12 mt-3 ">
+                <!-- <ul id="lista_concepto" class="list-group text-dark">
+                 
+                </ul> -->
 
+                <table class="table table-responsive-lg ">
+                  <thead class="thead-dark">
+                    <th >#</th>
+                    <th >Descripcion</th>
+                    <th >Asiento Contable</th>
+                    <th >Valor</th>
+                  </thead>
+                  <tbody id="lista_concepto">
+                   
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col d-flex  justify-content-center align-items-center">
+                <div class="">
+                  <button id="guardarArray" class="mr-3 btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" type="submit">Crear Concepto</button>
+                </div>
+              </div>
+
+                
+            
+            </div>
+          </div>
+
+     
+      
           <input type="hidden" name="updated_at" value="<?php echo date("Y-m-d")  ?>">
 
 
 
 
-          <div class="text-right my-2">
-            <button id="GuardarUsuario" class="mr-3 btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" type="submit">Aceptar</button>
-            <button type="button" id="CancelarUsuario" class="btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" data-dismiss="modal">Cancelar</button>
+          <div class="text-right my-3 ">
+            <button id="GuardarNomina" class="mr-3 btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg">Aceptar</button>
+            <button type="button" id="CancelarNomina" data-class="nomina_cancel" class="btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" data-dismiss="modal">Cancelar</button>
           </div>
         </form>
       </div>
