@@ -2249,16 +2249,21 @@ btnSaveArray.addEventListener('click',(e)=>{
     const description = document.getElementById('descripcion_nomina');
     const asientoContable = document.getElementById('contable');
     const valor = document.getElementById('valor');
+    const tipo_concepto = document.getElementById('tipo_concepto');
 
-    let validacion = validarConceptos(description,asientoContable,valor);
+    let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
 
         if( validacion)
         {
             let form = {
                 description : description.value,
-                asientoContable :asientoContable.value,
-                valor : valor.value
+                asientoContable :asientoContable[asientoContable.value].textContent,
+                fk_asientoContable :asientoContable.value,
+                valor : valor.value,
+                tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
+                fk_tipo_concepto: tipo_concepto.value
             }
+
 
             arrayConceptos.push(form)
 
@@ -2321,10 +2326,15 @@ const htmlConceptos = (datos,count) =>{
 
     trConcepto.append(td3TableConcepto);
 
-    const td4TableConcepto =document.createElement('TD');
-    td4TableConcepto.textContent = `${datos.valor}`;
+    const td4TableConcepto = document.createElement('TD');
+    td4TableConcepto.textContent = `${datos.tipo_concepto}`;
 
     trConcepto.append(td4TableConcepto);
+
+    const td5TableConcepto =document.createElement('TD');
+    td5TableConcepto.textContent = `${datos.valor}`;
+
+    trConcepto.append(td5TableConcepto);
 
 
     fragment.append(trConcepto);
@@ -2344,4 +2354,56 @@ const renderizarConcepto=(datos )=> {
     ulConceptos.append(fragment);
 }
 
+
+const btnGuardarNomina = document.getElementById('GuardarNomina');
+
+btnGuardarNomina.addEventListener('click',function(e){
+    e.preventDefault();
+
+
+    const fk_usuario = document.getElementById('usuario');
+    const fecha_de = document.getElementById('fecha_de');
+    const fecha_hasta = document.getElementById('fecha_hasta');
+    const arrayConcep = JSON.stringify(arrayConceptos);
+
+    const formData = new FormData();
+    formData.append('fk_usuario',fk_usuario.value);
+    formData.append('fecha_de',fecha_de.value);
+    formData.append('fecha_hasta',fecha_hasta.value);
+    formData.append('arrayDatos',arrayConcep);
+
+
+  
+    fetch('?c=Nominas&m=store',
+    {
+        method: 'POST',
+        body: formData
+    })
+    .then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error al Crear Nomina')))
+    .then(resp => resp.json())
+    .then(data => {
+
+        if(data.ok)
+        {
+            $("#ModalAddNomina").modal('hide');
+            const msg ='La Nomina se ha creado';
+            msgSuccess(msg);
+            // showAllEvents();
+        }else{
+            const msg ='Error Fallo';
+            msgError(msg)
+            setTimeout(() => {
+                location="?c=All&m=index";
+            }, 1500);
+        }
+
+        
+    })
+
+
+})
+
 }
+
+
+

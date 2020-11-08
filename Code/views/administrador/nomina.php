@@ -65,9 +65,7 @@
                   <label for="usuario" class="text-shadow-1 text-custom">Usuario</label>
                   <select name="usuario" id="usuario" class="form-control text-capitalize" >
                       <?php foreach (Administrador::allTable("usuarios") as $usuario) { ?>
-                          
-                      
-                      <option value="<?php $usuario->id_usuario?>"><?php echo $usuario->nombres." ".$usuario->apellidos ?></option>
+                      <option value="<?php echo $usuario->id_usuario?>"><?php echo $usuario->nombres." ".$usuario->apellidos ?></option>
                     <?php } ?>
                   </select>
                 </div>
@@ -110,18 +108,36 @@
                 <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
                 <select name="contable" id="contable" tabindex="7" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
-                        <option value="Devengado">Devengado</option>
-                        <option value="Deducido">Deducido</option>
+                  <?php foreach (Administrador::allTable('asiento_contable') as $asiento_contable) { ?>
+                    <option value="<?php echo $asiento_contable->id_asiento_contable ?>"><?php echo $asiento_contable->asiento_contable ?></option>
+                  <?php } ?>
                 </select>
+
+              
+            <div class="mt-2">
+              <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
+              <input type="text" name="valor" id="valor"placeholder="Valor" class="form-control bg-white">
+            </div>
+         
 
            
           </div>
+
+
+   
           <!--FIN Asiento contable-->
           <!--Valor-->
           <div class="col-md-6 col-lg-4 col-sm-6 col-6">
-            <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
-            <input type="text" name="valor" id="valor"placeholder="Valor" class="form-control bg-white">
+                <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
+                <select name="tipo_concepto" id="tipo_concepto" tabindex="7" class="form-control bg-white">
+                  <option value="" selected="true">---Seleccione---</option>
+                  <?php foreach (Administrador::allTable('tipo_concepto') as $tipo_concepto) { ?>
+                    <option value="<?php echo $tipo_concepto->id_tipo_concepto ?>"><?php echo $tipo_concepto->tipo_concepto ?></option>
+                  <?php } ?>
+                </select>
+
           </div>
+          
           <!--FIN VALOR-->
   
               <div class="col-lg-8 col-md-12 col-sm-12 col-12 mt-3 ">
@@ -134,6 +150,7 @@
                     <th >#</th>
                     <th >Descripcion</th>
                     <th >Asiento Contable</th>
+                    <th >Tipo Concepto</th>
                     <th >Valor</th>
                   </thead>
                   <tbody id="lista_concepto">

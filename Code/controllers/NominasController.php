@@ -35,27 +35,25 @@ class NominasController extends Nomina{
         $fk_usuario = $_POST['fk_usuario'];
         $fecha_de = $_POST['fecha_de'];
         $fecha_hasta = $_POST['fecha_hasta'];
-        $arrayDatos = $_POST['arrayDatos'];
-      
+        $arrayDatos = json_decode($_POST['arrayDatos']);
+    
 
-        if($fk_usuario != '' && $fecha_de != '' && $fecha_hasta != '' && $concept != '' && $time != '' && $pay != ''){
+        if($fk_usuario && $fecha_de && $fecha_hasta && $arrayDatos){
 
-        parent::createNomina($fk_usuario, $fecha_de, $dateTo);
-        
-        $lastNomina = parent::consultarUltimaNomina();
-        
-        $arrayDatos = json_decode($arrayDatos);
+            parent::createNomina($fk_usuario, $fecha_de, $fecha_hasta);
 
-        for ($i=0; $i < count($arrayDatos); $i++) { 
-            $data = $arrayDatos[$i];
-
-            parent::createConcept($data->description, $data->fk_asientoContable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
-        }
-
-        header('location:?class=Nominas&view=index');
+            $lastNomina = parent::consultarUltimaNomina();
+            
+            for ($i=0; $i < count($arrayDatos); $i++) { 
+                $data = $arrayDatos[$i];
+                parent::createConcept($data->description, $data->fk_asientoContable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
+            }
+            echo json_encode(['ok'=> 'Creado']);
+            return;
         }else{
 
             echo json_encode(['error'=> 'Debes llenar todos los campos']);
+            return;
         }
 
     }
