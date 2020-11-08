@@ -55,6 +55,7 @@ class Nomina extends DataBase{
         }catch(Exception $e){
             die('mal'.$e->getMessage());
         }
+
     }
 
     public function consultarTodasLasNominasPorUsuario($id_usuario){

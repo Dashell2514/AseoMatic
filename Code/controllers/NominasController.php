@@ -26,9 +26,9 @@ class NominasController extends Nomina{
 
 
     //? trae la informacion en formato JSON
-    public function allNewsJson()
+    public function allNominasJson()
     {
-        echo parent::consultarNominas();
+        echo json_encode(parent::consultarTodasLasNominas()); 
     }
 
     public function store(){
