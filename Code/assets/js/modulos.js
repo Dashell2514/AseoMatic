@@ -2225,3 +2225,123 @@ if( location.search == '?c=Empleados&m=showPerfil')
 
 
 
+if( location.search =='?c=Nominas&m=index')
+{
+
+
+let arrayConceptos = [];
+const btnCancelModal = document.getElementById('CancelarNomina');
+const IconCancelModal = document.getElementById('cerrarModalNomina');
+const ulConceptos = document.getElementById('lista_concepto');
+const btnSaveArray = document.getElementById('guardarArray');
+
+
+const CancelModalNomina= document.querySelectorAll("button[data-class='nomina_cancel']").forEach(Element => {
+    Element.addEventListener('click',()=>{
+        arrayConceptos = [];
+        ulConceptos.innerHTML="";
+    })
+});
+
+btnSaveArray.addEventListener('click',(e)=>{
+    e.preventDefault();
+
+    const description = document.getElementById('descripcion_nomina');
+    const asientoContable = document.getElementById('contable');
+    const valor = document.getElementById('valor');
+
+    let validacion = validarConceptos(description,asientoContable,valor);
+
+        if( validacion)
+        {
+            let form = {
+                description : description.value,
+                asientoContable :asientoContable.value,
+                valor : valor.value
+            }
+
+            arrayConceptos.push(form)
+
+            renderizarConcepto(arrayConceptos);
+            console.log(arrayConceptos);
+
+
+            description.value="";
+            asientoContable.value="";
+            valor.value="";
+        }
+
+})
+
+const validarConceptos = (var1,var2,var3) => {
+
+    if(var1.value == ""){
+        var1.focus();
+        const message = "Ingresar la descripcion del concepto";
+        msgError(message);
+    }
+    else if(var2.value == "")
+    {
+        var2.focus();
+        const message = "Ingresar el Asiento Contable";
+        msgError(message);
+    }
+    else if(var3.value == '')
+    {
+        var3.focus();
+        const message = "Ingresar el valor del concepto ";
+        msgError(message);
+    } 
+    else{
+        return true;
+    }    
+}
+
+
+
+const htmlConceptos = (datos,count) =>{
+    const fragment = document.createDocumentFragment();
+
+    const trConcepto = document.createElement('TR');
+    trConcepto.classList.add('table-light');
+
+    const tdTableConcepto = document.createElement('TD');
+    tdTableConcepto.textContent = `${count}`;
+    trConcepto.append(tdTableConcepto);
+
+    const td2TableConcepto =document.createElement('TD');
+    td2TableConcepto.textContent = `${datos.description}`;
+    td2TableConcepto.classList.add('text-capitalize');
+
+
+    trConcepto.append(td2TableConcepto);
+
+    const td3TableConcepto =document.createElement('TD');
+    td3TableConcepto.textContent = `${datos.asientoContable}`;
+
+    trConcepto.append(td3TableConcepto);
+
+    const td4TableConcepto =document.createElement('TD');
+    td4TableConcepto.textContent = `${datos.valor}`;
+
+    trConcepto.append(td4TableConcepto);
+
+
+    fragment.append(trConcepto);
+    return fragment;
+}
+
+
+
+const renderizarConcepto=(datos )=> {
+    const fragment = document.createDocumentFragment();
+    let count= 0;
+    for (const concepto of datos) {
+        count++;
+        fragment.append(htmlConceptos(concepto,count));
+    }
+    ulConceptos.innerHTML='';
+    ulConceptos.append(fragment);
+}
+
+}
