@@ -116,6 +116,27 @@ class Nomina extends DataBase{
         }
     }  
 
+    // querys de otras tablas
+
     
+    public function consultarAsientoContable(){
+        try{
+            $str = parent::conectar()->prepare("SELECT * FROM asiento_contable");
+            $str->execute();
+            return $str->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
+
+    public function consultarTipoConcepto(){
+        try{
+            $str = parent::conectar()->prepare("SELECT * FROM tipo_concepto");
+            $str->execute();
+            return $str->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
 
 }
