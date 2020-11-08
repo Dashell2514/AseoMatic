@@ -13,6 +13,8 @@ class Noticia extends DataBase{
         }
     }
 
+     
+
     public function storeAddNew($tituloNoticia,$descripcionNoticia,$fechaPublicacion,$imgNew,$newUser)
     {
         try {
@@ -69,19 +71,5 @@ class Noticia extends DataBase{
             die('Murio DeleteNew'.$e->getMessage());
         }
     }
-
-
-    // static public function showNew()
-    // {
-    //     try {
-    //         $stm = parent::conectar()->prepare("SELECT id_noticia,titulo_noticia,descripcion_noticia,fecha_publicado,imagen_noticia,nombres,apellidos FROM noticias INNER JOIN usuarios ON noticias.fk_usuario=usuarios.id_usuario");
-    //         $stm->execute();
-    //         $result= $stm->fetchAll(PDO::FETCH_OBJ);
-    //         return json_encode($result);
-    //     } catch (Exception $e) {
-    //         die('Murio DeleteNew'.$e->getMessage());
-    //     }
-    // }
-
     
 }
