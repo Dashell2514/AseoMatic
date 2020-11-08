@@ -2239,10 +2239,14 @@ const thBody =document.getElementById('tablaAllNominas');
 
 const CancelModalNomina= document.querySelectorAll("button[data-class='nomina_cancel']").forEach(Element => {
     Element.addEventListener('click',()=>{
-        arrayConceptos = [];
-        ulConceptos.innerHTML="";
+        
     })
 });
+
+const limpiarArrayConceptos = () =>{
+    arrayConceptos = [];
+    ulConceptos.innerHTML="";
+}
 
 btnSaveArray.addEventListener('click',(e)=>{
     e.preventDefault();
@@ -2387,6 +2391,10 @@ btnGuardarNomina.addEventListener('click',function(e){
             $("#ModalAddNomina").modal('hide');
             const msg ='La Nomina se ha creado';
             msgSuccess(msg);
+            limpiarArrayConceptos();
+            fk_usuario.value="";
+            fecha_de.value="";
+            fecha_hasta.value="";
             showNominas();
         }else{
             const msg ='Error Fallo';

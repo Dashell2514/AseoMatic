@@ -64,6 +64,7 @@
                 <div class="form-group">
                   <label for="usuario" class="text-shadow-1 text-custom">Usuario</label>
                   <select name="usuario" tabindex="1" id="usuario" class="form-control text-capitalize" >
+                  <option value="" selected="true">---Seleccione---</option>
                       <?php foreach (Administrador::allTable("usuarios") as $usuario) { ?>
                       <option value="<?php echo $usuario->id_usuario?>"><?php echo $usuario->nombres." ".$usuario->apellidos ?></option>
                     <?php } ?>
