@@ -13,11 +13,11 @@ class Nomina extends DataBase{
         }
     }
 
-    public function createConcept($descripcion, $asiento_contable, $valor, $fk_tipo_concepto, $fk_nomina){
+    public function createConcept($descripcion, $fk_asiento_contable, $valor, $fk_tipo_concepto, $fk_nomina){
         try{
-            $str = parent::conectar()->prepare("INSERT INTO conceptos(descripcion, asiento_contable, valor, fk_tipo_concepto, fk_nomina) VALUES (?,?,?,?,?) ");
+            $str = parent::conectar()->prepare("INSERT INTO conceptos(descripcion, fk_asiento_contable, valor, fk_tipo_concepto, fk_nomina) VALUES (?,?,?,?,?) ");
             $str->bindParam(1,$descripcion,PDO::PARAM_STR);
-            $str->bindParam(2,$asiento_contable,PDO::PARAM_STR);
+            $str->bindParam(2,$fk_asiento_contable,PDO::PARAM_STR);
             $str->bindParam(3,$valor,PDO::PARAM_STR);
             $str->bindParam(4,$fk_tipo_concepto,PDO::PARAM_INT);
             $str->bindParam(5,$fk_nomina,PDO::PARAM_INT);
@@ -37,9 +37,19 @@ class Nomina extends DataBase{
         }
     }
 
+    public function consultarUltimaNomina(){
+        try{
+            $str = parent::conectar()->prepare("SELECT * FROM nominas ORDER BY id_nomina DESC LIMIT 1");
+            $str->execute();
+            return $str->fetch(PDO::FETCH_OBJ);
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
+
     public function consultarTodasLasNominas(){
         try{
-            $str = parent::conectar()->prepare("SELECT usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.numero_documento, usuarios.salario, nominas.*, conceptos.*  FROM nominas  LEFT JOIN conceptos ON conceptos.fk_nomina = nominas.id_nomina LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario GROUP BY nominas.fecha_de ORDER BY nominas.fecha_de DESC");
+            $str = parent::conectar()->prepare("SELECT usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.numero_documento, usuarios.salario, nominas.*, conceptos.*, tipo_concepto.*  FROM nominas  LEFT JOIN conceptos ON conceptos.fk_nomina = nominas.id_nomina LEFT JOIN tipo_concepto ON conceptos.fk_tipo_concepto = tipo_concepto.id_tipo_concepto LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario GROUP BY nominas.fecha_de ORDER BY nominas.fecha_de DESC");
             $str->execute();
             return $str->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $e){

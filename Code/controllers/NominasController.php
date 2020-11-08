@@ -32,16 +32,26 @@ class NominasController extends Nomina{
     }
 
     public function store(){
-        $id_usuario = $_POST['id_usuario'];
-        $dateFrom = $_POST['date_from'];
-        $dateTo = $_POST['date_to'];
-        $concept = $_POST['concept'];
-        $time = $_POST['time'];
-        $pay = $_POST['pay'];
+        $fk_usuario = $_POST['fk_usuario'];
+        $fecha_de = $_POST['fecha_de'];
+        $fecha_hasta = $_POST['fecha_hasta'];
+        $arrayDatos = $_POST['arrayDatos'];
+      
 
-        if($id_usuario != '' && $dateFrom != '' && $dateTo != '' && $concept != '' && $time != '' && $pay != ''){
-        parent::createNomina($id_usuario, $dateFrom, $dateTo);
-        parent::createConcept($concept, $time, $pay);
+        if($fk_usuario != '' && $fecha_de != '' && $fecha_hasta != '' && $concept != '' && $time != '' && $pay != ''){
+
+        parent::createNomina($fk_usuario, $fecha_de, $dateTo);
+        
+        $lastNomina = parent::consultarUltimaNomina();
+        
+        $arrayDatos = json_decode($arrayDatos);
+
+        for ($i=0; $i < count($arrayDatos); $i++) { 
+            $data = $arrayDatos[$i];
+
+            parent::createConcept($data->description, $data->fk_asientoContable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
+        }
+
         header('location:?class=Nominas&view=index');
         }else{
 
@@ -52,7 +62,7 @@ class NominasController extends Nomina{
 
     public function update()
     {
-        $id_usuario = $_POST['id_usuario'];
+        $fk_usuario = $_POST['id_usuario'];
         $id_nomina = $_POST['id_nomina'];
         $id_concepto = $_POST['id_concepto'];
         $dateFrom = $_POST['date_from'];
