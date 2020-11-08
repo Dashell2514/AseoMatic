@@ -49,7 +49,7 @@ class Nomina extends DataBase{
 
     public function consultarTodasLasNominas(){
         try{
-            $str = parent::conectar()->prepare("SELECT usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.numero_documento, usuarios.salario, nominas.*, conceptos.*, tipo_concepto.*  FROM nominas  LEFT JOIN conceptos ON conceptos.fk_nomina = nominas.id_nomina LEFT JOIN tipo_concepto ON conceptos.fk_tipo_concepto = tipo_concepto.id_tipo_concepto LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario GROUP BY nominas.fecha_de ORDER BY nominas.fecha_de DESC");
+            $str = parent::conectar()->prepare("SELECT usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.numero_documento, usuarios.salario, nominas.*, conceptos.*, tipo_concepto.*  FROM nominas  LEFT JOIN conceptos ON conceptos.fk_nomina = nominas.id_nomina LEFT JOIN tipo_concepto ON conceptos.fk_tipo_concepto = tipo_concepto.id_tipo_concepto LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario GROUP BY nominas.id_nomina ORDER BY nominas.fecha_de DESC");
             $str->execute();
             return $str->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $e){
