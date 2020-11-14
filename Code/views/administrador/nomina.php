@@ -282,8 +282,8 @@
 
 
           <div class="text-right my-3 ">
-            <button id="GuardarNomina" class="mr-3 btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg">Aceptar</button>
-            <button type="button" id="CancelarNomina" data-class="nomina_cancel" class="btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" data-dismiss="modal">Cancelar</button>
+           
+            <button type="button" id="CancelarShowNomina" data-class="nomina_cancel" class="btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" data-dismiss="modal">Cerrar</button>
           </div>
         </form>
       </div>

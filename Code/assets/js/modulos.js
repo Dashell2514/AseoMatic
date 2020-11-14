@@ -2555,15 +2555,17 @@ const searchName = document.getElementById('buscador');
 searchName.addEventListener('input', function(e)
 {
     let value=searchName.value.toLowerCase();
-
+    thBody.innerHTML = '';
     if(value.trim() != '')
     {
         for (const name of allNominasData) {
            
             let documento = `${name.numero_documento}`;
-            if(nombre.indexOf(value) != -1)
+           
+
+            if(documento.indexOf(value) != -1)
             {
-                thBody.innerHTML = '';
+                console.log(name);
                 thBody.appendChild(createTableNominas(name,1));
             }
     
