@@ -2235,7 +2235,7 @@ const IconCancelModal = document.getElementById('cerrarModalNomina');
 const ulConceptos = document.getElementById('lista_concepto');
 const btnSaveArray = document.getElementById('guardarArray');
 const thBody =document.getElementById('tablaAllNominas');
-
+// const update_lista_concepto = getElementById('update_lista_concepto');
 
 const CancelModalNomina= document.querySelectorAll("button[data-class='nomina_cancel']").forEach(Element => {
     Element.addEventListener('click',()=>{
@@ -2467,7 +2467,7 @@ const createTableNominas = (datos,count) =>{
     let iTd9 =document.createElement('I');
     iTd9.id= `${datos.id_usuario}`;
     iTd9.setAttribute('data-toggle','modal');
-    iTd9.setAttribute('data-target','#ModalShowUser');
+    iTd9.setAttribute('data-target','#ModalShowNomina');
     iTd9.classList.add('show-svg');
     td9TableAllUsers.append(iTd9);
     
@@ -2479,7 +2479,7 @@ const createTableNominas = (datos,count) =>{
     iATd9.id= `${datos.id_usuario}`;
     iATd9.classList.add('edit-svg');
     iATd9.setAttribute('data-toggle','modal');
-    iATd9.setAttribute('data-target','#ModalUpdateUser');
+    iATd9.setAttribute('data-target','#ModalUpdateNomina');
 
     td9TableAllUsers.append(iATd9);
 
@@ -2559,9 +2559,9 @@ searchName.addEventListener('input', function(e)
     if(value.trim() != '')
     {
         for (const name of allNominasData) {
-            let nombre = `${name.nombres} ${name.apellidos}`;
+           
             let documento = `${name.numero_documento}`;
-            if(nombre.indexOf(value) != -1 || documento.indexOf(value) != -1)
+            if(nombre.indexOf(value) != -1)
             {
                 thBody.innerHTML = '';
                 thBody.appendChild(createTableNominas(name,1));

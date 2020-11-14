@@ -31,19 +31,19 @@
                                             <th scope="row">1</th>
                                             <td>$1.000.000</td>
                                             <td>28/10/2018</td>
-                                            <td><i class="fas fa-eye" data-toggle="modal" data-target="#modal_comprobante"></i></td>
+                                            <td><i class="fas fa-download" data-toggle="modal" data-target="#modal_comprobante"></i></td>
                                         </tr>
                                         <tr class="table-light">
                                             <th scope="row">2</th>
                                             <td>$1.000.000</td>
                                             <td>25/09/2018</td>
-                                            <td><i class="fas fa-eye" data-toggle="modal" data-target="#modal_comprobante"></i></td>
+                                            <td><i class="fas fa-download" data-toggle="modal" data-target="#modal_comprobante"></i></td>
                                         </tr>
                                         <tr class="table-light">
                                             <th scope="row">3</th>
                                             <td>$1.000.000</td>
                                             <td>29/08/2018</td>
-                                            <td><i class="fas fa-eye" data-toggle="modal" data-target="#modal_comprobante">
+                                            <td><i class="fas fa-download" data-toggle="modal" data-target="#modal_comprobante">
                                 </table>
 
 
