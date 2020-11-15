@@ -49,7 +49,7 @@ class Nomina extends DataBase{
 
     public function consultarTodasLasNominas(){
         try{
-            $str = parent::conectar()->prepare("SELECT usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.numero_documento, usuarios.salario, nominas.*, conceptos.*, tipo_concepto.*  FROM nominas  LEFT JOIN conceptos ON conceptos.fk_nomina = nominas.id_nomina LEFT JOIN tipo_concepto ON conceptos.fk_tipo_concepto = tipo_concepto.id_tipo_concepto LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario GROUP BY nominas.id_nomina ORDER BY nominas.fecha_de ASC");
+            $str = parent::conectar()->prepare("SELECT usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.numero_documento, usuarios.salario, nominas.* FROM nominas LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario GROUP BY nominas.id_nomina ORDER BY nominas.fecha_de DESC");
             $str->execute();
             return $str->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $e){
@@ -71,7 +71,7 @@ class Nomina extends DataBase{
 
     public function consultarConceptosPorNomina($id_nomina){
         try{
-            $str = parent::conectar()->prepare("SELECT * FROM conceptos WHERE fk_nomina = $id_nomina");
+            $str = parent::conectar()->prepare("SELECT * FROM conceptos LEFT JOIN tipo_concepto ON conceptos.fk_tipo_concepto = tipo_concepto.id_tipo_concepto LEFT JOIN asiento_contable ON conceptos.fk_asiento_contable = asiento_contable.id_asiento_contable WHERE fk_nomina = $id_nomina ORDER BY id_concepto DESC");
             $str->execute();
             return $str->fetch(PDO::FETCH_OBJ);
         }catch(Exception $e){
@@ -81,7 +81,7 @@ class Nomina extends DataBase{
 
     public function consultarUnaNomina($id_nomina){
         try{
-            $str = parent::conectar()->prepare("SELECT * FROM nominas WHERE id_nomina = $id_nomina");
+            $str = parent::conectar()->prepare("SELECT * FROM nominas LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario WHERE id_nomina = $id_nomina ");
             $str->execute();
             return $str->fetch(PDO::FETCH_OBJ);
         }catch(Exception $e){
@@ -91,7 +91,7 @@ class Nomina extends DataBase{
 
     public function consultarNominasPorUsuario($fk_usuario){
         try{
-            $str = parent::conectar()->prepare("SELECT * FROM nominas WHERE fk_usuario = $fk_usuario");
+            $str = parent::conectar()->prepare("SELECT * FROM nominas LEFT JOIN conceptos ON conceptos.fk_nomina = nominas.id_nomina LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario WHERE fk_usuario = $fk_usuario GROUP BY nominas.id_nomina ORDER BY nominas.id_nomina DESC");
             $str->execute();
             return $str->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $e){
