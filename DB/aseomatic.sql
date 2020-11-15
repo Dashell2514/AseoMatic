@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-11-2020 a las 17:01:29
+-- Tiempo de generación: 15-11-2020 a las 17:20:22
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.4
 
@@ -81,7 +81,14 @@ CREATE TABLE `conceptos` (
 INSERT INTO `conceptos` (`id_concepto`, `descripcion`, `estado`, `valor`, `fk_tipo_concepto`, `fk_nomina`, `fk_asiento_contable`) VALUES
 (1, 'se le descuenta la salud', 1, '10000000', 1, 1, 2),
 (2, 'se le descuenta la pension', 1, '1000000', 2, 1, 2),
-(3, 'descontar', 1, '2500000', 2, 2, 2);
+(3, 'descontar', 1, '2500000', 2, 2, 2),
+(4, 'dsad', 1, '111111111', 1, 3, 1),
+(5, 'seds', 1, '100000', 1, 4, 1),
+(6, 'dddddd', 1, '11111111', 2, 5, 2),
+(7, 'sss', 1, '11111111111', 2, 6, 2),
+(8, 'xd', 1, '10000000', 1, 7, 1),
+(9, 'dsads', 1, '100000', 1, 8, 2),
+(10, 'ddddddd', 1, '11111111111', 2, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -151,7 +158,13 @@ CREATE TABLE `nominas` (
 
 INSERT INTO `nominas` (`id_nomina`, `fecha_de`, `fecha_hasta`, `fk_usuario`) VALUES
 (1, '2020-11-01', '2020-11-30', 1),
-(2, '2020-11-01', '2020-11-30', 2);
+(2, '2020-11-01', '2020-11-30', 2),
+(3, '2020-11-08', '2020-11-25', 5),
+(4, '2020-11-03', '2020-11-19', 4),
+(5, '2020-11-08', '2020-11-23', 3),
+(6, '2020-11-17', '2020-12-11', 8),
+(7, '2020-11-01', '2020-12-11', 5),
+(8, '2020-11-15', '2020-12-11', 4);
 
 -- --------------------------------------------------------
 
@@ -298,7 +311,7 @@ INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `correo`, `salario
 (4, 'andres felipe', 'chacon cifuentes', 'andres@mail.com', '1000000', '$2y$10$bd/oXVxVJj.cw58jECgwp.Tsfa9pdZIo/S8TlKcIEX/9x0tV3g5Ei', 'assets/uploud/profile/default.svg', '1005813772', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuspify4MH6zZ5zPJcZoW84yUdlw9eSnm', '2020-09-23', '2020-09-23'),
 (5, 'vanesa', 'vega santa', 'vanesa@mail.com', '1000000', '$2y$10$1t/ND7gnTzLpxn1MWUbboOgLO4tji6rRUdwwaXsR6TuHhke8SCsY2', 'assets/uploud/profile/default.svg', '1006093649', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuZKRrFl7EKnNfTHoMhZjN6JcFEFWwThS', '2020-09-23', '2020-09-23'),
 (6, 'jhon alexander', 'ramos vides', 'alex@mail.com', '1000000', '$2y$10$a6lhpwQLCF2akcv4QpCMze3eIlVivXxKYmKFEx8o2VCl.Pdy3rmai', 'assets/uploud/profile/default.svg', '1233890166', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuvwi5OH4NMElrfPb0eq.h7XsWf2KpW1q', '2020-09-23', '2020-09-23'),
-(7, 'andres', 'hernandez juajinoy', 'david@mail.com', '1000000', '$2y$10$kY9TKoXxTd0WhkFoNs4MB.wVJnmbD2lsv0m1cHx5mRnfbt1allDle', 'assets/uploud/profile/default.svg', '1234567891', 2, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuzukPrxgTrWdtfNWwNTqBCOOPZ7Tf1e6', '2020-10-04', '2020-10-05'),
+(7, 'andres', 'hernandez juajinoy', 'david@mail.com', '1000000', '$2y$10$wsZnUIKMz8X./ugX4IJomerTEHbXlE9YHBeX3CusFiN/025bTHwEm', 'assets/uploud/profile/default.svg', '1234567891', 2, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuzukPrxgTrWdtfNWwNTqBCOOPZ7Tf1e6', '2020-10-04', '2020-11-14'),
 (8, 'prueba', 'prueba', 'prueba@gmial.com', '1000000', '$2y$10$LzxRP8Upw5on1HSwQnr74eVspJKgbztxRankNoo9IjOZ4k9A6kwt6', 'assets/uploud/profile/default.svg', '1233455744', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuHHPizBYgBZ07PK.eCM6NRM1mhdWlr/y', '2020-11-05', '2020-11-05'),
 (9, 'pruebass', 'pruebass', 'prueba2@gmail.com', '111111', '$2y$10$LYhApoRtqgp2EFOwUrwqPOu8trzDiuNzYF2zxUKfqa6V93qYKB4K2', 'assets/uploud/profile/default.svg', '1234567911', 1, 1, 1, 1, '$2a$07$Da22vidJuAjiNoYyZlXGhuun2YEhq1fcFW/Ccn8eD91vJ1727iLpC', '2020-11-07', '2020-11-07'),
 (10, 'preu', 'xds', 'dss@maill.com', '1111111111', '$2y$10$7FYYap4J6tAaxSq6uVE.nO62oTb.5Arigf5WY7stdQ9ZRV4IHOGQO', 'assets/uploud/profile/default.svg', '1111111111', 1, 1, 1, 4, '$2a$07$Da22vidJuAjiNoYyZlXGhuG1jYI3LLHff8p9jbehnhkXK4cB8Ygr2', '2020-11-07', '2020-11-07');
@@ -409,7 +422,7 @@ ALTER TABLE `cargos`
 -- AUTO_INCREMENT de la tabla `conceptos`
 --
 ALTER TABLE `conceptos`
-  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `eventos`
@@ -427,7 +440,7 @@ ALTER TABLE `logs_contactenos`
 -- AUTO_INCREMENT de la tabla `nominas`
 --
 ALTER TABLE `nominas`
-  MODIFY `id_nomina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_nomina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
