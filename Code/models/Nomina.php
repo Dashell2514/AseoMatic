@@ -69,6 +69,16 @@ class Nomina extends DataBase{
         }
     }
 
+    public function consultarConceptosPorNomina($id_nomina){
+        try{
+            $str = parent::conectar()->prepare("SELECT * FROM conceptos WHERE fk_nomina = $id_nomina");
+            $str->execute();
+            return $str->fetch(PDO::FETCH_OBJ);
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
+
     public function consultarUnaNomina($id_nomina){
         try{
             $str = parent::conectar()->prepare("SELECT * FROM nominas WHERE id_nomina = $id_nomina");
@@ -92,6 +102,24 @@ class Nomina extends DataBase{
     public function deleteNomina($id){
         try{
             $str = parent::conectar()->prepare("DELETE FROM nominas WHERE id_nomina = $id");
+            $str->execute();
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
+
+    public function deleteTodosConceptos($id){
+        try{
+            $str = parent::conectar()->prepare("DELETE FROM conceptos WHERE fk_nomina = $id");
+            $str->execute();
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
+
+    public function deleteConcepto($id){
+        try{
+            $str = parent::conectar()->prepare("DELETE FROM conceptos WHERE id_concepto = $id");
             $str->execute();
         }catch(Exception $e){
             die('mal'.$e->getMessage());

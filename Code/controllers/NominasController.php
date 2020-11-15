@@ -60,22 +60,24 @@ class NominasController extends Nomina{
 
     public function update()
     {
-        $fk_usuario = $_POST['id_usuario'];
-        $id_nomina = $_POST['id_nomina'];
-        $id_concepto = $_POST['id_concepto'];
-        $dateFrom = $_POST['date_from'];
-        $dateTo = $_POST['date_to'];
-        $concept = $_POST['concept'];
-        $time = $_POST['time'];
-        $pay = $_POST['pay'];
+        $arrayDatos = json_decode($_POST['arrayDatos']);
+        $fk_nomina = $_POST['fk_nomina'];
+    
 
-        if($id_usuario != '' && $dateFrom != '' && $dateTo != '' && $concept != '' && $time != '' && $pay != ''){
+        if($fk_nomina && $arrayDatos){
+            
+            parent::deleteTodosConceptos($fk_nomina);
 
-        parent::updateNomina($id_usuario, $dateFrom, $dateTo, $id_nomina);
-        parent::updateConcept($concept, $time, $pay, $id_concepto);
-        header('location:?class=Nominas&view=index');
+            for ($i=0; $i < count($arrayDatos); $i++) { 
+                $data = $arrayDatos[$i];
+                parent::createConcept($data->description, $data->fk_asientoContable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
+            }
+            echo json_encode(['ok'=> 'Creado']);
+            return;
         }else{
+
             echo json_encode(['error'=> 'Debes llenar todos los campos']);
+            return;
         }
     }
 
