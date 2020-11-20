@@ -2682,7 +2682,7 @@ update_lista_concepto.addEventListener('click',(e)=>{
         let idConcepto=e.target.getAttribute('data-id');
         const filtro = allconceptoUpdate.filter( user => user.id_concepto != idConcepto);
         allconceptoUpdate = filtro;
-        conceptsUpdateFor('method');
+        conceptsUpdateFor('update');
         console.log(allconceptoUpdate);
     }
 })
