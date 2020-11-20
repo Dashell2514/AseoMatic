@@ -2770,7 +2770,7 @@ btnUpdateNomina.addEventListener('click',(e)=>{
             if(data.ok)
             {
                 $("#ModalUpdateNomina").modal('hide');
-                const msg ='La Nomina se ha creado';
+                const msg ='La Nomina se ha Actualizado';
                 msgSuccess(msg);
                 allconceptoUpdate = [];
             
