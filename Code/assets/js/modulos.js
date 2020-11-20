@@ -2315,6 +2315,7 @@ const validarConceptos = (var1,var2,var3) => {
 
 
 const htmlConceptos = (datos,count) =>{
+    console.log(datos);
     const fragment = document.createDocumentFragment();
 
     const trConcepto = document.createElement('TR');
@@ -2325,14 +2326,14 @@ const htmlConceptos = (datos,count) =>{
     trConcepto.append(tdTableConcepto);
 
     const td2TableConcepto =document.createElement('TD');
-    td2TableConcepto.textContent = `${datos.description}`;
+    td2TableConcepto.textContent = `${datos.descripcion}`;
     td2TableConcepto.classList.add('text-capitalize');
 
 
     trConcepto.append(td2TableConcepto);
 
     const td3TableConcepto =document.createElement('TD');
-    td3TableConcepto.textContent = `${datos.asientoContable}`;
+    td3TableConcepto.textContent = `${datos.asiento_contable}`;
 
     trConcepto.append(td3TableConcepto);
 
