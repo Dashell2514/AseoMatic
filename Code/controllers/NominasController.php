@@ -31,6 +31,11 @@ class NominasController extends Nomina{
         echo json_encode(parent::consultarTodasLasNominas()); 
     }
 
+    public function showConceptsID()
+    {
+        echo json_encode(parent::consultarConceptosPorNomina($_REQUEST['id']));
+    }
+
     public function store(){
         $fk_usuario = $_POST['fk_usuario'];
         $fecha_de = $_POST['fecha_de'];
@@ -46,7 +51,7 @@ class NominasController extends Nomina{
             
             for ($i=0; $i < count($arrayDatos); $i++) { 
                 $data = $arrayDatos[$i];
-                parent::createConcept($data->description, $data->fk_asientoContable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
+                parent::createConcept($data->descripcion, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
             }
             echo json_encode(['ok'=> 'Creado']);
             return;
@@ -70,7 +75,10 @@ class NominasController extends Nomina{
 
             for ($i=0; $i < count($arrayDatos); $i++) { 
                 $data = $arrayDatos[$i];
-                parent::createConcept($data->description, $data->fk_asientoContable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
+      
+                parent::createConcept($data->descripcion, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
+          
+               
             }
             echo json_encode(['ok'=> 'Creado']);
             return;
