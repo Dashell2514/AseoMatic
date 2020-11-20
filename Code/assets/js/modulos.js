@@ -2237,11 +2237,11 @@ const btnSaveArray = document.getElementById('guardarArray');
 const thBody =document.getElementById('tablaAllNominas');
 // const update_lista_concepto = getElementById('update_lista_concepto');
 
-const CancelModalNomina= document.querySelectorAll("button[data-class='nomina_cancel']").forEach(Element => {
-    Element.addEventListener('click',()=>{
+// const CancelModalNomina= document.querySelectorAll("button[data-class='nomina_cancel']").forEach(Element => {
+//     Element.addEventListener('click',()=>{
         
-    })
-});
+//     })
+// });
 
 const limpiarArrayConceptos = () =>{
     arrayConceptos = [];
@@ -2261,12 +2261,17 @@ btnSaveArray.addEventListener('click',(e)=>{
         if( validacion)
         {
             let form = {
-                description : description.value,
-                asientoContable :asientoContable[asientoContable.value].textContent,
-                fk_asientoContable :asientoContable.value,
+                descripcion : description.value,
+                asiento_contable :asientoContable[asientoContable.value].textContent,
+                fk_asiento_contable :asientoContable.value,
                 valor : valor.value,
                 tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
                 fk_tipo_concepto: tipo_concepto.value
+             
+                
+               
+               
+                
             }
 
 
@@ -2485,13 +2490,13 @@ const createTableNominas = (datos,count) =>{
 
     // td9TableAllUsers.append(aTd9);
 
-    let i2Td9 =document.createElement('I');
-    i2Td9.id=`${datos.id_usuario}`;
-    i2Td9.classList.add('delete-svg');
-    i2Td9.setAttribute('data-toggle','modal');
-    i2Td9.setAttribute('data-target','#Delete');
+    // let i2Td9 =document.createElement('I');
+    // i2Td9.id=`${datos.id_usuario}`;
+    // i2Td9.classList.add('delete-svg');
+    // i2Td9.setAttribute('data-toggle','modal');
+    // i2Td9.setAttribute('data-target','#Delete');
     
-    td9TableAllUsers.append(i2Td9);
+    // td9TableAllUsers.append(i2Td9);
 
     trTableAllUsers.append(td9TableAllUsers);
 
@@ -2595,7 +2600,198 @@ const showNominas= ()=>{
     .catch( error => console.log(error));
 }
 
-showNominas();
+
+thBody.addEventListener('click',(e) =>{
+
+    const id = e.target;
+    if( id.getAttribute('id'))
+    {
+        const userId = id.getAttribute('id');
+        // buscar el id que coincida con el id obtenido del evento
+        const userIdFilter =allNominasData.filter( user => user.id_usuario ==userId)[0];
+    
+        if(id.getAttribute('data-target') == '#ModalUpdateNomina')
+        {
+            console.log(userIdFilter.id_nomina);
+            document.getElementById('update_nomina').value=userIdFilter.id_nomina;
+            updateUserNomina(userIdFilter.id_nomina,'update');
+        }
+        // else if(id.getAttribute('data-target') == '#Delete')
+        // {
+        //     const message= `${userIdFilter.nombres} ${userIdFilter.apellidos} identificado con el documento ${userIdFilter.numero_documento}`
+        //     msgQuestion(message, userIdFilter.id_usuario, userIdFilter.token);
+        // }
+        else if(id.getAttribute('data-target') == '#ModalShowNomina'){
+            console.log(userIdFilter.id_nomina);
+            showUserNomina(userIdFilter);
+            updateUserNomina(userIdFilter.id_nomina,'show');
+        }
+    
+    }
+
+
+})
+const showUserNomina = (datos)=>{
+
+    const show_user =document.getElementById('show_user').textContent=`${datos.nombres} ${datos.apellidos}`;
+    const show_salario =document.getElementById('show_salario').textContent=`${datos.salario}`;
+    const show_fecha_de =document.getElementById('show_fecha_de').textContent=`${datos.fecha_de}`;
+    const show_fecha_hasta =document.getElementById('show_fecha_hasta').textContent=`${datos.fecha_hasta}`;
+
+}
+
+
+let allconceptoUpdate = [];
+const updateUserNomina = (id,method) =>{
+
+    fetch(`?c=Nominas&m=showConceptsID&id=${id}`)
+    .then(resp => resp.ok  ? Promise.resolve(resp)  : Promise.reject(new Error('Fallos la consulta')))
+    .then(response => response.json())
+    .then( data => {
+        allconceptoUpdate= [];
+        allconceptoUpdate =data;
+        conceptsUpdateFor(method);
+    })
+    .catch( error => console.log(error));
+    
+}
+
+const show_lista_concepto= document.getElementById('show_lista_concepto');
+const update_lista_concepto= document.getElementById('update_lista_concepto');
+
+
+const conceptsUpdateFor = (method) =>{
+    if(method == 'update')
+    {
+        update_lista_concepto.innerHTML=``;
+    }else if(method =='show'){
+        show_lista_concepto.innerHTML='';
+    }
+    let count =0;
+    for (const concepto of allconceptoUpdate) {
+        count++;
+        showUpdateConcepts(concepto,count,method);
+        
+    }
+}
+
+update_lista_concepto.addEventListener('click',(e)=>{
+    e.preventDefault();
+    if(e.target.getAttribute('data-id'))
+    {
+        let idConcepto=e.target.getAttribute('data-id');
+        const filtro = allconceptoUpdate.filter( user => user.id_concepto != idConcepto);
+        allconceptoUpdate = filtro;
+        conceptsUpdateFor('update');
+        console.log(allconceptoUpdate);
+    }
+})
+
+const showUpdateConcepts = (datos,count,method) =>{
+    let html=`<tr><th>${count}</th>
+    <th class="text-capitalize" >${datos.descripcion}</th>
+    <th class="text-capitalize" >${datos.asiento_contable}</th>
+    <th class="text-capitalize" >${datos.tipo_concepto}</th>
+    <th  >${datos.valor}</th>
+    ${ (method=='update') ? `<th ><i data-target="BorrarConcepto" data-id="${datos.id_concepto}" class="delete-svg position-absolute"></i></th>` : '' }
+    </tr>`;
+
+    const meter =document.createElement('tr');
+    meter.innerHTML=html;
+    if(method == 'update'){
+        update_lista_concepto.appendChild(meter);
+    }else if(method =='show'){
+        show_lista_concepto.appendChild(meter);
+    }
+}
+
+
+const guardarArrayUpdate =document.getElementById('guardarArrayUpdate');
+
+guardarArrayUpdate.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const description = document.getElementById('update_descripcion_nomina');
+    const asientoContable = document.getElementById('update_contable');
+    const valor = document.getElementById('update_valor');
+    const tipo_concepto = document.getElementById('update_tipo_concepto');
+    const fk_nomina = document.getElementById('update_nomina');
+
+    let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
+
+        if( validacion)
+        {
+            let form = {
+                descripcion : description.value,      
+                fk_asiento_contable :asientoContable.value,
+                tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
+                asiento_contable:asientoContable[asientoContable.value].textContent,
+                valor : valor.value,
+                fk_tipo_concepto: tipo_concepto.value,
+                fk_nomina: fk_nomina.value
+
+             
+            }
+
+
+            allconceptoUpdate.push(form)
+
+            conceptsUpdateFor('update');
+            console.log(allconceptoUpdate);
+
+
+            description.value="";
+            asientoContable.value="";
+            valor.value="";
+        }
+})
+
+
+const btnUpdateNomina=document.getElementById('UpdateNomina');
+
+btnUpdateNomina.addEventListener('click',(e)=>{
+    e.preventDefault();
+
+    const fk_nomina = document.getElementById('update_nomina');
+    const conceptoUpdate = JSON.stringify(allconceptoUpdate);
+  
+    if(conceptoUpdate.length != 2){
+        const formData = new FormData();
+        formData.append('fk_nomina',fk_nomina.value);
+        formData.append('arrayDatos',conceptoUpdate);
+        fetch('?c=Nominas&m=update',
+        {
+            method: 'POST',
+            body: formData
+        })
+        .then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error al Crear Nomina')))
+        .then(resp => resp.json())
+        .then(data => {
+
+            if(data.ok)
+            {
+                $("#ModalUpdateNomina").modal('hide');
+                const msg ='La Nomina se ha Actualizado';
+                msgSuccess(msg);
+                allconceptoUpdate = [];
+            
+            }else{
+                const msg ='Error Fallo';
+                msgError(msg)
+                setTimeout(() => {
+                    location="?c=All&m=index";
+                }, 1500);
+            }
+
+            
+        })
+    }else{
+        const msg ='Debe haber minimo 1 concepto';
+        msgError(msg);
+    }
+
+})
+
+    showNominas();
 
 
 

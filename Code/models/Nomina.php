@@ -73,7 +73,7 @@ class Nomina extends DataBase{
         try{
             $str = parent::conectar()->prepare("SELECT * FROM conceptos LEFT JOIN tipo_concepto ON conceptos.fk_tipo_concepto = tipo_concepto.id_tipo_concepto LEFT JOIN asiento_contable ON conceptos.fk_asiento_contable = asiento_contable.id_asiento_contable WHERE fk_nomina = $id_nomina ORDER BY id_concepto DESC");
             $str->execute();
-            return $str->fetch(PDO::FETCH_OBJ);
+            return $str->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $e){
             die('mal'.$e->getMessage());
         }
