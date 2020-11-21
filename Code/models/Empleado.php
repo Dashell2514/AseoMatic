@@ -29,13 +29,7 @@ class Empleado extends DataBase
         }
     }
 
-    public function consultarNominasPorUsuario($fk_usuario){
-        try{
-            $str = parent::conectar()->prepare("SELECT * FROM nominas LEFT JOIN conceptos ON conceptos.fk_nomina = nominas.id_nomina LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario WHERE fk_usuario = $fk_usuario GROUP BY nominas.id_nomina ORDER BY nominas.id_nomina DESC");
-            $str->execute();
-            return $str->fetchAll(PDO::FETCH_OBJ);
-        }catch(Exception $e){
-            die('mal'.$e->getMessage());
-        }
-    }
+
+
+
 }

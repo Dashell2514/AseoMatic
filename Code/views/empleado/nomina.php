@@ -33,12 +33,12 @@
 
                                         <?php  
                                         $count =1;
-                                        foreach (parent::consultarNominasPorUsuario($_SESSION['EMPLEADO']->id_usuario) as $nomina) {  ?>
+                                        foreach (Nomina::consultarNominasPorUsuario($_SESSION['EMPLEADO']->id_usuario) as $nomina) {  ?>
                                             <tr class="table-light">
                                                 <th scope="row"><?php echo $count++ ?></th>
                                                 <td><?php echo $nomina->salario ?></td>
                                                 <td><?php echo $nomina->fecha_de ?></td>
-                                                <td><i data-id="<?php echo $nomina->id_nomina?>" class="fas fa-download" data-toggle="modal" data-target="#modal_comprobante">
+                                                <td><a href="?c=Empleados&m=downloadpdf&id_nomina=<?php echo $nomina->id_nomina?>&id=<?php echo $nomina->fk_usuario?>" class="position-absolute pdf-svg"></a>
                                             </tr>
                                         <?php } ?>
                                        

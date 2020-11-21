@@ -69,7 +69,7 @@ class Nomina extends DataBase{
         }
     }
 
-    public function consultarConceptosPorNomina($id_nomina){
+    public static function consultarConceptosPorNomina($id_nomina){
         try{
             $str = parent::conectar()->prepare("SELECT * FROM conceptos LEFT JOIN tipo_concepto ON conceptos.fk_tipo_concepto = tipo_concepto.id_tipo_concepto LEFT JOIN asiento_contable ON conceptos.fk_asiento_contable = asiento_contable.id_asiento_contable WHERE fk_nomina = $id_nomina ORDER BY id_concepto DESC");
             $str->execute();
@@ -79,7 +79,7 @@ class Nomina extends DataBase{
         }
     }
 
-    public function consultarUnaNomina($id_nomina){
+    public static function consultarUnaNomina($id_nomina){
         try{
             $str = parent::conectar()->prepare("SELECT * FROM nominas LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario WHERE id_nomina = $id_nomina ");
             $str->execute();
@@ -89,7 +89,7 @@ class Nomina extends DataBase{
         }
     }
 
-    public function consultarNominasPorUsuario($fk_usuario){
+    public static  function consultarNominasPorUsuario($fk_usuario){
         try{
             $str = parent::conectar()->prepare("SELECT * FROM nominas LEFT JOIN conceptos ON conceptos.fk_nomina = nominas.id_nomina LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario WHERE fk_usuario = $fk_usuario GROUP BY nominas.id_nomina ORDER BY nominas.id_nomina DESC");
             $str->execute();

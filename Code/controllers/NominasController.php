@@ -33,7 +33,7 @@ class NominasController extends Nomina{
 
     public function showConceptsID()
     {
-        echo json_encode(parent::consultarConceptosPorNomina($_REQUEST['id']));
+        echo json_encode(Nomina::consultarConceptosPorNomina($_REQUEST['id']));
     }
 
     public function store(){

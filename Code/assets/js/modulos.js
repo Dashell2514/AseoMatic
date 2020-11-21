@@ -2800,3 +2800,22 @@ btnUpdateNomina.addEventListener('click',(e)=>{
 
 
 
+// if( location.search == '?c=Empleados&m=showNomina')
+// {
+//     const btnDownload = document.querySelectorAll('.pdf-svg');
+//     console.log('lol');
+//     console.log(btnDownload);
+//     btnDownload.forEach(btn =>{
+//         btn.addEventListener('click',(e)=>{
+//             const id_nomina =e.target.getAttribute('data-id_nomina');
+//             const id =e.target.getAttribute('data-id');
+//             if(id_nomina && id)
+//             {
+//                 console.log('xd');
+//             }
+//         })
+//     })
+
+
+
+// }
