@@ -26,8 +26,6 @@ class EmpleadosController extends Empleado{
         
         $conceptos=Nomina::consultarConceptosPorNomina($id_nomina);
         $nomina=Nomina::consultarUnaNomina($id_nomina);
-
-        print_r($conceptos);
         
         $html =' <div class="container text-dark">
         <div class="grid ">
@@ -121,7 +119,7 @@ class EmpleadosController extends Empleado{
         $mpdf->WriteHTML($stylesheet, 1);
         $mpdf->WriteHTML($stylesheetpdf,1);
         $mpdf->WriteHTML($html);
-        $mpdf->Output();
+        $mpdf->Output('nomina'.$_SESSION['EMPLEADO']->numero_documento.'.pdf',"I");
     }
 
     public function index()
