@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2020 a las 18:27:20
+-- Tiempo de generación: 15-11-2020 a las 17:20:22
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.4
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `aseomatic`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `asiento_contable`
+--
+
+CREATE TABLE `asiento_contable` (
+  `id_asiento_contable` int(11) NOT NULL,
+  `asiento_contable` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `asiento_contable`
+--
+
+INSERT INTO `asiento_contable` (`id_asiento_contable`, `asiento_contable`) VALUES
+(1, 'Devengado'),
+(2, 'Deducido');
 
 -- --------------------------------------------------------
 
@@ -49,19 +68,27 @@ CREATE TABLE `conceptos` (
   `id_concepto` int(11) NOT NULL,
   `descripcion` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `estado` tinyint(1) DEFAULT 1,
-  `asiento_contable` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
   `valor` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fk_tipo_concepto` int(11) NOT NULL,
-  `fk_nomina` int(11) NOT NULL
+  `fk_nomina` int(11) NOT NULL,
+  `fk_asiento_contable` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `conceptos`
 --
 
-INSERT INTO `conceptos` (`id_concepto`, `descripcion`, `estado`, `asiento_contable`, `valor`, `fk_tipo_concepto`, `fk_nomina`) VALUES
-(1, 'salud', 1, 'deducido', '100000', 3, 1),
-(2, 'pension', 1, 'deducido', '10000', 4, 1);
+INSERT INTO `conceptos` (`id_concepto`, `descripcion`, `estado`, `valor`, `fk_tipo_concepto`, `fk_nomina`, `fk_asiento_contable`) VALUES
+(1, 'se le descuenta la salud', 1, '10000000', 1, 1, 2),
+(2, 'se le descuenta la pension', 1, '1000000', 2, 1, 2),
+(3, 'descontar', 1, '2500000', 2, 2, 2),
+(4, 'dsad', 1, '111111111', 1, 3, 1),
+(5, 'seds', 1, '100000', 1, 4, 1),
+(6, 'dddddd', 1, '11111111', 2, 5, 2),
+(7, 'sss', 1, '11111111111', 2, 6, 2),
+(8, 'xd', 1, '10000000', 1, 7, 1),
+(9, 'dsads', 1, '100000', 1, 8, 2),
+(10, 'ddddddd', 1, '11111111111', 2, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -130,7 +157,14 @@ CREATE TABLE `nominas` (
 --
 
 INSERT INTO `nominas` (`id_nomina`, `fecha_de`, `fecha_hasta`, `fk_usuario`) VALUES
-(1, '2020-11-01', '2020-11-30', 1);
+(1, '2020-11-01', '2020-11-30', 1),
+(2, '2020-11-01', '2020-11-30', 2),
+(3, '2020-11-08', '2020-11-25', 5),
+(4, '2020-11-03', '2020-11-19', 4),
+(5, '2020-11-08', '2020-11-23', 3),
+(6, '2020-11-17', '2020-12-11', 8),
+(7, '2020-11-01', '2020-12-11', 5),
+(8, '2020-11-15', '2020-12-11', 4);
 
 -- --------------------------------------------------------
 
@@ -218,8 +252,8 @@ CREATE TABLE `tipo_concepto` (
 --
 
 INSERT INTO `tipo_concepto` (`id_tipo_concepto`, `tipo_concepto`) VALUES
-(3, 'salud'),
-(4, 'pension');
+(1, 'salud'),
+(2, 'pension');
 
 -- --------------------------------------------------------
 
@@ -277,12 +311,20 @@ INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `correo`, `salario
 (4, 'andres felipe', 'chacon cifuentes', 'andres@mail.com', '1000000', '$2y$10$bd/oXVxVJj.cw58jECgwp.Tsfa9pdZIo/S8TlKcIEX/9x0tV3g5Ei', 'assets/uploud/profile/default.svg', '1005813772', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuspify4MH6zZ5zPJcZoW84yUdlw9eSnm', '2020-09-23', '2020-09-23'),
 (5, 'vanesa', 'vega santa', 'vanesa@mail.com', '1000000', '$2y$10$1t/ND7gnTzLpxn1MWUbboOgLO4tji6rRUdwwaXsR6TuHhke8SCsY2', 'assets/uploud/profile/default.svg', '1006093649', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuZKRrFl7EKnNfTHoMhZjN6JcFEFWwThS', '2020-09-23', '2020-09-23'),
 (6, 'jhon alexander', 'ramos vides', 'alex@mail.com', '1000000', '$2y$10$a6lhpwQLCF2akcv4QpCMze3eIlVivXxKYmKFEx8o2VCl.Pdy3rmai', 'assets/uploud/profile/default.svg', '1233890166', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuvwi5OH4NMElrfPb0eq.h7XsWf2KpW1q', '2020-09-23', '2020-09-23'),
-(7, 'andres', 'hernandez juajinoy', 'david@mail.com', '1000000', '$2y$10$kY9TKoXxTd0WhkFoNs4MB.wVJnmbD2lsv0m1cHx5mRnfbt1allDle', 'assets/uploud/profile/default.svg', '1234567891', 2, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuzukPrxgTrWdtfNWwNTqBCOOPZ7Tf1e6', '2020-10-04', '2020-10-05'),
-(8, 'prueba', 'prueba', 'prueba@gmial.com', '1000000', '$2y$10$LzxRP8Upw5on1HSwQnr74eVspJKgbztxRankNoo9IjOZ4k9A6kwt6', 'assets/uploud/profile/default.svg', '1233455744', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuHHPizBYgBZ07PK.eCM6NRM1mhdWlr/y', '2020-11-05', '2020-11-05');
+(7, 'andres', 'hernandez juajinoy', 'david@mail.com', '1000000', '$2y$10$wsZnUIKMz8X./ugX4IJomerTEHbXlE9YHBeX3CusFiN/025bTHwEm', 'assets/uploud/profile/default.svg', '1234567891', 2, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuzukPrxgTrWdtfNWwNTqBCOOPZ7Tf1e6', '2020-10-04', '2020-11-14'),
+(8, 'prueba', 'prueba', 'prueba@gmial.com', '1000000', '$2y$10$LzxRP8Upw5on1HSwQnr74eVspJKgbztxRankNoo9IjOZ4k9A6kwt6', 'assets/uploud/profile/default.svg', '1233455744', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuHHPizBYgBZ07PK.eCM6NRM1mhdWlr/y', '2020-11-05', '2020-11-05'),
+(9, 'pruebass', 'pruebass', 'prueba2@gmail.com', '111111', '$2y$10$LYhApoRtqgp2EFOwUrwqPOu8trzDiuNzYF2zxUKfqa6V93qYKB4K2', 'assets/uploud/profile/default.svg', '1234567911', 1, 1, 1, 1, '$2a$07$Da22vidJuAjiNoYyZlXGhuun2YEhq1fcFW/Ccn8eD91vJ1727iLpC', '2020-11-07', '2020-11-07'),
+(10, 'preu', 'xds', 'dss@maill.com', '1111111111', '$2y$10$7FYYap4J6tAaxSq6uVE.nO62oTb.5Arigf5WY7stdQ9ZRV4IHOGQO', 'assets/uploud/profile/default.svg', '1111111111', 1, 1, 1, 4, '$2a$07$Da22vidJuAjiNoYyZlXGhuG1jYI3LLHff8p9jbehnhkXK4cB8Ygr2', '2020-11-07', '2020-11-07');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `asiento_contable`
+--
+ALTER TABLE `asiento_contable`
+  ADD PRIMARY KEY (`id_asiento_contable`);
 
 --
 -- Indices de la tabla `cargos`
@@ -296,7 +338,8 @@ ALTER TABLE `cargos`
 ALTER TABLE `conceptos`
   ADD PRIMARY KEY (`id_concepto`),
   ADD KEY `fk_tipo_concepto` (`fk_tipo_concepto`),
-  ADD KEY `fk_nomina` (`fk_nomina`);
+  ADD KEY `fk_nomina` (`fk_nomina`),
+  ADD KEY `fk_asiento_contable` (`fk_asiento_contable`);
 
 --
 -- Indices de la tabla `eventos`
@@ -364,6 +407,12 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `asiento_contable`
+--
+ALTER TABLE `asiento_contable`
+  MODIFY `id_asiento_contable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `cargos`
 --
 ALTER TABLE `cargos`
@@ -373,7 +422,7 @@ ALTER TABLE `cargos`
 -- AUTO_INCREMENT de la tabla `conceptos`
 --
 ALTER TABLE `conceptos`
-  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `eventos`
@@ -391,7 +440,7 @@ ALTER TABLE `logs_contactenos`
 -- AUTO_INCREMENT de la tabla `nominas`
 --
 ALTER TABLE `nominas`
-  MODIFY `id_nomina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_nomina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
@@ -415,7 +464,7 @@ ALTER TABLE `tipos_documentos`
 -- AUTO_INCREMENT de la tabla `tipo_concepto`
 --
 ALTER TABLE `tipo_concepto`
-  MODIFY `id_tipo_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_tipo_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_contrato`
@@ -427,7 +476,7 @@ ALTER TABLE `tipo_contrato`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas
@@ -438,7 +487,8 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `conceptos`
   ADD CONSTRAINT `conceptos_ibfk_1` FOREIGN KEY (`fk_tipo_concepto`) REFERENCES `tipo_concepto` (`id_tipo_concepto`),
-  ADD CONSTRAINT `conceptos_ibfk_2` FOREIGN KEY (`fk_nomina`) REFERENCES `nominas` (`id_nomina`);
+  ADD CONSTRAINT `conceptos_ibfk_2` FOREIGN KEY (`fk_nomina`) REFERENCES `nominas` (`id_nomina`),
+  ADD CONSTRAINT `conceptos_ibfk_3` FOREIGN KEY (`fk_asiento_contable`) REFERENCES `asiento_contable` (`id_asiento_contable`);
 
 --
 -- Filtros para la tabla `eventos`

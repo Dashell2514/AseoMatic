@@ -26,48 +26,66 @@ class NominasController extends Nomina{
 
 
     //? trae la informacion en formato JSON
-    public function allNewsJson()
+    public function allNominasJson()
     {
-        echo parent::consultarNominas();
+        echo json_encode(parent::consultarTodasLasNominas()); 
+    }
+
+    public function showConceptsID()
+    {
+        echo json_encode(Nomina::consultarConceptosPorNomina($_REQUEST['id']));
     }
 
     public function store(){
-        $id_usuario = $_POST['id_usuario'];
-        $dateFrom = $_POST['date_from'];
-        $dateTo = $_POST['date_to'];
-        $concept = $_POST['concept'];
-        $time = $_POST['time'];
-        $pay = $_POST['pay'];
+        $fk_usuario = $_POST['fk_usuario'];
+        $fecha_de = $_POST['fecha_de'];
+        $fecha_hasta = $_POST['fecha_hasta'];
+        $arrayDatos = json_decode($_POST['arrayDatos']);
+    
 
-        if($id_usuario != '' && $dateFrom != '' && $dateTo != '' && $concept != '' && $time != '' && $pay != ''){
-        parent::createNomina($id_usuario, $dateFrom, $dateTo);
-        parent::createConcept($concept, $time, $pay);
-        header('location:?class=Nominas&view=index');
+        if($fk_usuario && $fecha_de && $fecha_hasta && $arrayDatos){
+
+            parent::createNomina($fk_usuario, $fecha_de, $fecha_hasta);
+
+            $lastNomina = parent::consultarUltimaNomina();
+            
+            for ($i=0; $i < count($arrayDatos); $i++) { 
+                $data = $arrayDatos[$i];
+                parent::createConcept($data->descripcion, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
+            }
+            echo json_encode(['ok'=> 'Creado']);
+            return;
         }else{
 
             echo json_encode(['error'=> 'Debes llenar todos los campos']);
+            return;
         }
 
     }
 
     public function update()
     {
-        $id_usuario = $_POST['id_usuario'];
-        $id_nomina = $_POST['id_nomina'];
-        $id_concepto = $_POST['id_concepto'];
-        $dateFrom = $_POST['date_from'];
-        $dateTo = $_POST['date_to'];
-        $concept = $_POST['concept'];
-        $time = $_POST['time'];
-        $pay = $_POST['pay'];
+        $arrayDatos = json_decode($_POST['arrayDatos']);
+        $fk_nomina = $_POST['fk_nomina'];
+    
 
-        if($id_usuario != '' && $dateFrom != '' && $dateTo != '' && $concept != '' && $time != '' && $pay != ''){
+        if($fk_nomina && $arrayDatos){
+            
+            parent::deleteTodosConceptos($fk_nomina);
 
-        parent::updateNomina($id_usuario, $dateFrom, $dateTo, $id_nomina);
-        parent::updateConcept($concept, $time, $pay, $id_concepto);
-        header('location:?class=Nominas&view=index');
+            for ($i=0; $i < count($arrayDatos); $i++) { 
+                $data = $arrayDatos[$i];
+      
+                parent::createConcept($data->descripcion, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
+          
+               
+            }
+            echo json_encode(['ok'=> 'Creado']);
+            return;
         }else{
+
             echo json_encode(['error'=> 'Debes llenar todos los campos']);
+            return;
         }
     }
 
