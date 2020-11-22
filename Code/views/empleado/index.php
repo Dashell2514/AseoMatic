@@ -36,3 +36,9 @@
 require_once 'layout/footer.php';
 ?>
 
+<table>
+  <th>
+    <tr></tr>
+    <tr></tr>
+  </th>
+</table>

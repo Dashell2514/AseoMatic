@@ -28,30 +28,32 @@ class EmpleadosController extends Empleado{
         $nomina=Nomina::consultarUnaNomina($id_nomina);
         
         $html =' <div class="container text-dark">
-        <div class="grid ">
-            <div class="col-md-6 ">
-                <p class="d-flex  font-weight-bold text-uppercase">Servicios y suministros la equidad</p>
-                <p class="d-flex">Direccion: Cra 12 # 43 - 12</p>
-                <p class="d-flex">NIT: 123484114 - 12</p>
-            </div>
+     
 
-            <div class="col-md-6-2 text-dark ">
-                <img  src="assets/img/logo.png" class="d-flex center" alt="logo empresa" width="40%">
-            </div>
-        </div>
+        <div class="grid">          
+            <table class=" mt-3 total w-100 ">
+                <tr class="text-left">
+                    <th class=""><p class="font-weight-bold text-uppercase">Servicios y suministros la equidad</p>
+                    <p class="">Direccion: Cra. 113b ##152b-37</p></th>
+                    <th class=" font-weight-normal "><img  src="assets/svg/logo.svg" alt="logo empresa" width="30%"></th>
+                </tr>
+            </table>   
+        </div>    
+
+        
 
 
     
         <div class="grid">
-            <div class="col-md-6 "> 
+         
                 <p class="font-weight-bold">Nombre: <span class="font-weight-normal text-capitalize">'.$_SESSION["EMPLEADO"]->nombres.' '.$_SESSION["EMPLEADO"]->apellidos.'</span></p>
                 <p class="font-weight-bold">C.C: <span class="font-weight-normal">'.$_SESSION["EMPLEADO"]->numero_documento.'</span></p>
-            </div>
-            <div class="col-md-6-2"> 
+   
+ 
                 <p class="font-weight-bold">Cargo: <span class="font-weight-normal">'.$_SESSION["EMPLEADO"]->nombre_cargo.'</span></p>
                 <p class="font-weight-bold">Periodo de: <span class="font-weight-normal"> '. $nomina->fecha_de.'</span></p>
                 <p class="font-weight-bold">Periodo a:<span class="font-weight-normal"> '. $nomina->fecha_hasta.'</span></p>
-            </div>
+        
         </div>
   
         <div class="grid ">
@@ -71,9 +73,10 @@ class EmpleadosController extends Empleado{
                             Tipo Concepto
                         </th>
                         <th scope="col" class="text-center">
-                            VALOR
+                            Pagos
                         </th>
                     </tr>';
+                   
                     foreach ($conceptos as $concepto) {
                         $html.='<tr>
                         <td  class="text-left ">
@@ -88,12 +91,20 @@ class EmpleadosController extends Empleado{
                         '.$concepto->valor.'
                         </td>
                     </tr>';
+                        if($concepto->id_asiento_contable == 2)
+                        {
+                            $total -=$concepto->valor;
+
+                        }else{
+                            $total +=$concepto->valor;
+                        }
+                        
                     }
 
 
                     $html.='<tr>
                         <td scope="col" colspan="2" class="text-right">Total</td>
-                        <td scope="col" class="text-right">5.831.00</td>
+                        <td scope="col" class="text-right">'.$total.'</td>
                     </tr>
 
                 </table>
@@ -101,16 +112,7 @@ class EmpleadosController extends Empleado{
 
         
         </div>
-    
-            <div class="grid">          
-                <table class=" mt-3 table total w-100 table-bordered">
-                    <tr class="text-left">
-                        <th class="  " >Neto a pagar</th>
-                        <th class=" font-weight-normal ">5.8040</th>
-                    </tr>
-                </table>   
-            </div>    
-     
+        
     </div>';
         $mpdf = new \Mpdf\Mpdf();
 
