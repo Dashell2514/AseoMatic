@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-11-2020 a las 15:02:45
+-- Tiempo de generación: 22-11-2020 a las 03:24:37
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.4
 
@@ -91,8 +91,10 @@ INSERT INTO `conceptos` (`id_concepto`, `descripcion`, `estado`, `valor`, `fk_ti
 (30, 'Descontar', 1, '10000000000', 2, 6, 2),
 (31, 'descontar', 1, '2500000', 2, 2, 2),
 (32, 'sanitas', 1, '200000', 1, 2, 2),
-(34, 'prueba', 1, '1000000', 1, 9, 2),
-(35, 'xd1', 1, '10000000', 2, 9, 2);
+(42, 'Se le consigna el salario', 1, '1000000', 3, 9, 1),
+(43, 'Se le Consigna el Subsidio de transporte', 1, '100000', 4, 9, 1),
+(44, 'Se le descuenta la eps', 1, '150000', 1, 9, 2),
+(45, 'Se le descuenta la pension', 1, '150000', 2, 9, 2);
 
 -- --------------------------------------------------------
 
@@ -257,8 +259,10 @@ CREATE TABLE `tipo_concepto` (
 --
 
 INSERT INTO `tipo_concepto` (`id_tipo_concepto`, `tipo_concepto`) VALUES
-(1, 'salud'),
-(2, 'pension');
+(1, 'Aportes Salud Empleado'),
+(2, 'Aportes Pension Empleado'),
+(3, 'Salario Ordinario'),
+(4, 'Subsidio Transporte');
 
 -- --------------------------------------------------------
 
@@ -427,7 +431,7 @@ ALTER TABLE `cargos`
 -- AUTO_INCREMENT de la tabla `conceptos`
 --
 ALTER TABLE `conceptos`
-  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `eventos`
@@ -469,7 +473,7 @@ ALTER TABLE `tipos_documentos`
 -- AUTO_INCREMENT de la tabla `tipo_concepto`
 --
 ALTER TABLE `tipo_concepto`
-  MODIFY `id_tipo_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tipo_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_contrato`
