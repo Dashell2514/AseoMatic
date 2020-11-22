@@ -81,7 +81,7 @@ class Nomina extends DataBase{
 
     public static function consultarUnaNomina($id_nomina){
         try{
-            $str = parent::conectar()->prepare("SELECT * FROM nominas LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario WHERE id_nomina = $id_nomina ");
+            $str = parent::conectar()->prepare("SELECT * FROM nominas LEFT JOIN usuarios ON usuarios.id_usuario = nominas.fk_usuario LEFT JOIN cargos ON cargos.id_cargo=usuarios.fk_cargo  WHERE id_nomina = $id_nomina ");
             $str->execute();
             return $str->fetch(PDO::FETCH_OBJ);
         }catch(Exception $e){
