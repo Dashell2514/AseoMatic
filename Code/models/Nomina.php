@@ -27,6 +27,8 @@ class Nomina extends DataBase{
         }
     }   
 
+
+
     public function consultarNominas(){
         try{
             $str = parent::conectar()->prepare("SELECT * FROM nominas");
@@ -137,6 +139,19 @@ class Nomina extends DataBase{
         }catch(Exception $e){
             die('mal'.$e->getMessage());
         }
+    }
+
+    public function updateNominaValor($valor,$id_nomina)
+    {  
+        try{
+            $str = parent::conectar()->prepare("UPDATE nominas SET valor = ? WHERE nominas.id_nomina = ?");
+            $str->bindParam(1,$valor,PDO::PARAM_INT);
+            $str->bindParam(2,$id_nomina,PDO::PARAM_INT);
+            $str->execute();
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+        
     }
 
     public function updateConcept($descripcion, $asiento_contable, $valor, $fk_tipo_concepto, $fk_nomina, $id_concepto){

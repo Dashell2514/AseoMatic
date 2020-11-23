@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-11-2020 a las 03:24:37
+-- Tiempo de generación: 23-11-2020 a las 02:32:29
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.4
 
@@ -79,22 +79,42 @@ CREATE TABLE `conceptos` (
 --
 
 INSERT INTO `conceptos` (`id_concepto`, `descripcion`, `estado`, `valor`, `fk_tipo_concepto`, `fk_nomina`, `fk_asiento_contable`) VALUES
-(1, 'se le descuenta la salud', 1, '10000000', 1, 1, 2),
-(2, 'se le descuenta la pension', 1, '1000000', 2, 1, 2),
-(4, 'dsad', 1, '111111111', 1, 3, 1),
-(5, 'seds', 1, '100000', 1, 4, 1),
-(8, 'xd', 1, '10000000', 1, 7, 1),
-(9, 'dsads', 1, '100000', 1, 8, 2),
-(10, 'ddddddd', 1, '11111111111', 2, 8, 1),
-(13, 'dddddd', 1, '11111111', 2, 5, 2),
-(14, 'nuevo', 1, '10000', 2, 5, 2),
-(30, 'Descontar', 1, '10000000000', 2, 6, 2),
-(31, 'descontar', 1, '2500000', 2, 2, 2),
-(32, 'sanitas', 1, '200000', 1, 2, 2),
-(42, 'Se le consigna el salario', 1, '1000000', 3, 9, 1),
-(43, 'Se le Consigna el Subsidio de transporte', 1, '100000', 4, 9, 1),
-(44, 'Se le descuenta la eps', 1, '150000', 1, 9, 2),
-(45, 'Se le descuenta la pension', 1, '150000', 2, 9, 2);
+(62, 'Descontar Salud', 1, '100000', 1, 11, 2),
+(63, 'Descontar Pension', 1, '100000', 2, 11, 2),
+(64, 'salario ', 1, '1000000', 3, 11, 1),
+(65, 'subsidio de transporte', 1, '120000', 4, 11, 1),
+(66, 'Pension', 1, '200000', 2, 9, 2),
+(67, 'Se le consigna el salario', 1, '1000000', 3, 9, 1),
+(68, 'Se le Consigna el Subsidio de transporte', 1, '100000', 4, 9, 1),
+(69, 'Se le descuenta la eps', 1, '150000', 1, 9, 2),
+(70, 'subsidio de transporte', 1, '120000', 4, 10, 1),
+(71, 'salario ', 1, '1000000', 3, 10, 1),
+(72, 'Descontar Pension', 1, '100000', 2, 10, 2),
+(73, 'Descontar Salud', 1, '100000', 1, 10, 2),
+(74, '- salud', 1, '150000', 1, 6, 2),
+(75, '-Pension', 1, '100000', 2, 6, 2),
+(76, '+ Salario', 1, '1200000', 3, 6, 1),
+(77, '+subsidio de transporte', 1, '80000', 4, 6, 1),
+(81, '+Subsidio', 1, '80000', 4, 8, 1),
+(82, '+Salario', 1, '645000', 3, 8, 1),
+(83, '-Salud', 1, '0', 1, 8, 2),
+(84, '-Pension', 1, '0', 2, 8, 2),
+(88, '-Salud', 1, '120000', 1, 5, 2),
+(89, '-Pension', 1, '100000', 2, 5, 2),
+(90, '+salario', 1, '1500000', 3, 5, 1),
+(91, '+Salario', 1, '1000000', 3, 3, 1),
+(92, '-Salud', 1, '100000', 1, 3, 2),
+(93, '-Pension', 1, '100000', 2, 3, 2),
+(94, '+Salario', 1, '1500000', 3, 4, 1),
+(95, '-Pension', 1, '100000', 2, 4, 2),
+(96, '+Salario', 1, '1500000', 3, 1, 1),
+(97, '-Salud', 1, '100000', 1, 1, 2),
+(98, 'sanitas', 1, '200000', 1, 2, 2),
+(99, 'Salario', 1, '1300000', 3, 2, 1),
+(100, '+Salario', 1, '1300000', 3, 7, 1),
+(101, 'Sanitas', 1, '150000', 1, 7, 2),
+(112, 'Salario', 1, '2000000', 3, 16, 1),
+(113, 'Sanitas', 1, '100000', 1, 16, 2);
 
 -- --------------------------------------------------------
 
@@ -155,23 +175,27 @@ CREATE TABLE `nominas` (
   `id_nomina` int(11) NOT NULL,
   `fecha_de` date DEFAULT NULL,
   `fecha_hasta` date DEFAULT NULL,
-  `fk_usuario` int(11) NOT NULL
+  `fk_usuario` int(11) NOT NULL,
+  `valor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `nominas`
 --
 
-INSERT INTO `nominas` (`id_nomina`, `fecha_de`, `fecha_hasta`, `fk_usuario`) VALUES
-(1, '2020-11-01', '2020-11-30', 1),
-(2, '2020-11-01', '2020-11-30', 2),
-(3, '2020-11-08', '2020-11-25', 5),
-(4, '2020-11-03', '2020-11-19', 4),
-(5, '2020-11-08', '2020-11-23', 3),
-(6, '2020-11-17', '2020-12-11', 8),
-(7, '2020-11-01', '2020-12-11', 5),
-(8, '2020-11-15', '2020-12-11', 4),
-(9, '2020-11-20', '2020-11-30', 7);
+INSERT INTO `nominas` (`id_nomina`, `fecha_de`, `fecha_hasta`, `fk_usuario`, `valor`) VALUES
+(1, '2020-11-01', '2020-11-30', 1, 0),
+(2, '2020-11-01', '2020-11-30', 2, 1100000),
+(3, '2020-11-08', '2020-11-25', 5, 800000),
+(4, '2020-11-03', '2020-11-19', 4, 1400000),
+(5, '2020-11-08', '2020-11-23', 3, 1280000),
+(6, '2020-11-17', '2020-12-11', 8, 1030000),
+(7, '2020-11-01', '2020-12-11', 5, 1150000),
+(8, '2020-11-15', '2020-12-11', 4, 725000),
+(9, '2020-11-20', '2020-11-30', 7, 750000),
+(10, '2020-11-22', '2020-12-22', 1, 920000),
+(11, '2020-11-22', '2020-12-22', 1, 920000),
+(16, '2020-11-22', '2020-12-22', 6, 1900000);
 
 -- --------------------------------------------------------
 
@@ -431,7 +455,7 @@ ALTER TABLE `cargos`
 -- AUTO_INCREMENT de la tabla `conceptos`
 --
 ALTER TABLE `conceptos`
-  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT de la tabla `eventos`
@@ -449,7 +473,7 @@ ALTER TABLE `logs_contactenos`
 -- AUTO_INCREMENT de la tabla `nominas`
 --
 ALTER TABLE `nominas`
-  MODIFY `id_nomina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_nomina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
