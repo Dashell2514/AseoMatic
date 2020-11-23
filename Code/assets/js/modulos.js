@@ -2471,7 +2471,7 @@ const createTableNominas = (datos,count) =>{
     
 
     let iTd9 =document.createElement('I');
-    iTd9.id= `${datos.id_usuario}`;
+    iTd9.id= `${datos.id_nomina}`;
     iTd9.setAttribute('data-toggle','modal');
     iTd9.setAttribute('data-target','#ModalShowNomina');
     iTd9.classList.add('show-svg');
@@ -2482,7 +2482,7 @@ const createTableNominas = (datos,count) =>{
     // aTd9.classList.add('edit-btn');
 
     let iATd9 =document.createElement('I');
-    iATd9.id= `${datos.id_usuario}`;
+    iATd9.id= `${datos.id_nomina}`;
     iATd9.classList.add('edit-svg');
     iATd9.setAttribute('data-toggle','modal');
     iATd9.setAttribute('data-target','#ModalUpdateNomina');
@@ -2492,9 +2492,9 @@ const createTableNominas = (datos,count) =>{
    
 
     let i2Td9 =document.createElement('A');
-    i2Td9.id=`${datos.id_usuario}`;
+    i2Td9.id=`${datos.id_nomina}`;
     i2Td9.classList.add('pdf-svg');
-    i2Td9.setAttribute('href',`?c=Nominas&m=downloadpdf&id_nomina=${datos.id_nomina}&id=${datos.id_usuario}`);
+    i2Td9.setAttribute('href',`?c=Pdf&m=downloadpdf&id_nomina=${datos.id_nomina}`);
     i2Td9.setAttribute('target',`_blank`);
  
     td9TableAllUsers.append(i2Td9);
@@ -2595,7 +2595,7 @@ const showNominas= ()=>{
     .then( data => {
         //? se guardar los datos en el array (esto es para detalles y actualizar)
         allNominasData = data;
-        console.log(allNominasData);
+       
         TableAndpagination(pagina.pagina, pagina.usuariosFila,data,renderizarHtml);  
     })
     .catch( error => console.log(error));
@@ -2609,11 +2609,10 @@ thBody.addEventListener('click',(e) =>{
     {
         const userId = id.getAttribute('id');
         // buscar el id que coincida con el id obtenido del evento
-        const userIdFilter =allNominasData.filter( user => user.id_usuario ==userId)[0];
+        const userIdFilter =allNominasData.filter( user => user.id_nomina ==userId)[0];
     
         if(id.getAttribute('data-target') == '#ModalUpdateNomina')
         {
-            console.log(userIdFilter.id_nomina);
             document.getElementById('update_nomina').value=userIdFilter.id_nomina;
             updateUserNomina(userIdFilter.id_nomina,'update');
         }
@@ -2623,7 +2622,6 @@ thBody.addEventListener('click',(e) =>{
         //     msgQuestion(message, userIdFilter.id_usuario, userIdFilter.token);
         // }
         else if(id.getAttribute('data-target') == '#ModalShowNomina'){
-            console.log(userIdFilter.id_nomina);
             showUserNomina(userIdFilter);
             updateUserNomina(userIdFilter.id_nomina,'show');
         }
@@ -2633,9 +2631,8 @@ thBody.addEventListener('click',(e) =>{
 
 })
 const showUserNomina = (datos)=>{
-
     const show_user =document.getElementById('show_user').textContent=`${datos.nombres} ${datos.apellidos}`;
-    const show_salario =document.getElementById('show_salario').textContent=`${datos.salario}`;
+    const show_salario =document.getElementById('show_salario').textContent=`${datos.valor}`;
     const show_fecha_de =document.getElementById('show_fecha_de').textContent=`${datos.fecha_de}`;
     const show_fecha_hasta =document.getElementById('show_fecha_hasta').textContent=`${datos.fecha_hasta}`;
 
