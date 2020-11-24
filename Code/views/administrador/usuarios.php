@@ -100,11 +100,18 @@
 
           <div class="row">
       
-            <div class="col-md-8 col-lg-8 col-sm-12">
+            <div class="col-md-8 col-lg-4 col-sm-12">
               <div class="form-group">
-                <label for="cedula" class="text-shadow-1 text-custom">Número
+                <label for="numero_documento" class="text-shadow-1 text-custom">Número
                   Documento</label>
                 <input type="text" tabindex="5" class="form-control bg-white input-custom" placeholder="1234567890" name="numero_documento" id="numero_documento">
+              </div>
+            </div>
+
+            <div class="col-md-8 col-lg-4 col-sm-12">
+              <div class="form-group">
+                <label for="salario" class="text-shadow-1 text-custom">Salario</label>
+                <input type="text" tabindex="6" class="form-control bg-white input-custom" placeholder="10000000" name="salario" id="salario">
               </div>
             </div>
 
@@ -112,7 +119,7 @@
               <div class="form-group">
                 <label for="tipo_documento" class="text-shadow-1 text-custom">Tipo
                   Documento</label>
-                <select name="tipo_documento" tabindex="6" id="tipo_documento" class="form-control bg-white">
+                <select name="tipo_documento" tabindex="7" id="tipo_documento" class="form-control bg-white">
                   <option value=""   selected="true">-- Seleccione --</option>
                   <?php foreach (Administrador::allTable('tipos_documentos') as $documento) { ?>
                     <option value="<?php echo $documento->id_tipo_documento ?>"><?php echo $documento->tipo_documento ?></option>
@@ -126,7 +133,7 @@
           <div class="row">
             <div class="form-group col-md-6 col-lg-4 col-sm-12">
               <label for="cargo" class="text-shadow-1 text-custom">Cargo</label>
-              <select name="cargo" id="cargo" tabindex="7"class="form-control bg-white">
+              <select name="cargo" id="cargo" tabindex="8"class="form-control bg-white">
                 <option value=""  selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('cargos') as $cargo) { ?>
                   <option value="<?php echo $cargo->id_cargo ?>"><?php echo $cargo->nombre_cargo ?></option>
@@ -140,7 +147,7 @@
 
             <div class="form-group col-md-6 col-lg-4 col-sm-12">
               <label for="rol" class="text-shadow-1 text-custom">Rol</label>
-              <select name="rol" id="rol" tabindex="8" class="form-control bg-white">
+              <select name="rol" id="rol" tabindex="9" class="form-control bg-white">
                 <option value="" selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('roles') as $rol) { ?>
                   <option value="<?php echo $rol->id_rol ?>"><?php echo $rol->nombre_rol ?></option>
@@ -150,7 +157,7 @@
 
             <div class="form-group col-md-12 col-lg-4 col-sm-12">
               <label for="tipo_contrato" class="text-shadow-1 text-custom">Tipo Contrato</label>
-              <select name="tipo_contrato" id="tipo_contrato" tabindex="9" class="form-control bg-white">
+              <select name="tipo_contrato" id="tipo_contrato" tabindex="10" class="form-control bg-white">
                 <option value="" selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('tipo_contrato') as $tipo_contrato) { ?>
                   <option value="<?php echo $tipo_contrato->id_tipo_contrato ?>"><?php echo $tipo_contrato->tipo_contrato ?></option>
@@ -235,10 +242,17 @@
 
             </div>
 
-            <div class="form-group col-md-8 col-sm-12">
+            <div class="form-group col-md-4 col-sm-12">
 
               <label for="update_numero_documento" class="text-shadow-1 text-custom">Número Documento</label>
               <input type="text" class="form-control bg-white input-custom" name="update_numero_documento" id="update_numero_documento">
+
+            </div>
+
+            <div class="form-group col-md-4 col-sm-12">
+
+              <label for="update_salario" class="text-shadow-1 text-custom">Salario</label>
+              <input type="text" class="form-control bg-white input-custom" name="update_salario" id="update_salario">
 
             </div>
 
@@ -412,6 +426,13 @@
 
 
               <div class="form-group  col-12 ">
+                <label class="text-shadow-1 text-custom">Salario</label>
+                <p id="show_salario" class="d-block"></p>
+         
+               
+              </div>
+
+              <div class="form-group  col-12 ">
                 <label  class="text-shadow-1 text-custom">Tipo Contrato</label>
                 <select id="show_tipo_contrato" class="d-block bg-white text-capitalize" disabled>
                   <?php foreach (Administrador::allTable('tipo_contrato') as $tipo_contrato) { ?>
@@ -419,6 +440,9 @@
                   <?php } ?>
                 </select>
               </div>
+
+
+            
 
             <input type="hidden" name="updated_at" id="updated_at" value="<?php echo date("Y-m-d")  ?>">
 

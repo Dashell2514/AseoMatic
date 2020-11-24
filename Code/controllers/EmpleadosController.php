@@ -17,7 +17,7 @@ class EmpleadosController extends Empleado{
 
     }
     
-
+   
     public function index()
     {
         $title='Empleado';

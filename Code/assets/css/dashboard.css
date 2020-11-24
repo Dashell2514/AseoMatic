@@ -206,7 +206,8 @@ background-color: #6C63FF;
 
 .show-svg,
 .edit-svg,
-.delete-svg{
+.delete-svg,
+.pdf-svg{
   height: 25px;
   width: 25px;
   background-size: cover;
@@ -220,11 +221,22 @@ background-color: #6C63FF;
   height: 21px;
   width: 30px;
 }
+
+.show-svg{
+  background-image: url('../svg/eye.svg');
+  height: 21px;
+  width: 30px;
+}
+
 .edit-svg{
   background-image: url('../svg/edit.svg');
 }
 .delete-svg{
   background-image: url('../svg/delete.svg');
+}
+
+.pdf-svg{
+  background-image: url('../svg/pdf.svg');
 }
 
 .i-separated{
