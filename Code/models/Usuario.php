@@ -112,5 +112,24 @@ class Usuario extends DataBase{
         }
     }
 
+
+    public static function emailLog($nombreContact,$apellidoContact,$generoContact,$correoContact,$asuntoContact,$mensajeContact,$fecha_envio)
+    {
+        try {
+            $stm = parent::conectar()->prepare("INSERT INTO `logs_contactenos` (`nombres_contactenos`, `apellidos_contactenos`, `genero_contactenos`, `correo_contactenos`, `asunto_contactenos`, `mensaje_contactenos`, `fecha_envio`) VALUES ( ?, ?, ?, ?, ?, ?, ?)");
+            $stm->bindParam(1,$nombreContact,PDO::PARAM_STR);
+            $stm->bindParam(2,$apellidoContact,PDO::PARAM_STR);
+            $stm->bindParam(3,$generoContact,PDO::PARAM_STR);
+            $stm->bindParam(4,$correoContact,PDO::PARAM_STR);
+            $stm->bindParam(5,$asuntoContact,PDO::PARAM_STR);
+            $stm->bindParam(6,$mensajeContact,PDO::PARAM_STR);
+            $stm->bindParam(7,$fecha_envio,PDO::PARAM_STR);
+            $stm->execute();
+        } catch (Exception $e) {
+            die('Murio allTable'.$e->getMessage());
+        }
+   
+    }
+
     
 }

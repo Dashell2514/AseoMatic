@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-11-2020 a las 02:32:29
+-- Tiempo de generación: 24-11-2020 a las 22:37:26
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.4
 
@@ -160,10 +160,18 @@ CREATE TABLE `logs_contactenos` (
   `apellidos_contactenos` varchar(50) DEFAULT NULL,
   `genero_contactenos` varchar(10) DEFAULT NULL,
   `correo_contactenos` varchar(50) DEFAULT NULL,
-  `asunto_contactenos` varchar(25) DEFAULT NULL,
+  `asunto_contactenos` varchar(150) DEFAULT NULL,
   `mensaje_contactenos` longtext DEFAULT NULL,
   `fecha_envio` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `logs_contactenos`
+--
+
+INSERT INTO `logs_contactenos` (`id_log_contactenos`, `nombres_contactenos`, `apellidos_contactenos`, `genero_contactenos`, `correo_contactenos`, `asunto_contactenos`, `mensaje_contactenos`, `fecha_envio`) VALUES
+(1, 'Sandra ', 'Martinez', 'mujer', 'sandraMartinez@gmail.com', 'Saber costos', 'Quiero saber ....', '0000-00-00'),
+(2, 'prueba', 'prueba', 'hombre', 'prueba2@gmail.com', 'prueba', 'prueba2', '2020-11-24');
 
 -- --------------------------------------------------------
 
@@ -338,7 +346,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `correo`, `salario`, `clave`, `img_usuario`, `numero_documento`, `fk_rol`, `fk_cargo`, `fk_tipo_documento`, `fk_tipo_contrato`, `token`, `created_at`, `updated_at`) VALUES
-(1, 'david andres', 'hernandez juajinoy', 'david22@mail.com', '1000000', '$2y$10$JINdIZaBYksMm3UVfdw2wu7Q0QoXBlYdxqzUergrYiQKCQq99ZVia', 'assets/uploud/profile/default.svg', '1234567891', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuVQMplmBYGVLwggskr3EnUqNBxdpBp6y', '2020-09-20', '2020-11-21'),
+(1, 'david andres', 'hernandez juajinoy', 'david22@mail.com', '1000000', '$2y$10$JINdIZaBYksMm3UVfdw2wu7Q0QoXBlYdxqzUergrYiQKCQq99ZVia', 'assets/uploud/profile/default.svg', '1000232828', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhua38uHc48bGoC5zxnN3LfexCu22qV6.i', '2020-09-20', '2020-11-24'),
 (2, 'fabian ricardo', 'aldana garay', 'fabian@mail.com', '1000000', '$2y$10$gJwdz8k2lXxgAe0uAf2v0.GTYLtOL89UbdZQJMEVPJHuRFlO1V4BS', 'assets/uploud/profile/default.svg', '1233905589', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhunYyXVZ1lVA7pBzaZUSmqTBlz621Aeme', '2020-09-23', '2020-09-23'),
 (3, 'dashell alexander', 'carrero fuentes', 'dashel@mail.com', '1000000', '$2y$10$SqQk2oahlcx1oa29W1nmRufafqyZwi54T8NKmljBc6ofTz0t.g9M6', 'assets/uploud/profile/default.svg', '1018516607', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhu8sX/l5I13uTBMdSAsYrz4b88PO6B/72', '2020-09-23', '2020-09-23'),
 (4, 'andres felipe', 'chacon cifuentes', 'andres@mail.com', '1000000', '$2y$10$bd/oXVxVJj.cw58jECgwp.Tsfa9pdZIo/S8TlKcIEX/9x0tV3g5Ei', 'assets/uploud/profile/default.svg', '1005813772', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuspify4MH6zZ5zPJcZoW84yUdlw9eSnm', '2020-09-23', '2020-09-23'),
@@ -467,7 +475,7 @@ ALTER TABLE `eventos`
 -- AUTO_INCREMENT de la tabla `logs_contactenos`
 --
 ALTER TABLE `logs_contactenos`
-  MODIFY `id_log_contactenos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_log_contactenos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `nominas`

@@ -345,16 +345,18 @@ if(location.search == '?c=Usuarios&m=show' )
     searchName.addEventListener('input', function(e)
     {
         let value=searchName.value.toLowerCase();
-
+        thBody.innerHTML = '';
         if(value.trim() != '')
         {
+            let count = 1;
+
             for (const name of allUsersData) {
+                
                 let nombre = `${name.nombres} ${name.apellidos}`;
                 let documento = `${name.numero_documento}`;
                 if(nombre.indexOf(value) != -1 || documento.indexOf(value) != -1)
                 {
-                    thBody.innerHTML = '';
-                    thBody.appendChild(createAllUsersTable(name,1));
+                    thBody.appendChild(createAllUsersTable(name,count++));
                 }
         
             }
@@ -1035,16 +1037,16 @@ if(location.search =='?c=Noticias&m=showNews'){
     searchName.addEventListener('input', function(e)
     {
         let value=searchName.value.toLowerCase();
-
+        thBodyNews.innerHTML = '';
         if(value.trim() != '')
         {
+            let count = 1;
             for (const name of allNewsData) {
                 let nombre = `${name.titulo_noticia}`;
                 // let documento = `${name.nombres}`;
                 if(nombre.indexOf(value) != -1 )
-                {
-                    thBodyNews.innerHTML = '';
-                    thBodyNews.appendChild(createAllNewsTable(name,1));
+                {              
+                    thBodyNews.appendChild(createAllNewsTable(name,count++));
                 }
         
             }
@@ -1465,16 +1467,17 @@ if(location.search == '?c=Eventos&m=showEvents')
     searchName.addEventListener('input', function(e)
     {
         let value=searchName.value.toLowerCase();
+        thBodyEvents.innerHTML = '';
 
         if(value.trim() != '')
         {
+            let count =1;
             for (const name of allEventsData) {
                 let nombre = `${name.titulo_evento}`;
                 // let documento = `${name.nombres}`;
                 if(nombre.indexOf(value) != -1 )
                 {
-                    thBodyEvents.innerHTML = '';
-                    thBodyEvents.appendChild(createAllEventsTable(name,1));
+                    thBodyEvents.appendChild(createAllEventsTable(name,count++));
                 }
         
             }
@@ -1764,10 +1767,8 @@ if(location.search == '?c=Eventos&m=showEvents')
 // ! JS Login Verificacion Modal
 
 if(  location.search == '' || location.search == '?c=All&m=index')
-
 { 
 
-    
     //? function para limpiar los campos del modal #loginModal
     const btnOpenLoginModal= document.getElementById('btn-login');
     btnOpenLoginModal.addEventListener('click',()=>{
@@ -1954,14 +1955,15 @@ if(  location.search == '' || location.search == '?c=All&m=index')
         {
             btnSubmitFormContact.setAttribute('disabled','');
             const datos = new FormData();
-            const genero_contact =document.querySelector('input[name="genero_contact"]:checked');
+            const genero_contact =document.querySelector('input[name="genero_contact"]:checked').value;
+            
             datos.append('nombre_contact',nombre_contact.value);
             datos.append('apellido_contact',apellido_contact.value);
             datos.append('email_contact',email_contact.value);
             datos.append('asunto_contact',asunto_contact.value);
             datos.append('message_contact',message_contact.value);
             datos.append('terminos_contact',terminos_contact.value);
-            datos.append('genero_contact',genero_contact.value);
+            datos.append('genero_contact',genero_contact);
             fetch('?c=All&m=formContact' ,{
                 method : 'POST',
                 body : datos
@@ -2247,7 +2249,6 @@ const limpiarArrayConceptos = () =>{
     arrayConceptos = [];
     ulConceptos.innerHTML="";
 }
-
 btnSaveArray.addEventListener('click',(e)=>{
     e.preventDefault();
 
@@ -2278,8 +2279,7 @@ btnSaveArray.addEventListener('click',(e)=>{
             arrayConceptos.push(form)
 
             renderizarConcepto(arrayConceptos);
-            console.log(arrayConceptos);
-
+            console.log(arrayConceptos.length);
 
             description.value="";
             asientoContable.value="";
@@ -2312,7 +2312,34 @@ const validarConceptos = (var1,var2,var3) => {
     }    
 }
 
+const validarInsertNomina = (var1,var2,var3,var4) => {
 
+    if(var1.value == ""){
+        var1.focus();
+        const message = "Ingresar el usuario de la nomina";
+        msgError(message);
+    }
+    else if(var2.value == "")
+    {
+        var2.focus();
+        const message = "Ingresar la fecha de inicio de la nomina";
+        msgError(message);
+    }
+    else if(var3.value == '')
+    {
+        var3.focus();
+        const message = "Ingresar la fecha hasta de la nomina ";
+        msgError(message);
+    }
+    else if(var4.length == 2)
+    {
+        const message = "Ingresar los Conceptos de la Nomina ";
+        msgError(message);
+    } 
+    else{
+        return true;
+    }    
+}
 
 const htmlConceptos = (datos,count) =>{
     console.log(datos);
@@ -2375,43 +2402,46 @@ btnGuardarNomina.addEventListener('click',function(e){
     const fecha_hasta = document.getElementById('fecha_hasta');
     const arrayConcep = JSON.stringify(arrayConceptos);
 
-    const formData = new FormData();
-    formData.append('fk_usuario',fk_usuario.value);
-    formData.append('fecha_de',fecha_de.value);
-    formData.append('fecha_hasta',fecha_hasta.value);
-    formData.append('arrayDatos',arrayConcep);
-
-
-  
-    fetch('?c=Nominas&m=store',
+    let validar = validarInsertNomina(fk_usuario,fecha_de,fecha_hasta,arrayConcep);
+    if(validar)
     {
-        method: 'POST',
-        body: formData
-    })
-    .then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error al Crear Nomina')))
-    .then(resp => resp.json())
-    .then(data => {
+        const formData = new FormData();
+        formData.append('fk_usuario',fk_usuario.value);
+        formData.append('fecha_de',fecha_de.value);
+        formData.append('fecha_hasta',fecha_hasta.value);
+        formData.append('arrayDatos',arrayConcep);
 
-        if(data.ok)
+        fetch('?c=Nominas&m=store',
         {
-            $("#ModalAddNomina").modal('hide');
-            const msg ='La Nomina se ha creado';
-            msgSuccess(msg);
-            limpiarArrayConceptos();
-            fk_usuario.value="";
-            fecha_de.value="";
-            fecha_hasta.value="";
-            showNominas();
-        }else{
-            const msg ='Error Fallo';
-            msgError(msg)
-            setTimeout(() => {
-                location="?c=All&m=index";
-            }, 1500);
-        }
+            method: 'POST',
+            body: formData
+        })
+        .then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error al Crear Nomina')))
+        .then(resp => resp.json())
+        .then(data => {
 
-        
-    })
+            if(data.ok)
+            {
+                $("#ModalAddNomina").modal('hide');
+                const msg ='La Nomina se ha creado';
+                msgSuccess(msg);
+                limpiarArrayConceptos();
+                fk_usuario.value="";
+                fecha_de.value="";
+                fecha_hasta.value="";
+                showNominas();
+            }else{
+                const msg ='Error Fallo';
+                msgError(msg)
+                setTimeout(() => {
+                    location="?c=All&m=index";
+                }, 1500);
+            }
+
+            
+        })
+    }
+    
 
 
 })
@@ -2564,15 +2594,15 @@ searchName.addEventListener('input', function(e)
     thBody.innerHTML = '';
     if(value.trim() != '')
     {
+        let count = 1;
         for (const name of allNominasData) {
            
             let documento = `${name.numero_documento}`;
            
-
+            
             if(documento.indexOf(value) != -1)
             {
-                console.log(name);
-                thBody.appendChild(createTableNominas(name,1));
+                thBody.appendChild(createTableNominas(name,count++));
             }
     
         }
@@ -2795,24 +2825,3 @@ btnUpdateNomina.addEventListener('click',(e)=>{
 
 }
 
-
-
-// if( location.search == '?c=Empleados&m=showNomina')
-// {
-//     const btnDownload = document.querySelectorAll('.pdf-svg');
-//     console.log('lol');
-//     console.log(btnDownload);
-//     btnDownload.forEach(btn =>{
-//         btn.addEventListener('click',(e)=>{
-//             const id_nomina =e.target.getAttribute('data-id_nomina');
-//             const id =e.target.getAttribute('data-id');
-//             if(id_nomina && id)
-//             {
-//                 console.log('xd');
-//             }
-//         })
-//     })
-
-
-
-// }
