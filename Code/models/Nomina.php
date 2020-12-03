@@ -144,12 +144,12 @@ class Nomina extends DataBase{
     public function updateNominaValor($valor,$id_nomina)
     {  
         try{
-            $str = parent::conectar()->prepare("UPDATE nominas SET valor = ? WHERE nominas.id_nomina = ?");
+            $str = parent::conectar()->prepare("UPDATE nominas SET valor = ? WHERE id_nomina = ?");
             $str->bindParam(1,$valor,PDO::PARAM_INT);
             $str->bindParam(2,$id_nomina,PDO::PARAM_INT);
             $str->execute();
         }catch(Exception $e){
-            die('mal'.$e->getMessage());
+            die('Fallo valor en nomina'.$e->getMessage());
         }
         
     }

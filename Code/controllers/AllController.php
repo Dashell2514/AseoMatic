@@ -4,9 +4,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-require 'assets/phpmailer/src/Exception.php';
-require 'assets/phpmailer/src/PHPMailer.php';
-require 'assets/phpmailer/src/SMTP.php';
+// Load Composer's autoloader
+require_once 'vendor/autoload.php';
 
 class AllController{
     
@@ -54,14 +53,16 @@ class AllController{
                     //Server settings
                     $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
                     $mail->isSMTP();                                            // Send using SMTP
-                    $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+                    $mail->Host       = 'smtp.mailtrap.io';                    // Set the SMTP server to send through
                     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-                    $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-        
+                    $mail->Username   = '';                     // SMTP username
+                    $mail->Password   = '';
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; 
+                    $mail->Port       = 2525;
+
                     //Recipients
-                    $mail->setFrom('aseomatic22@gmail.com',$asuntoContact);
-                    $mail->addAddress('davidhernandezjuajinoy@gmail.com');     // Add a recipient
+                    $mail->setFrom('aseomatic@gmail.com',$asuntoContact);
+                    $mail->addAddress('aseomatic@gmail.com');     // Add a recipient
                     // $mail->addCC('cc@example.com');
                     // $mail->addBCC('bcc@example.com');
         
@@ -81,6 +82,7 @@ class AllController{
         
                     $mail->send();
                     Usuario::emailLog($nombreContact,$apellidoContact,$generoContact,$correoContact,$asuntoContact,$mensajeContact,$fechaContact);
+                    
                     return true;
                     // return json_encode(['ok' => 'FCE']); // Formulario Contacto Enviado
                 } catch (Exception $e) {

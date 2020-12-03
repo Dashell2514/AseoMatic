@@ -2477,7 +2477,7 @@ const createTableNominas = (datos,count) =>{
     trTableAllUsers.append(td3TableAllUsers);
 
     const td4TableAllUsers =document.createElement('TD');
-    td4TableAllUsers.textContent = `${datos.salario}`;
+    td4TableAllUsers.textContent = `${datos.valor}`;
 
     trTableAllUsers.append(td4TableAllUsers);
 
@@ -2703,17 +2703,51 @@ const conceptsUpdateFor = (method) =>{
     }
 }
 
+
+//eliminar 
 update_lista_concepto.addEventListener('click',(e)=>{
     e.preventDefault();
     if(e.target.getAttribute('data-id'))
     {
         let idConcepto=e.target.getAttribute('data-id');
-        const filtro = allconceptoUpdate.filter( user => user.id_concepto != idConcepto);
-        allconceptoUpdate = filtro;
-        conceptsUpdateFor('update');
-        console.log(allconceptoUpdate);
+        const filtro = allconceptoUpdate.filter( user => user.id_concepto == idConcepto)[0];
+        const msg = `${filtro.descripcion} con el valor ${filtro.valor}` 
+        msgQuestion(msg, idConcepto);
     }
 })
+
+  //? funcion De Mensaje modal y callback de eliminar(deleteUser(id));
+  const msgQuestion = (message, id) => {
+    Swal.fire({
+        icon: 'warning',
+        html: `<p class="text-white h4 mb-3 text-capitalize">Desea borrar el concepto</p><p class="text-danger text-capitalize h6">${message}</p>`,
+        focusConfirm:true,
+        background : '#343a40',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#6C63FF',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#6C63FF'
+        }).then((result) => {
+        if (result.value) {
+                const filtro = allconceptoUpdate.filter( user => user.id_concepto != id);
+                allconceptoUpdate = filtro;
+                conceptsUpdateFor('update'); 
+        };
+    })
+}
+
+//? peticion para eliminar usuario mediante id
+const deleteUser = (id,token) =>{
+    fetch(`?c=Usuarios&m=destroy&delete_id=${id}&token=${token}`,{
+    }).then( resp =>  (resp.ok) ? Promise.resolve(resp) : Promise.reject(new Error('fallo el delete')))
+    .then( resp => resp.text())
+    .then((data) =>{
+        // se actualiza la tabla
+        showAllUsers();
+    })
+
+}
 
 const showUpdateConcepts = (datos,count,method) =>{
     let html=`<tr><th>${count}</th>
@@ -2736,6 +2770,8 @@ const showUpdateConcepts = (datos,count,method) =>{
 
 const guardarArrayUpdate =document.getElementById('guardarArrayUpdate');
 
+
+let countConcepto = 0;
 guardarArrayUpdate.addEventListener('click',(e)=>{
     e.preventDefault();
     const description = document.getElementById('update_descripcion_nomina');
@@ -2743,12 +2779,15 @@ guardarArrayUpdate.addEventListener('click',(e)=>{
     const valor = document.getElementById('update_valor');
     const tipo_concepto = document.getElementById('update_tipo_concepto');
     const fk_nomina = document.getElementById('update_nomina');
+    
 
     let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
 
         if( validacion)
         {
+            countConcepto++; 
             let form = {
+                id_concepto: countConcepto,
                 descripcion : description.value,      
                 fk_asiento_contable :asientoContable.value,
                 tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
@@ -2766,7 +2805,7 @@ guardarArrayUpdate.addEventListener('click',(e)=>{
             conceptsUpdateFor('update');
             console.log(allconceptoUpdate);
 
-
+       
             description.value="";
             asientoContable.value="";
             valor.value="";
@@ -2801,6 +2840,7 @@ btnUpdateNomina.addEventListener('click',(e)=>{
                 const msg ='La Nomina se ha Actualizado';
                 msgSuccess(msg);
                 allconceptoUpdate = [];
+                showNominas();
             
             }else{
                 const msg ='Error Fallo';

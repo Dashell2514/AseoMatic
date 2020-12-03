@@ -78,7 +78,7 @@ class NominasController extends Nomina{
     public function update()
     {
         $arrayDatos = json_decode($_POST['arrayDatos']);
-        $fk_nomina = $_POST['fk_nomina'];
+        $fk_nomina = ($_POST['fk_nomina']);
     
 
         if($fk_nomina && $arrayDatos){
@@ -99,7 +99,8 @@ class NominasController extends Nomina{
                 }
                
             }
-            parent::updateNominaValor($fk_nomina,$total);
+            
+            parent::updateNominaValor($total,$fk_nomina);
             echo json_encode(['ok'=> 'Creado']);
             return;
         }else{
