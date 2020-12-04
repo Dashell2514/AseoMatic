@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-11-2020 a las 17:20:22
+-- Tiempo de generación: 24-11-2020 a las 22:37:26
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.4
 
@@ -79,16 +79,42 @@ CREATE TABLE `conceptos` (
 --
 
 INSERT INTO `conceptos` (`id_concepto`, `descripcion`, `estado`, `valor`, `fk_tipo_concepto`, `fk_nomina`, `fk_asiento_contable`) VALUES
-(1, 'se le descuenta la salud', 1, '10000000', 1, 1, 2),
-(2, 'se le descuenta la pension', 1, '1000000', 2, 1, 2),
-(3, 'descontar', 1, '2500000', 2, 2, 2),
-(4, 'dsad', 1, '111111111', 1, 3, 1),
-(5, 'seds', 1, '100000', 1, 4, 1),
-(6, 'dddddd', 1, '11111111', 2, 5, 2),
-(7, 'sss', 1, '11111111111', 2, 6, 2),
-(8, 'xd', 1, '10000000', 1, 7, 1),
-(9, 'dsads', 1, '100000', 1, 8, 2),
-(10, 'ddddddd', 1, '11111111111', 2, 8, 1);
+(62, 'Descontar Salud', 1, '100000', 1, 11, 2),
+(63, 'Descontar Pension', 1, '100000', 2, 11, 2),
+(64, 'salario ', 1, '1000000', 3, 11, 1),
+(65, 'subsidio de transporte', 1, '120000', 4, 11, 1),
+(66, 'Pension', 1, '200000', 2, 9, 2),
+(67, 'Se le consigna el salario', 1, '1000000', 3, 9, 1),
+(68, 'Se le Consigna el Subsidio de transporte', 1, '100000', 4, 9, 1),
+(69, 'Se le descuenta la eps', 1, '150000', 1, 9, 2),
+(70, 'subsidio de transporte', 1, '120000', 4, 10, 1),
+(71, 'salario ', 1, '1000000', 3, 10, 1),
+(72, 'Descontar Pension', 1, '100000', 2, 10, 2),
+(73, 'Descontar Salud', 1, '100000', 1, 10, 2),
+(74, '- salud', 1, '150000', 1, 6, 2),
+(75, '-Pension', 1, '100000', 2, 6, 2),
+(76, '+ Salario', 1, '1200000', 3, 6, 1),
+(77, '+subsidio de transporte', 1, '80000', 4, 6, 1),
+(81, '+Subsidio', 1, '80000', 4, 8, 1),
+(82, '+Salario', 1, '645000', 3, 8, 1),
+(83, '-Salud', 1, '0', 1, 8, 2),
+(84, '-Pension', 1, '0', 2, 8, 2),
+(88, '-Salud', 1, '120000', 1, 5, 2),
+(89, '-Pension', 1, '100000', 2, 5, 2),
+(90, '+salario', 1, '1500000', 3, 5, 1),
+(91, '+Salario', 1, '1000000', 3, 3, 1),
+(92, '-Salud', 1, '100000', 1, 3, 2),
+(93, '-Pension', 1, '100000', 2, 3, 2),
+(94, '+Salario', 1, '1500000', 3, 4, 1),
+(95, '-Pension', 1, '100000', 2, 4, 2),
+(96, '+Salario', 1, '1500000', 3, 1, 1),
+(97, '-Salud', 1, '100000', 1, 1, 2),
+(98, 'sanitas', 1, '200000', 1, 2, 2),
+(99, 'Salario', 1, '1300000', 3, 2, 1),
+(100, '+Salario', 1, '1300000', 3, 7, 1),
+(101, 'Sanitas', 1, '150000', 1, 7, 2),
+(112, 'Salario', 1, '2000000', 3, 16, 1),
+(113, 'Sanitas', 1, '100000', 1, 16, 2);
 
 -- --------------------------------------------------------
 
@@ -134,10 +160,18 @@ CREATE TABLE `logs_contactenos` (
   `apellidos_contactenos` varchar(50) DEFAULT NULL,
   `genero_contactenos` varchar(10) DEFAULT NULL,
   `correo_contactenos` varchar(50) DEFAULT NULL,
-  `asunto_contactenos` varchar(25) DEFAULT NULL,
+  `asunto_contactenos` varchar(150) DEFAULT NULL,
   `mensaje_contactenos` longtext DEFAULT NULL,
   `fecha_envio` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `logs_contactenos`
+--
+
+INSERT INTO `logs_contactenos` (`id_log_contactenos`, `nombres_contactenos`, `apellidos_contactenos`, `genero_contactenos`, `correo_contactenos`, `asunto_contactenos`, `mensaje_contactenos`, `fecha_envio`) VALUES
+(1, 'Sandra ', 'Martinez', 'mujer', 'sandraMartinez@gmail.com', 'Saber costos', 'Quiero saber ....', '0000-00-00'),
+(2, 'prueba', 'prueba', 'hombre', 'prueba2@gmail.com', 'prueba', 'prueba2', '2020-11-24');
 
 -- --------------------------------------------------------
 
@@ -149,22 +183,27 @@ CREATE TABLE `nominas` (
   `id_nomina` int(11) NOT NULL,
   `fecha_de` date DEFAULT NULL,
   `fecha_hasta` date DEFAULT NULL,
-  `fk_usuario` int(11) NOT NULL
+  `fk_usuario` int(11) NOT NULL,
+  `valor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `nominas`
 --
 
-INSERT INTO `nominas` (`id_nomina`, `fecha_de`, `fecha_hasta`, `fk_usuario`) VALUES
-(1, '2020-11-01', '2020-11-30', 1),
-(2, '2020-11-01', '2020-11-30', 2),
-(3, '2020-11-08', '2020-11-25', 5),
-(4, '2020-11-03', '2020-11-19', 4),
-(5, '2020-11-08', '2020-11-23', 3),
-(6, '2020-11-17', '2020-12-11', 8),
-(7, '2020-11-01', '2020-12-11', 5),
-(8, '2020-11-15', '2020-12-11', 4);
+INSERT INTO `nominas` (`id_nomina`, `fecha_de`, `fecha_hasta`, `fk_usuario`, `valor`) VALUES
+(1, '2020-11-01', '2020-11-30', 1, 0),
+(2, '2020-11-01', '2020-11-30', 2, 1100000),
+(3, '2020-11-08', '2020-11-25', 5, 800000),
+(4, '2020-11-03', '2020-11-19', 4, 1400000),
+(5, '2020-11-08', '2020-11-23', 3, 1280000),
+(6, '2020-11-17', '2020-12-11', 8, 1030000),
+(7, '2020-11-01', '2020-12-11', 5, 1150000),
+(8, '2020-11-15', '2020-12-11', 4, 725000),
+(9, '2020-11-20', '2020-11-30', 7, 750000),
+(10, '2020-11-22', '2020-12-22', 1, 920000),
+(11, '2020-11-22', '2020-12-22', 1, 920000),
+(16, '2020-11-22', '2020-12-22', 6, 1900000);
 
 -- --------------------------------------------------------
 
@@ -252,8 +291,10 @@ CREATE TABLE `tipo_concepto` (
 --
 
 INSERT INTO `tipo_concepto` (`id_tipo_concepto`, `tipo_concepto`) VALUES
-(1, 'salud'),
-(2, 'pension');
+(1, 'Aportes Salud Empleado'),
+(2, 'Aportes Pension Empleado'),
+(3, 'Salario Ordinario'),
+(4, 'Subsidio Transporte');
 
 -- --------------------------------------------------------
 
@@ -305,13 +346,13 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `correo`, `salario`, `clave`, `img_usuario`, `numero_documento`, `fk_rol`, `fk_cargo`, `fk_tipo_documento`, `fk_tipo_contrato`, `token`, `created_at`, `updated_at`) VALUES
-(1, 'david andres', 'hernandez juajinoy', 'david22@mail.com', '1000000', '$2y$10$eSK8U.C54AnstHeeNNW0D.Zn3JehTwqJ90D1xTDZBMcuyoA2T.w.G', 'assets/uploud/profile/default.svg', '1234567891', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuVQMplmBYGVLwggskr3EnUqNBxdpBp6y', '2020-09-20', '2020-11-05'),
+(1, 'david andres', 'hernandez juajinoy', 'david22@mail.com', '1000000', '$2y$10$JINdIZaBYksMm3UVfdw2wu7Q0QoXBlYdxqzUergrYiQKCQq99ZVia', 'assets/uploud/profile/default.svg', '1000232828', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhua38uHc48bGoC5zxnN3LfexCu22qV6.i', '2020-09-20', '2020-11-24'),
 (2, 'fabian ricardo', 'aldana garay', 'fabian@mail.com', '1000000', '$2y$10$gJwdz8k2lXxgAe0uAf2v0.GTYLtOL89UbdZQJMEVPJHuRFlO1V4BS', 'assets/uploud/profile/default.svg', '1233905589', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhunYyXVZ1lVA7pBzaZUSmqTBlz621Aeme', '2020-09-23', '2020-09-23'),
 (3, 'dashell alexander', 'carrero fuentes', 'dashel@mail.com', '1000000', '$2y$10$SqQk2oahlcx1oa29W1nmRufafqyZwi54T8NKmljBc6ofTz0t.g9M6', 'assets/uploud/profile/default.svg', '1018516607', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhu8sX/l5I13uTBMdSAsYrz4b88PO6B/72', '2020-09-23', '2020-09-23'),
 (4, 'andres felipe', 'chacon cifuentes', 'andres@mail.com', '1000000', '$2y$10$bd/oXVxVJj.cw58jECgwp.Tsfa9pdZIo/S8TlKcIEX/9x0tV3g5Ei', 'assets/uploud/profile/default.svg', '1005813772', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuspify4MH6zZ5zPJcZoW84yUdlw9eSnm', '2020-09-23', '2020-09-23'),
 (5, 'vanesa', 'vega santa', 'vanesa@mail.com', '1000000', '$2y$10$1t/ND7gnTzLpxn1MWUbboOgLO4tji6rRUdwwaXsR6TuHhke8SCsY2', 'assets/uploud/profile/default.svg', '1006093649', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuZKRrFl7EKnNfTHoMhZjN6JcFEFWwThS', '2020-09-23', '2020-09-23'),
 (6, 'jhon alexander', 'ramos vides', 'alex@mail.com', '1000000', '$2y$10$a6lhpwQLCF2akcv4QpCMze3eIlVivXxKYmKFEx8o2VCl.Pdy3rmai', 'assets/uploud/profile/default.svg', '1233890166', 1, 1, 1, 3, '$2a$07$Da22vidJuAjiNoYyZlXGhuvwi5OH4NMElrfPb0eq.h7XsWf2KpW1q', '2020-09-23', '2020-09-23'),
-(7, 'andres', 'hernandez juajinoy', 'david@mail.com', '1000000', '$2y$10$wsZnUIKMz8X./ugX4IJomerTEHbXlE9YHBeX3CusFiN/025bTHwEm', 'assets/uploud/profile/default.svg', '1234567891', 2, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuzukPrxgTrWdtfNWwNTqBCOOPZ7Tf1e6', '2020-10-04', '2020-11-14'),
+(7, 'andres', 'hernandez juajinoy', 'david@mail.com', '1000000', '$2y$10$9v5f6o2WKaZQwiS6UGfbFOc6/HYqMAOQ4FC8ErXtEl.KOVl/tvBze', 'assets/uploud/profile/default.svg', '1234567891', 2, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuzukPrxgTrWdtfNWwNTqBCOOPZ7Tf1e6', '2020-10-04', '2020-11-21'),
 (8, 'prueba', 'prueba', 'prueba@gmial.com', '1000000', '$2y$10$LzxRP8Upw5on1HSwQnr74eVspJKgbztxRankNoo9IjOZ4k9A6kwt6', 'assets/uploud/profile/default.svg', '1233455744', 1, 1, 1, 2, '$2a$07$Da22vidJuAjiNoYyZlXGhuHHPizBYgBZ07PK.eCM6NRM1mhdWlr/y', '2020-11-05', '2020-11-05'),
 (9, 'pruebass', 'pruebass', 'prueba2@gmail.com', '111111', '$2y$10$LYhApoRtqgp2EFOwUrwqPOu8trzDiuNzYF2zxUKfqa6V93qYKB4K2', 'assets/uploud/profile/default.svg', '1234567911', 1, 1, 1, 1, '$2a$07$Da22vidJuAjiNoYyZlXGhuun2YEhq1fcFW/Ccn8eD91vJ1727iLpC', '2020-11-07', '2020-11-07'),
 (10, 'preu', 'xds', 'dss@maill.com', '1111111111', '$2y$10$7FYYap4J6tAaxSq6uVE.nO62oTb.5Arigf5WY7stdQ9ZRV4IHOGQO', 'assets/uploud/profile/default.svg', '1111111111', 1, 1, 1, 4, '$2a$07$Da22vidJuAjiNoYyZlXGhuG1jYI3LLHff8p9jbehnhkXK4cB8Ygr2', '2020-11-07', '2020-11-07');
@@ -422,7 +463,7 @@ ALTER TABLE `cargos`
 -- AUTO_INCREMENT de la tabla `conceptos`
 --
 ALTER TABLE `conceptos`
-  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT de la tabla `eventos`
@@ -434,13 +475,13 @@ ALTER TABLE `eventos`
 -- AUTO_INCREMENT de la tabla `logs_contactenos`
 --
 ALTER TABLE `logs_contactenos`
-  MODIFY `id_log_contactenos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_log_contactenos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `nominas`
 --
 ALTER TABLE `nominas`
-  MODIFY `id_nomina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_nomina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
@@ -464,7 +505,7 @@ ALTER TABLE `tipos_documentos`
 -- AUTO_INCREMENT de la tabla `tipo_concepto`
 --
 ALTER TABLE `tipo_concepto`
-  MODIFY `id_tipo_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tipo_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_contrato`

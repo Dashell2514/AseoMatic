@@ -345,16 +345,18 @@ if(location.search == '?c=Usuarios&m=show' )
     searchName.addEventListener('input', function(e)
     {
         let value=searchName.value.toLowerCase();
-
+        thBody.innerHTML = '';
         if(value.trim() != '')
         {
+            let count = 1;
+
             for (const name of allUsersData) {
+                
                 let nombre = `${name.nombres} ${name.apellidos}`;
                 let documento = `${name.numero_documento}`;
                 if(nombre.indexOf(value) != -1 || documento.indexOf(value) != -1)
                 {
-                    thBody.innerHTML = '';
-                    thBody.appendChild(createAllUsersTable(name,1));
+                    thBody.appendChild(createAllUsersTable(name,count++));
                 }
         
             }
@@ -1035,16 +1037,16 @@ if(location.search =='?c=Noticias&m=showNews'){
     searchName.addEventListener('input', function(e)
     {
         let value=searchName.value.toLowerCase();
-
+        thBodyNews.innerHTML = '';
         if(value.trim() != '')
         {
+            let count = 1;
             for (const name of allNewsData) {
                 let nombre = `${name.titulo_noticia}`;
                 // let documento = `${name.nombres}`;
                 if(nombre.indexOf(value) != -1 )
-                {
-                    thBodyNews.innerHTML = '';
-                    thBodyNews.appendChild(createAllNewsTable(name,1));
+                {              
+                    thBodyNews.appendChild(createAllNewsTable(name,count++));
                 }
         
             }
@@ -1465,16 +1467,17 @@ if(location.search == '?c=Eventos&m=showEvents')
     searchName.addEventListener('input', function(e)
     {
         let value=searchName.value.toLowerCase();
+        thBodyEvents.innerHTML = '';
 
         if(value.trim() != '')
         {
+            let count =1;
             for (const name of allEventsData) {
                 let nombre = `${name.titulo_evento}`;
                 // let documento = `${name.nombres}`;
                 if(nombre.indexOf(value) != -1 )
                 {
-                    thBodyEvents.innerHTML = '';
-                    thBodyEvents.appendChild(createAllEventsTable(name,1));
+                    thBodyEvents.appendChild(createAllEventsTable(name,count++));
                 }
         
             }
@@ -1764,10 +1767,8 @@ if(location.search == '?c=Eventos&m=showEvents')
 // ! JS Login Verificacion Modal
 
 if(  location.search == '' || location.search == '?c=All&m=index')
-
 { 
 
-    
     //? function para limpiar los campos del modal #loginModal
     const btnOpenLoginModal= document.getElementById('btn-login');
     btnOpenLoginModal.addEventListener('click',()=>{
@@ -1954,14 +1955,15 @@ if(  location.search == '' || location.search == '?c=All&m=index')
         {
             btnSubmitFormContact.setAttribute('disabled','');
             const datos = new FormData();
-            const genero_contact =document.querySelector('input[name="genero_contact"]:checked');
+            const genero_contact =document.querySelector('input[name="genero_contact"]:checked').value;
+            
             datos.append('nombre_contact',nombre_contact.value);
             datos.append('apellido_contact',apellido_contact.value);
             datos.append('email_contact',email_contact.value);
             datos.append('asunto_contact',asunto_contact.value);
             datos.append('message_contact',message_contact.value);
             datos.append('terminos_contact',terminos_contact.value);
-            datos.append('genero_contact',genero_contact.value);
+            datos.append('genero_contact',genero_contact);
             fetch('?c=All&m=formContact' ,{
                 method : 'POST',
                 body : datos
@@ -2247,7 +2249,6 @@ const limpiarArrayConceptos = () =>{
     arrayConceptos = [];
     ulConceptos.innerHTML="";
 }
-
 btnSaveArray.addEventListener('click',(e)=>{
     e.preventDefault();
 
@@ -2278,8 +2279,7 @@ btnSaveArray.addEventListener('click',(e)=>{
             arrayConceptos.push(form)
 
             renderizarConcepto(arrayConceptos);
-            console.log(arrayConceptos);
-
+            console.log(arrayConceptos.length);
 
             description.value="";
             asientoContable.value="";
@@ -2312,9 +2312,37 @@ const validarConceptos = (var1,var2,var3) => {
     }    
 }
 
+const validarInsertNomina = (var1,var2,var3,var4) => {
 
+    if(var1.value == ""){
+        var1.focus();
+        const message = "Ingresar el usuario de la nomina";
+        msgError(message);
+    }
+    else if(var2.value == "")
+    {
+        var2.focus();
+        const message = "Ingresar la fecha de inicio de la nomina";
+        msgError(message);
+    }
+    else if(var3.value == '')
+    {
+        var3.focus();
+        const message = "Ingresar la fecha hasta de la nomina ";
+        msgError(message);
+    }
+    else if(var4.length == 2)
+    {
+        const message = "Ingresar los Conceptos de la Nomina ";
+        msgError(message);
+    } 
+    else{
+        return true;
+    }    
+}
 
 const htmlConceptos = (datos,count) =>{
+    console.log(datos);
     const fragment = document.createDocumentFragment();
 
     const trConcepto = document.createElement('TR');
@@ -2325,14 +2353,14 @@ const htmlConceptos = (datos,count) =>{
     trConcepto.append(tdTableConcepto);
 
     const td2TableConcepto =document.createElement('TD');
-    td2TableConcepto.textContent = `${datos.description}`;
+    td2TableConcepto.textContent = `${datos.descripcion}`;
     td2TableConcepto.classList.add('text-capitalize');
 
 
     trConcepto.append(td2TableConcepto);
 
     const td3TableConcepto =document.createElement('TD');
-    td3TableConcepto.textContent = `${datos.asientoContable}`;
+    td3TableConcepto.textContent = `${datos.asiento_contable}`;
 
     trConcepto.append(td3TableConcepto);
 
@@ -2374,43 +2402,46 @@ btnGuardarNomina.addEventListener('click',function(e){
     const fecha_hasta = document.getElementById('fecha_hasta');
     const arrayConcep = JSON.stringify(arrayConceptos);
 
-    const formData = new FormData();
-    formData.append('fk_usuario',fk_usuario.value);
-    formData.append('fecha_de',fecha_de.value);
-    formData.append('fecha_hasta',fecha_hasta.value);
-    formData.append('arrayDatos',arrayConcep);
-
-
-  
-    fetch('?c=Nominas&m=store',
+    let validar = validarInsertNomina(fk_usuario,fecha_de,fecha_hasta,arrayConcep);
+    if(validar)
     {
-        method: 'POST',
-        body: formData
-    })
-    .then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error al Crear Nomina')))
-    .then(resp => resp.json())
-    .then(data => {
+        const formData = new FormData();
+        formData.append('fk_usuario',fk_usuario.value);
+        formData.append('fecha_de',fecha_de.value);
+        formData.append('fecha_hasta',fecha_hasta.value);
+        formData.append('arrayDatos',arrayConcep);
 
-        if(data.ok)
+        fetch('?c=Nominas&m=store',
         {
-            $("#ModalAddNomina").modal('hide');
-            const msg ='La Nomina se ha creado';
-            msgSuccess(msg);
-            limpiarArrayConceptos();
-            fk_usuario.value="";
-            fecha_de.value="";
-            fecha_hasta.value="";
-            showNominas();
-        }else{
-            const msg ='Error Fallo';
-            msgError(msg)
-            setTimeout(() => {
-                location="?c=All&m=index";
-            }, 1500);
-        }
+            method: 'POST',
+            body: formData
+        })
+        .then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error al Crear Nomina')))
+        .then(resp => resp.json())
+        .then(data => {
 
-        
-    })
+            if(data.ok)
+            {
+                $("#ModalAddNomina").modal('hide');
+                const msg ='La Nomina se ha creado';
+                msgSuccess(msg);
+                limpiarArrayConceptos();
+                fk_usuario.value="";
+                fecha_de.value="";
+                fecha_hasta.value="";
+                showNominas();
+            }else{
+                const msg ='Error Fallo';
+                msgError(msg)
+                setTimeout(() => {
+                    location="?c=All&m=index";
+                }, 1500);
+            }
+
+            
+        })
+    }
+    
 
 
 })
@@ -2446,7 +2477,7 @@ const createTableNominas = (datos,count) =>{
     trTableAllUsers.append(td3TableAllUsers);
 
     const td4TableAllUsers =document.createElement('TD');
-    td4TableAllUsers.textContent = `${datos.salario}`;
+    td4TableAllUsers.textContent = `${datos.valor}`;
 
     trTableAllUsers.append(td4TableAllUsers);
 
@@ -2470,7 +2501,7 @@ const createTableNominas = (datos,count) =>{
     
 
     let iTd9 =document.createElement('I');
-    iTd9.id= `${datos.id_usuario}`;
+    iTd9.id= `${datos.id_nomina}`;
     iTd9.setAttribute('data-toggle','modal');
     iTd9.setAttribute('data-target','#ModalShowNomina');
     iTd9.classList.add('show-svg');
@@ -2481,22 +2512,22 @@ const createTableNominas = (datos,count) =>{
     // aTd9.classList.add('edit-btn');
 
     let iATd9 =document.createElement('I');
-    iATd9.id= `${datos.id_usuario}`;
+    iATd9.id= `${datos.id_nomina}`;
     iATd9.classList.add('edit-svg');
     iATd9.setAttribute('data-toggle','modal');
     iATd9.setAttribute('data-target','#ModalUpdateNomina');
 
     td9TableAllUsers.append(iATd9);
 
-    // td9TableAllUsers.append(aTd9);
+   
 
-    // let i2Td9 =document.createElement('I');
-    // i2Td9.id=`${datos.id_usuario}`;
-    // i2Td9.classList.add('delete-svg');
-    // i2Td9.setAttribute('data-toggle','modal');
-    // i2Td9.setAttribute('data-target','#Delete');
-    
-    // td9TableAllUsers.append(i2Td9);
+    let i2Td9 =document.createElement('A');
+    i2Td9.id=`${datos.id_nomina}`;
+    i2Td9.classList.add('pdf-svg');
+    i2Td9.setAttribute('href',`?c=Pdf&m=downloadpdf&id_nomina=${datos.id_nomina}`);
+    i2Td9.setAttribute('target',`_blank`);
+ 
+    td9TableAllUsers.append(i2Td9);
 
     trTableAllUsers.append(td9TableAllUsers);
 
@@ -2563,15 +2594,15 @@ searchName.addEventListener('input', function(e)
     thBody.innerHTML = '';
     if(value.trim() != '')
     {
+        let count = 1;
         for (const name of allNominasData) {
            
             let documento = `${name.numero_documento}`;
            
-
+            
             if(documento.indexOf(value) != -1)
             {
-                console.log(name);
-                thBody.appendChild(createTableNominas(name,1));
+                thBody.appendChild(createTableNominas(name,count++));
             }
     
         }
@@ -2594,7 +2625,7 @@ const showNominas= ()=>{
     .then( data => {
         //? se guardar los datos en el array (esto es para detalles y actualizar)
         allNominasData = data;
-        console.log(allNominasData);
+       
         TableAndpagination(pagina.pagina, pagina.usuariosFila,data,renderizarHtml);  
     })
     .catch( error => console.log(error));
@@ -2608,11 +2639,10 @@ thBody.addEventListener('click',(e) =>{
     {
         const userId = id.getAttribute('id');
         // buscar el id que coincida con el id obtenido del evento
-        const userIdFilter =allNominasData.filter( user => user.id_usuario ==userId)[0];
+        const userIdFilter =allNominasData.filter( user => user.id_nomina ==userId)[0];
     
         if(id.getAttribute('data-target') == '#ModalUpdateNomina')
         {
-            console.log(userIdFilter.id_nomina);
             document.getElementById('update_nomina').value=userIdFilter.id_nomina;
             updateUserNomina(userIdFilter.id_nomina,'update');
         }
@@ -2622,7 +2652,6 @@ thBody.addEventListener('click',(e) =>{
         //     msgQuestion(message, userIdFilter.id_usuario, userIdFilter.token);
         // }
         else if(id.getAttribute('data-target') == '#ModalShowNomina'){
-            console.log(userIdFilter.id_nomina);
             showUserNomina(userIdFilter);
             updateUserNomina(userIdFilter.id_nomina,'show');
         }
@@ -2632,9 +2661,8 @@ thBody.addEventListener('click',(e) =>{
 
 })
 const showUserNomina = (datos)=>{
-
     const show_user =document.getElementById('show_user').textContent=`${datos.nombres} ${datos.apellidos}`;
-    const show_salario =document.getElementById('show_salario').textContent=`${datos.salario}`;
+    const show_salario =document.getElementById('show_salario').textContent=`${datos.valor}`;
     const show_fecha_de =document.getElementById('show_fecha_de').textContent=`${datos.fecha_de}`;
     const show_fecha_hasta =document.getElementById('show_fecha_hasta').textContent=`${datos.fecha_hasta}`;
 
@@ -2675,17 +2703,51 @@ const conceptsUpdateFor = (method) =>{
     }
 }
 
+
+//eliminar 
 update_lista_concepto.addEventListener('click',(e)=>{
     e.preventDefault();
     if(e.target.getAttribute('data-id'))
     {
         let idConcepto=e.target.getAttribute('data-id');
-        const filtro = allconceptoUpdate.filter( user => user.id_concepto != idConcepto);
-        allconceptoUpdate = filtro;
-        conceptsUpdateFor('update');
-        console.log(allconceptoUpdate);
+        const filtro = allconceptoUpdate.filter( user => user.id_concepto == idConcepto)[0];
+        const msg = `${filtro.descripcion} con el valor ${filtro.valor}` 
+        msgQuestion(msg, idConcepto);
     }
 })
+
+  //? funcion De Mensaje modal y callback de eliminar(deleteUser(id));
+  const msgQuestion = (message, id) => {
+    Swal.fire({
+        icon: 'warning',
+        html: `<p class="text-white h4 mb-3 text-capitalize">Desea borrar el concepto</p><p class="text-danger text-capitalize h6">${message}</p>`,
+        focusConfirm:true,
+        background : '#343a40',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#6C63FF',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#6C63FF'
+        }).then((result) => {
+        if (result.value) {
+                const filtro = allconceptoUpdate.filter( user => user.id_concepto != id);
+                allconceptoUpdate = filtro;
+                conceptsUpdateFor('update'); 
+        };
+    })
+}
+
+//? peticion para eliminar usuario mediante id
+const deleteUser = (id,token) =>{
+    fetch(`?c=Usuarios&m=destroy&delete_id=${id}&token=${token}`,{
+    }).then( resp =>  (resp.ok) ? Promise.resolve(resp) : Promise.reject(new Error('fallo el delete')))
+    .then( resp => resp.text())
+    .then((data) =>{
+        // se actualiza la tabla
+        showAllUsers();
+    })
+
+}
 
 const showUpdateConcepts = (datos,count,method) =>{
     let html=`<tr><th>${count}</th>
@@ -2708,6 +2770,8 @@ const showUpdateConcepts = (datos,count,method) =>{
 
 const guardarArrayUpdate =document.getElementById('guardarArrayUpdate');
 
+
+let countConcepto = 0;
 guardarArrayUpdate.addEventListener('click',(e)=>{
     e.preventDefault();
     const description = document.getElementById('update_descripcion_nomina');
@@ -2715,12 +2779,15 @@ guardarArrayUpdate.addEventListener('click',(e)=>{
     const valor = document.getElementById('update_valor');
     const tipo_concepto = document.getElementById('update_tipo_concepto');
     const fk_nomina = document.getElementById('update_nomina');
+    
 
     let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
 
         if( validacion)
         {
+            countConcepto++; 
             let form = {
+                id_concepto: countConcepto,
                 descripcion : description.value,      
                 fk_asiento_contable :asientoContable.value,
                 tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
@@ -2738,7 +2805,7 @@ guardarArrayUpdate.addEventListener('click',(e)=>{
             conceptsUpdateFor('update');
             console.log(allconceptoUpdate);
 
-
+       
             description.value="";
             asientoContable.value="";
             valor.value="";
@@ -2773,6 +2840,7 @@ btnUpdateNomina.addEventListener('click',(e)=>{
                 const msg ='La Nomina se ha Actualizado';
                 msgSuccess(msg);
                 allconceptoUpdate = [];
+                showNominas();
             
             }else{
                 const msg ='Error Fallo';
@@ -2796,6 +2864,4 @@ btnUpdateNomina.addEventListener('click',(e)=>{
 
 
 }
-
-
 

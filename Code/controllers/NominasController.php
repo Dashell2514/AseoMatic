@@ -33,7 +33,7 @@ class NominasController extends Nomina{
 
     public function showConceptsID()
     {
-        echo json_encode(parent::consultarConceptosPorNomina($_REQUEST['id']));
+        echo json_encode(Nomina::consultarConceptosPorNomina($_REQUEST['id']));
     }
 
     public function store(){
@@ -49,10 +49,22 @@ class NominasController extends Nomina{
 
             $lastNomina = parent::consultarUltimaNomina();
             
+            $total = 0;
             for ($i=0; $i < count($arrayDatos); $i++) { 
                 $data = $arrayDatos[$i];
                 parent::createConcept($data->descripcion, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
+
+                if($data->fk_asiento_contable == 2)
+                {
+                    $total -=$data->valor;
+
+                }else{
+                    $total +=$data->valor;
+                }
             }
+            
+
+            parent::updateNominaValor($total,$lastNomina->id_nomina);
             echo json_encode(['ok'=> 'Creado']);
             return;
         }else{
@@ -66,20 +78,29 @@ class NominasController extends Nomina{
     public function update()
     {
         $arrayDatos = json_decode($_POST['arrayDatos']);
-        $fk_nomina = $_POST['fk_nomina'];
+        $fk_nomina = ($_POST['fk_nomina']);
     
 
         if($fk_nomina && $arrayDatos){
             
             parent::deleteTodosConceptos($fk_nomina);
-
+            $total = 0;
             for ($i=0; $i < count($arrayDatos); $i++) { 
                 $data = $arrayDatos[$i];
       
                 parent::createConcept($data->descripcion, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
-          
+
+                if($data->fk_asiento_contable == 2)
+                {
+                    $total -=$data->valor;
+
+                }else{
+                    $total +=$data->valor;
+                }
                
             }
+            
+            parent::updateNominaValor($total,$fk_nomina);
             echo json_encode(['ok'=> 'Creado']);
             return;
         }else{
@@ -88,6 +109,8 @@ class NominasController extends Nomina{
             return;
         }
     }
+
+   
 
 
 

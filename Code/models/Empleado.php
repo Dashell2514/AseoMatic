@@ -28,4 +28,8 @@ class Empleado extends DataBase
             die('Murio ShowUser'.$e->getMessage());
         }
     }
+
+
+
+
 }

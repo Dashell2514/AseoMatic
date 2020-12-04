@@ -23,27 +23,27 @@
                                             <th scope="col">ID</th>
                                             <th scope="col">Saldo</th>
                                             <th scope="col">Fecha</th>
-                                            <th scope="col">Saldo</th>
+                                            <th scope="col">PDF</th>
+                                           
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="table-light">
-                                            <th scope="row">1</th>
-                                            <td>$1.000.000</td>
-                                            <td>28/10/2018</td>
-                                            <td><i class="fas fa-download" data-toggle="modal" data-target="#modal_comprobante"></i></td>
-                                        </tr>
-                                        <tr class="table-light">
-                                            <th scope="row">2</th>
-                                            <td>$1.000.000</td>
-                                            <td>25/09/2018</td>
-                                            <td><i class="fas fa-download" data-toggle="modal" data-target="#modal_comprobante"></i></td>
-                                        </tr>
-                                        <tr class="table-light">
-                                            <th scope="row">3</th>
-                                            <td>$1.000.000</td>
-                                            <td>29/08/2018</td>
-                                            <td><i class="fas fa-download" data-toggle="modal" data-target="#modal_comprobante">
+
+                                    <tbody>
+
+                                        <?php  
+                                        $count =1;
+                                        foreach (Nomina::consultarNominasPorUsuario($_SESSION['EMPLEADO']->id_usuario) as $nomina) {  ?>
+                                            <tr class="table-light">
+                                                <th scope="row"><?php echo $count++ ?></th>
+                                                <td><?php echo $nomina->salario ?></td>
+                                                <td><?php echo $nomina->fecha_de ?></td>
+                                                <td><a target="_blank" href="?c=Pdf&m=downloadpdf&id_nomina=<?php echo $nomina->id_nomina?>" class="position-absolute pdf-svg"></a></td>
+                                            </tr>
+                                        <?php } ?>
+                                       
+
+                                    </tbody>
                                 </table>
 
 
