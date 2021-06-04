@@ -54,6 +54,25 @@ const validateAsunto =(asunto) =>{
     else return false
 }
 
+//? Quill.js texto enriquecido
+const toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote', 'code-block'],
+  
+    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    [{ 'direction': 'rtl' }],                         // text direction
+  
+    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+  
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'align': [] }],
+  
+    ['clean']                                         // remove formatting button
+  ];
 
 //? paginacion
 
@@ -1016,7 +1035,7 @@ if(location.search =='?c=Noticias&m=showNews'){
     //? funcion de mostrar datos en la #ModalUpdateNews
     const showNewId= (noticia) => {
         const tituloNoticia= document.getElementById('update_titulo_noticia').value=`${noticia.titulo_noticia}`;
-        const descripcionNoticia= document.getElementById('update_descripcion_noticia').textContent=`${noticia.descripcion_noticia}`;
+        const descripcionNoticia= quillUpdate.clipboard.dangerouslyPasteHTML(`${noticia.descripcion_noticia}`);
         const fkUsuario= document.getElementById('update_fk_usuario').value=`${noticia.fk_usuario}`;
         const prevImgNoticia= document.getElementById('update_prev-img').src=`${noticia.imagen_noticia}`;
         const idNoticia= document.getElementById('update_id_noticia').value=`${noticia.id_noticia}`;
@@ -1026,7 +1045,7 @@ if(location.search =='?c=Noticias&m=showNews'){
     //? funcion de mostrar datos en la #ModalShowNews
     const showNewIdCard= (noticia) => {
         const tituloNoticia= document.getElementById('show_titulo_noticia').textContent=`${noticia.titulo_noticia}`;
-        const descripcionNoticia= document.getElementById('show_descripcion_noticia').textContent=`${noticia.descripcion_noticia}`;
+        const descripcionNoticia= document.getElementById('show_descripcion_noticia').innerHTML=`${noticia.descripcion_noticia}`;
         const fechaNoticia= document.getElementById('show_fecha_noticia').textContent=`${noticia.nombres} ${noticia.apellidos} ${noticia.fecha_publicado}`;
         const prevImgNoticia= document.getElementById('show_prev_img').src=`${noticia.imagen_noticia}`;
         // const idNoticia= document.getElementById('show_id_noticia').value=`${noticia.id_noticia}`;
@@ -1120,7 +1139,7 @@ if(location.search =='?c=Noticias&m=showNews'){
             const msg = 'Ingrese el titulo de la Noticia';
             title.focus();
             msgError(msg);
-        }else if(description.value ==''){
+        }else if(description.getLength()-1 == 0){
             const msg = 'Ingrese la descripcion de la Noticia';
             description.focus();
             msgError(msg);
@@ -1139,34 +1158,36 @@ if(location.search =='?c=Noticias&m=showNews'){
     }
 
     //? Resetear valores en #ModalAddNews
-    const resetValueForm= (titulo_noticia,descripcion_noticia,fecha_noticia,fk_usuario,img_noticia,prev_img_noticia) =>{
+    const resetValueForm= (titulo_noticia,descripcion_noticia,fk_usuario,img_noticia,prev_img_noticia) =>{
         const tituloNoticia= document.getElementById(titulo_noticia).value="";
-        const descripcionNoticia= document.getElementById(descripcion_noticia).value="";
-        // const fechaNoticia= document.getElementById(fecha_noticia).value="";
+        const descripcionNoticia= descripcion_noticia.container.firstChild.innerHTML="";
         const fkUsuario= document.getElementById(fk_usuario).value="";
         const imgNoticia= document.getElementById(img_noticia).value="";
         const PrevimgNoticia= document.getElementById(prev_img_noticia).src="";
     }
         
+   
+
     //? funcion para guardar la noticia en DB en noticias.php modal #ModalAddNew
     const btnSubmitFormNews=document.getElementById('GuardarNoticia');
     btnSubmitFormNews.addEventListener('click',(e)=>{
            e.preventDefault();
            const tituloNoticia= document.getElementById('titulo_noticia');
-           const descripcionNoticia= document.getElementById('descripcion_noticia');
-           const fechaNoticia= document.getElementById('fecha_noticia');
+           //    const descripcionNoticia= document.getElementById('descripcion_noticia');
+           const descripcionNoticia=quill;
            const fkUsuario= document.getElementById('fk_usuario');
            const img=imgNew.files[0];
-   
+    
            let validar =validarFormNews(tituloNoticia,descripcionNoticia,fkUsuario,prevImg);
            if(validar ===  true)
            {
                const data = new FormData();
                data.append('titulo_noticia',tituloNoticia.value.toLowerCase());
-               data.append('descripcion_noticia',descripcionNoticia.value);
-               data.append('fecha_noticia',fechaNoticia.value);
+               data.append('descripcion_noticia',descripcionNoticia.container.firstChild.innerHTML);
                data.append('new_img',img);
-               data.append('fk_usuario',fkUsuario.value);
+               data.append('fk_usuario',fkUsuario.value);   
+               
+
    
                fetch('?c=Noticias&m=storeNew',{
                    method: 'POST',
@@ -1179,7 +1200,7 @@ if(location.search =='?c=Noticias&m=showNews'){
                    {
                         $("#ModalAddNew").modal('hide');
                         // se llama la funcion resetear valores del formulario y se les pasa la id
-                        resetValueForm('titulo_noticia','descripcion_noticia','fecha_noticia','fk_usuario','new_img','prev-img');
+                        resetValueForm('titulo_noticia',descripcionNoticia,'fk_usuario','new_img','prev-img');
                         let message = 'Noticia Agregada Correctamente';
                         // se llama la funcion de !=error
                         msgSuccess(message);
@@ -1202,8 +1223,12 @@ if(location.search =='?c=Noticias&m=showNews'){
    
     //? funcion para resetear valores de modal #ModalAddNew
     const btnCancelNew =document.getElementById('CancelarNoticia');
+    const btnCancelNewX =document.getElementById('cerrarModalNoticia');
     btnCancelNew.addEventListener('click',() => {
-        resetValueForm('titulo_noticia','descripcion_noticia','fecha_noticia','fk_usuario','new_img','prev-img');
+        resetValueForm('titulo_noticia',quill,'fk_usuario','new_img','prev-img');
+    })
+    btnCancelNewX.addEventListener('click',() => {
+        resetValueForm('titulo_noticia',quill,'fk_usuario','new_img','prev-img');
     })
 
     //? funcion para Actualizar la noticia en DB en noticias.php modal #ModalAddNew
@@ -1211,8 +1236,8 @@ if(location.search =='?c=Noticias&m=showNews'){
     btnSubmitFormUpdateNews.addEventListener('click',(e) =>{
         e.preventDefault();
         const tituloNoticia= document.getElementById('update_titulo_noticia');
-        const descripcionNoticia= document.getElementById('update_descripcion_noticia');
-        const fechaNoticia= document.getElementById('update_fecha_noticia');
+        // const descripcionNoticia= document.getElementById('update_descripcion_noticia');
+        const descripcionNoticia= quillUpdate;
         const fkUsuario= document.getElementById('update_fk_usuario');
         const idNoticia= document.getElementById('update_id_noticia');
 
@@ -1224,8 +1249,7 @@ if(location.search =='?c=Noticias&m=showNews'){
             const data = new FormData();
             data.append('update_id_noticia',idNoticia.value);
             data.append('update_titulo_noticia',tituloNoticia.value.toLowerCase());
-            data.append('update_descripcion_noticia',descripcionNoticia.value);
-            data.append('update_fecha_noticia',fechaNoticia.value);
+            data.append('update_descripcion_noticia',descripcionNoticia.container.firstChild.innerHTML);
             data.append('update_fk_usuario',fkUsuario.value);
             data.append('update_new_img',img);
             fetch('?c=Noticias&m=updateNews',
@@ -1290,6 +1314,23 @@ if(location.search =='?c=Noticias&m=showNews'){
     //? Se ejecuta la para la creacion de los datos cuando acceda a Modulo Noticias
     showAllNews();
 
+
+
+    //! TEXTO JS
+
+    var quill = new Quill('#descripcion_noticia', {
+        modules: {
+            toolbar: toolbarOptions
+          },
+        theme: 'snow'
+      });
+
+    var quillUpdate = new Quill('#update_descripcion_noticia', {
+        modules: {
+            toolbar: toolbarOptions
+          },
+        theme: 'snow'
+      });
 
 }
 
@@ -1444,7 +1485,7 @@ if(location.search == '?c=Eventos&m=showEvents')
      const showEventId= (evento) => {
         // console.log(evento);
         const tituloEvento= document.getElementById('update_titulo_evento').value=`${evento.titulo_evento}`;
-        const descripcionEvento= document.getElementById('update_descripcion_evento').textContent=`${evento.descripcion_evento}`;
+        const descripcionEvento= quillEventUpdate.clipboard.dangerouslyPasteHTML(`${evento.descripcion_evento}`);
         const fkUsuario= document.getElementById('update_fk_usuario').value=`${evento.fk_usuario}`;
         const prevImgEvento= document.getElementById('update_prev-img').src=`${evento.imagen_evento}`;
         const idEvento= document.getElementById('update_id_evento').value=`${evento.id_evento}`;
@@ -1455,7 +1496,7 @@ if(location.search == '?c=Eventos&m=showEvents')
     const showEventIdCard= (evento) => {
         // console.log(evento);
         const tituloEvento= document.getElementById('show_titulo_evento').textContent=`${evento.titulo_evento}`;
-        const descripcionEvento= document.getElementById('show_descripcion_evento').textContent=`${evento.descripcion_evento}`;
+        const descripcionEvento= document.getElementById('show_descripcion_evento').innerHTML=`${evento.descripcion_evento}`;
         const fechaEvento= document.getElementById('show_fecha_evento').textContent=`${evento.nombres} ${evento.apellidos} ${evento.fecha_publicado}`;
         const prevImgEvento= document.getElementById('show_prev_img').src=`${evento.imagen_evento}`;
         // const idevento= document.getElementById('show_id_evento').value=`${evento.id_evento}`;
@@ -1500,7 +1541,7 @@ if(location.search == '?c=Eventos&m=showEvents')
             const msg = 'Ingrese el titulo del Evento';
             title.focus();
             msgError(msg);
-        }else if(description.value ==''){
+        }else if(description.getLength()-1 ==''){
             const msg = 'Ingrese la descripcion del Evento';
             description.focus();
             msgError(msg);
@@ -1520,10 +1561,9 @@ if(location.search == '?c=Eventos&m=showEvents')
 
 
     //? Resetear valores en #ModalAddEvents
-    const resetValueForm= (titulo_evento,descripcion_evento,fecha_evento,fk_usuario,img_evento,prev_img_evento) =>{
+    const resetValueForm= (titulo_evento,descripcion_evento,fk_usuario,img_evento,prev_img_evento) =>{
         const tituloEvento= document.getElementById(titulo_evento).value="";
-        const descripcionEvento= document.getElementById(descripcion_evento).value="";
-        // const fechaEvento= document.getElementById(fecha_evento).value="";
+        const descripcionEvento= descripcion_evento.container.firstChild.innerHTML="";
         const fkUsuario= document.getElementById(fk_usuario).value="";
         const imgEvento= document.getElementById(img_evento).value="";
         const PrevimgEvento= document.getElementById(prev_img_evento).src="";
@@ -1618,8 +1658,7 @@ if(location.search == '?c=Eventos&m=showEvents')
     btnSubmitFormEvent.addEventListener('click',(e)=>{
         e.preventDefault();
         const tituloEvento= document.getElementById('titulo_evento');
-        const descripcionEvento= document.getElementById('descripcion_evento');
-        const fechaEvento= document.getElementById('fecha_evento');
+        const descripcionEvento=quillEvent;
         const fkUsuario= document.getElementById('fk_usuario');
         const img=imgNew.files[0];
         //prevImg = es igual a img.src
@@ -1630,8 +1669,7 @@ if(location.search == '?c=Eventos&m=showEvents')
           
             const data = new FormData();
             data.append('titulo_evento',tituloEvento.value.toLowerCase());
-            data.append('descripcion_evento',descripcionEvento.value);
-            data.append('fecha_evento',fechaEvento.value);
+            data.append('descripcion_evento',descripcionEvento.container.firstChild.innerHTML);
             data.append('event_img',img);
             data.append('fk_usuario',fkUsuario.value);
 
@@ -1647,7 +1685,7 @@ if(location.search == '?c=Eventos&m=showEvents')
                 {
                     $("#ModalAddEvents").modal('hide');
                     // se llama la funcion resetear valores del formulario y se les pasa la id
-                    resetValueForm('titulo_evento','descripcion_evento','fecha_evento','fk_usuario','event_img','prev-img');
+                    resetValueForm('titulo_evento',descripcionEvento,'fk_usuario','event_img','prev-img');
                     let message = 'Evento Agregada Correctamente';
                     // se llama la funcion de !=error
                     msgSuccess(message);
@@ -1666,9 +1704,14 @@ if(location.search == '?c=Eventos&m=showEvents')
 
     })
 
+    //? limpiar formulario Modal ADD EVENTO
     const btnCancelNew =document.getElementById('CancelarEvento');
+    const btnCancelNewX =document.getElementById('cerrarModalNoticia');
     btnCancelNew.addEventListener('click',() => {
-        resetValueForm('titulo_evento','descripcion_evento','fecha_evento','fk_usuario','event_img','prev-img');
+        resetValueForm('titulo_evento',quillEvent,'fk_usuario','event_img','prev-img');
+    })
+    btnCancelNewX.addEventListener('click',() => {
+        resetValueForm('titulo_evento',quillEvent,'fk_usuario','event_img','prev-img');
     })
 
     //? Peticion AJAX para Actualizar Evento 
@@ -1676,8 +1719,7 @@ if(location.search == '?c=Eventos&m=showEvents')
     btnSubmitFormUpdateEvents.addEventListener('click',(e) =>{
         e.preventDefault();
         const tituloEvento= document.getElementById('update_titulo_evento');
-        const descripcionEvento= document.getElementById('update_descripcion_evento');
-        const fechaEvento= document.getElementById('update_fecha_evento');
+        const descripcionEvento= quillEventUpdate;
         const fkUsuario= document.getElementById('update_fk_usuario');
         const idEvento= document.getElementById('update_id_evento');
 
@@ -1689,8 +1731,7 @@ if(location.search == '?c=Eventos&m=showEvents')
             const data = new FormData();
             data.append('update_id_evento',idEvento.value);
             data.append('update_titulo_evento',tituloEvento.value.toLowerCase());
-            data.append('update_descripcion_evento',descripcionEvento.value);
-            data.append('update_fecha_evento',fechaEvento.value);
+            data.append('update_descripcion_evento',descripcionEvento.container.firstChild.innerHTML);
             data.append('update_fk_usuario',fkUsuario.value);
             data.append('update_event_img',img);
             fetch('?c=Eventos&m=updateEvents',
@@ -1755,8 +1796,27 @@ if(location.search == '?c=Eventos&m=showEvents')
     
     }
 
+
+
     //? Se ejecuta la para la creacion de los datos cuando acceda a Modulo Eventos
     showAllEvents();
+
+
+    //! TEXTO JS
+
+    var quillEvent = new Quill('#descripcion_evento', {
+        modules: {
+            toolbar: toolbarOptions
+          },
+        theme: 'snow'
+      });
+
+    var quillEventUpdate = new Quill('#update_descripcion_evento', {
+        modules: {
+            toolbar: toolbarOptions
+          },
+        theme: 'snow'
+      });
 }
 
 //! End JS Modulo Administrar Eventos
@@ -2025,7 +2085,7 @@ if(  location.search == '' || location.search == '?c=All&m=index')
     const showModalEN = (data)=>{
         const showModal = document.getElementById('showModal').textContent=`${(data.titulo_noticia) ? 'Noticias':'Eventos'}`;
         const showTitle = document.getElementById('show_title').textContent=`${(data.titulo_noticia) ? data.titulo_noticia : data.titulo_evento}`;
-        const showDescription = document.getElementById('show_description').textContent=`${(data.descripcion_noticia) ? data.descripcion_noticia : data.descripcion_evento}`;
+        const showDescription = document.getElementById('show_description').innerHTML=`${(data.descripcion_noticia) ? data.descripcion_noticia : data.descripcion_evento}`;
         const showDate = document.getElementById('show_date').textContent=`${data.nombres} ${data.apellidos} ${data.fecha_publicado}`;
         const showImg = document.getElementById('show_prev_img').src=`${(data.imagen_noticia)? data.imagen_noticia : data.imagen_evento}`;
     }

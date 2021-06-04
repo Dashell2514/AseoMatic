@@ -41,11 +41,10 @@ class NoticiasController extends Noticia
 
         //POST
         $tituloNoticia = Security::htmlChars($_POST['titulo_noticia']);
-        $descripcionNoticia = Security::htmlChars($_POST['descripcion_noticia']);
-        $fechaPublicacion = Security::verificateDate($_POST['fecha_noticia']);
+        $descripcionNoticia = $_POST['descripcion_noticia'];
+        $fechaPublicacion = date("Y-m-d H:i:s");
         $newUser = Security::verificateInt($_POST['fk_usuario']);
 
-        
         if($DimensionesImg == true)
         {
             $tamañoImg = $_FILES['new_img']["size"];
@@ -92,8 +91,8 @@ class NoticiasController extends Noticia
     {
         $idNoticia =Security::verificateInt($_POST['update_id_noticia']);
         $tituloNoticia = Security::htmlChars($_POST['update_titulo_noticia']);
-        $descripcionNoticia =Security::htmlChars($_POST['update_descripcion_noticia']);
-        $fechaPublicacion = Security::verificateDate($_POST['update_fecha_noticia']);
+        $descripcionNoticia =$_POST['update_descripcion_noticia'];
+        $fechaPublicacion = date("Y-m-d H:i:s");
         $idUser = Security::verificateInt($_POST['update_fk_usuario']);
         if($idNoticia && $fechaPublicacion && $idUser && $descripcionNoticia && $tituloNoticia)
         {

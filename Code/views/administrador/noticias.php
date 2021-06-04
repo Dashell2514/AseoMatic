@@ -62,12 +62,11 @@
                   <label for="titulo_noticia" class="text-shadow-1 text-custom text-capitalize">Titulo de Noticia</label>
                   <input type="text" class="form-control bg-white input-custom" name="titulo_noticia" placeholder="Juanito salio a pescar y salio Pescado" id="titulo_noticia">
                 </div>
-
-                <div class="form-group">
-                  <label for="descripcion_noticia" class="text-shadow-1 text-custom text-capitalize">descripcion De noticia</label>
-                  <textarea name="descripcion_noticia" id="descripcion_noticia" class="form-control" cols="20" rows="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
-                </div>
               
+                <div class="form-group bg-white">
+                  <div id="descripcion_noticia"  class="text-dark" ></div>
+                </div>
+                
 
               
 
@@ -95,10 +94,6 @@
                     <?php } ?>
                   </select>
             </div>
-
-
-            <input type="hidden" name="fecha_noticia" id="fecha_noticia"value="<?php echo date("Y-m-d") ?>">
-
           </div>
 
           <div class="text-right">
@@ -135,9 +130,8 @@
                   <input type="text" class="form-control bg-white input-custom" name="update_titulo_noticia" placeholder="Juanito salio a pescar y salio Pescado" id="update_titulo_noticia">
                 </div>
 
-                <div class="form-group">
-                  <label for="update_descripcion_noticia" class="text-shadow-1 text-custom text-capitalize">descripcion De noticia</label>
-                  <textarea name="update_descripcion_noticia" id="update_descripcion_noticia" class="form-control" cols="20" rows="4"></textarea>
+                <div class="form-group bg-white">
+                  <div id="update_descripcion_noticia"  class="text-dark" ></div>
                 </div>
               
 
@@ -168,7 +162,6 @@
                     </select>
               </div>
               
-            <input type="hidden" name="update_fecha_noticia" id="update_fecha_noticia"value="<?php echo date("Y-m-d") ?>">
 
           </div>
 

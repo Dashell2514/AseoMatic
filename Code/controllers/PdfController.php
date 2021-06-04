@@ -99,9 +99,7 @@ class PdfController {
         </div>';
             $mpdf = new \Mpdf\Mpdf();
     
-            $stylesheet =file_get_contents('assets/css/styles.css');
             $stylesheetpdf =file_get_contents('assets/css/pdf.css');
-            $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->WriteHTML($stylesheetpdf,1);
             $mpdf->WriteHTML($html);
             $mpdf->Output('nomina'.$nomina->numero_documento.'.pdf',"I");
