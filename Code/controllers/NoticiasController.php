@@ -26,6 +26,7 @@ class NoticiasController extends Noticia
     function showNews()
     {
         $title = "Gestion de Noticias";
+        $moduloJs = '<script src="assets/js/modulos/news/news.js" type="module"></script>';
         require_once 'views/administrador/noticias.php';
     }
 

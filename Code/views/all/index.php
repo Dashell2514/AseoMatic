@@ -329,7 +329,7 @@
             	              <div class="row justify-content-center">
             	                <div class="col-4 ">
             	                    
-            	                    <label for="form_contacto" class="font-weight-bold w-100 p-2  btn-custom text-center">Enviar</label>
+            	                    <label for="form_contacto" id="label_form_contacto" class="font-weight-bold w-100 p-2  btn-custom text-center">Enviar</label>
             	                    <input type="submit" name="form_contacto" id="form_contacto" class="input-login">
               
             	               </div>

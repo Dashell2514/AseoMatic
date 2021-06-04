@@ -21,6 +21,7 @@ class NominasController extends Nomina{
     public function index()
     {
         $title='Nomina';
+        $moduloJs = '<script src="assets/js/modulos/payrolls/payrolls.js" type="module"></script>';
         require_once('views/administrador/nomina.php');
     }
 

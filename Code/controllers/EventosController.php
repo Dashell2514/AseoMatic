@@ -26,6 +26,7 @@ class EventosController extends Evento{
         function showEvents()
         {
             $title = "Gestion de Eventos";
+            $moduloJs = '<script src="assets/js/modulos/events/events.js" type="module"></script>';
             require_once 'views/administrador/eventos.php';
         }
     

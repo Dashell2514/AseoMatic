@@ -26,6 +26,7 @@ class UsuariosController extends Usuario{
        public function show()
        {
            $title= 'Gestion De Usuarios';
+           $moduloJs = '<script src="assets/js/modulos/users/users.js" type="module"></script>';
            require_once 'views/administrador/usuarios.php';
            
        }

@@ -28,6 +28,7 @@ class AllController{
 
     public function index()
     {
+        $moduloJs = '<script src="assets/js/modulos/home/home.js" type="module"></script>';
         require_once 'views/all/index.php';
     }
 
@@ -55,8 +56,8 @@ class AllController{
                     $mail->isSMTP();                                            // Send using SMTP
                     $mail->Host       = 'smtp.mailtrap.io';                    // Set the SMTP server to send through
                     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-                    $mail->Username   = '';                     // SMTP username
-                    $mail->Password   = '';
+                    $mail->Username   = '028de6b4dea01b';                     // SMTP username
+                    $mail->Password   = 'ab1fceab36503b';
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; 
                     $mail->Port       = 2525;
 
