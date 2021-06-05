@@ -1,0 +1,147 @@
+.container{
+    padding: 2% 5%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.grid{
+    display: grid;
+    grid-template-rows: repeat(1fr,12);
+}
+
+.col-md-6{
+    grid-column: 1/2;
+    grid-row: 1;
+}
+
+.col-md-6-2{
+    grid-column: 2/2;
+    grid-row: 1;
+}
+
+.d-flex{
+    display: flex;
+}
+
+.center{
+    justify-content: center;
+    align-items: center;
+}
+
+.left{
+    justify-content: start;
+    align-items: center;
+}
+.w-100{
+    width: 100%;
+}
+
+.border {
+    border: 1px solid #dee2e6 !important; 
+}
+.neto{
+    padding: 10px;
+    margin: 0;
+}
+
+.border-spacing{
+    border-spacing: 0ch;
+
+}
+.mt-3{
+    margin-top: 30px;
+}
+
+.text-left{
+    text-align: left;
+}
+
+.text-lowercase {
+    text-transform: lowercase !important;
+  }
+  
+  .text-uppercase {
+    text-transform: uppercase !important;
+  }
+  
+  .text-capitalize {
+    text-transform: capitalize !important;
+  }
+  
+  .font-weight-light {
+    font-weight: 300 !important;
+  }
+  
+  .font-weight-lighter {
+    font-weight: lighter !important;
+  }
+  
+  .font-weight-normal {
+    font-weight: 400 !important;
+  }
+  
+  .font-weight-bold {
+    font-weight: 700 !important;
+  }
+  
+  .font-weight-bolder {
+    font-weight: bolder !important;
+  }
+  
+  .font-italic {
+    font-style: italic !important;
+  }
+  
+  .text-white {
+    color: #fff !important;
+  }
+  
+  .text-primary {
+    color: #007bff !important;
+  }
+
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+  }
+  
+
+  
+ 
+
+  
+  .table-bordered {
+    border: 1px solid #dee2e6;
+  }
+  
+  .table-bordered th,
+  .table-bordered td {
+    border: 1px solid #dee2e6;
+  }
+  
+  .table-bordered thead th,
+  .table-bordered thead td {
+    border-bottom-width: 2px;
+  }
+  
+  .table-borderless th,
+  .table-borderless td,
+  .table-borderless thead th,
+  .table-borderless tbody + tbody {
+    border: 0;
+  }
+
+
+  
+
+  
+

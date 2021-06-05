@@ -18,7 +18,7 @@ class Security extends DataBase{
         
     }
 
-    //Si intentan acceder a Modulo Empleado sin tener una sesion se redirigira a modulo Administrador(si tiene una sesion empleado) o a inicio si no tiene sesion
+    //Si intentan acceder a Modulo Empleado se redirigira a modulo Administrador(si tiene una sesion empleado) o a inicio si no tiene sesion
     public function seguridadEmpleados()
     {
        
@@ -46,6 +46,18 @@ class Security extends DataBase{
         {
             header('location:?c=Empleados&m=index');
         }
+    }
+
+
+    public function seguridadAmbos()
+    {
+        if(empty($_SESSION['ADMINISTRADOR']) && empty($_SESSION['EMPLEADO']))
+        {
+            header('location:?c=All&m=index');
+        }else {
+
+        }
+       
     }
 
     static public function htmlChars($value)

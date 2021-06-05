@@ -207,7 +207,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title font-weight-bold"><?php echo $evento->titulo_evento?></h5>
                                     <p class="card-subtitle"><?php echo Login::limitar_cadena($evento->descripcion_evento,100,'...')?></p>
-                                    <a data-id="<?php echo $evento->id_evento?>" data-tipo="evento"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow">Leer Mas</a>
+                                    <a data-id="<?php echo $evento->id_evento?>" data-tipo="evento"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow text-white">Leer Mas</a>
                                 </div>
                             </div>
 
@@ -307,12 +307,12 @@
             	                    <label for="">Sexo</label>
             	                      <div class="form-check">
             	                        <div class="form-check-label ">
-            	                         <input class="form-check-input " name="genero_contact"  type="radio">Hombre
+            	                         <input class="form-check-input" value="hombre" name="genero_contact"  type="radio">Hombre
             	                        </div>
             	                      </div>
             	                      <div class="form-check">
             	                        <label class="form-check-label ">
-            	                          <input class="form-check-input " name="genero_contact" type="radio">Mujer
+            	                          <input class="form-check-input " value="mujer" name="genero_contact" type="radio">Mujer
             	                        </div>        
             	               </div>
             	             </div>
@@ -320,8 +320,8 @@
             	              <div class="form-group row">
             	                <div class="col-12 text-center">
             	                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
-            	                        <input type="checkbox" class="custom-control-input" name="terminos_contact" id="terminos_contact">
-            	                        <label class="custom-control-label"  for="terminos_contact">Acepto Terminos y Condiciones</label>
+            	                        <input type="checkbox" class="custom-control-input" name="terminos_contact"  value="atc" id="terminos_contact">
+            	                        <label class="custom-control-label" for="terminos_contact">Acepto Terminos y Condiciones</label>
             	                    </div>
             	                 </div>
             	                    

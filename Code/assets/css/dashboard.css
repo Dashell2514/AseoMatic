@@ -1,9 +1,6 @@
 /* ? Sidebar */
 
-#MensajeModal{
-  font-size: .8em !important;
-  color: red !important;
-}
+
 
 #sidebar {
     width: 17%;
@@ -70,9 +67,10 @@
   -moz-transition: color 0.4s;
 
   position: relative;
-  padding: 10px 20px;
+  padding: 7px 20px;
   /* width: 100px;
   height: 50px; */
+  border: 2px solid #6C63FF;
   width: 100px;
   overflow: hidden;
   display: flex;
@@ -86,6 +84,10 @@
 .b-r-custom{
   border-radius: 10px !important;
   box-shadow: 5px 5px 8px  rgba(36, 34, 34, 0.678);
+}
+
+.bgs-custom{
+  background-color: #343746 ;
 }
 
 .button--scale-text::before,
@@ -106,6 +108,8 @@
   opacity: 0;
   transition: transform 0.5s, opacity 0.5s;
   -moz-transition: transform 0.5s, opacity 0.5s;
+  /* background-color: #6C63FF ; */
+
 }
 
 .button--scale-text:hover::before,
@@ -113,10 +117,10 @@
   opacity: 1;
   transform: scale(1);
 }
-
+/* 
 .button--scale-text-1::before {
   background-color: #6C63FF ;
-}
+} */
 
 /* show-users select */
 .d-block:disabled {
@@ -202,7 +206,8 @@ background-color: #6C63FF;
 
 .show-svg,
 .edit-svg,
-.delete-svg{
+.delete-svg,
+.pdf-svg{
   height: 25px;
   width: 25px;
   background-size: cover;
@@ -216,11 +221,22 @@ background-color: #6C63FF;
   height: 21px;
   width: 30px;
 }
+
+.show-svg{
+  background-image: url('../svg/eye.svg');
+  height: 21px;
+  width: 30px;
+}
+
 .edit-svg{
   background-image: url('../svg/edit.svg');
 }
 .delete-svg{
   background-image: url('../svg/delete.svg');
+}
+
+.pdf-svg{
+  background-image: url('../svg/pdf.svg');
 }
 
 .i-separated{

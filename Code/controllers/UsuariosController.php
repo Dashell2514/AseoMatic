@@ -41,12 +41,13 @@ class UsuariosController extends Usuario{
            $clave1 = Security::verificatePassword($_POST['clave']);
            $numero_documento = Security::verificateDocument( $_POST['numero_documento']);
            $fk_rol = Security::verificateInt( $_POST['rol']);
-           $fk_fondo_pension = Security::verificateInt( $_POST['fondo_pension']);
            $fk_cargo = Security::verificateInt( $_POST['cargo']);
            $fk_tipo_documento = Security::verificateInt( $_POST['tipo_documento']);
-           $fk_eps = Security::verificateInt( $_POST['eps']);
-           
-           if($nombres && $apellidos && $correo && $clave1 && $numero_documento && $fk_rol && $fk_fondo_pension && $fk_cargo && $fk_tipo_documento && $fk_eps)
+           $fk_tipo_contrato = Security::verificateInt( $_POST['fk_tipo_contrato']);
+           $salario = Security::verificateInt( $_POST['salario']);
+
+  
+           if($nombres && $apellidos && $correo && $clave1 && $numero_documento && $fk_rol  && $fk_cargo && $fk_tipo_documento && $fk_tipo_contrato && $salario)
            {
 
                if(!Login::verificarSiExisteEmail($correo))
@@ -98,7 +99,8 @@ class UsuariosController extends Usuario{
 
                    $token = $this->seguridad->encryptToken(str_replace(' ','',$nombres.$numero_documento.$apellidos));
                    $clave = password_hash($clave1,PASSWORD_DEFAULT);
-                   parent::storeUser($nombres,$apellidos,$correo,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_fondo_pension,$fk_cargo,$fk_tipo_documento,$fk_eps,$token);
+                   parent::storeUser($nombres,$apellidos,$correo,$salario,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token);
+                   
                    echo json_encode(['ok' => 'usuarioCreado']);
 
 
@@ -122,10 +124,12 @@ class UsuariosController extends Usuario{
         $clave1 = Security::verificatePassword($_POST['update_clave']);
         $numero_documento = Security::verificateDocument( $_POST['update_numero_documento']);
         $fk_rol = Security::verificateInt( $_POST['update_rol']);
-        $fk_fondo_pension = Security::verificateInt( $_POST['update_fondo_pension']);
+        $fk_tipo_contrato = Security::verificateInt( $_POST['update_tipo_contrato']);
         $fk_cargo = Security::verificateInt( $_POST['update_cargo']);
         $fk_tipo_documento = Security::verificateInt( $_POST['update_tipo_documento']);
-        $fk_eps = Security::verificateInt( $_POST['update_eps']);
+        $salario = Security::verificateInt( $_POST['update_salario']);
+
+
         $updated_at = Security::verificateDate($_POST['updated_at']);
         $token =$_POST['token'];
         // para validar el token con el token de la DB
@@ -151,7 +155,7 @@ class UsuariosController extends Usuario{
             $clave =password_hash($clave1,PASSWORD_DEFAULT); 
         }
 
-        if($nombres && $apellidos && $correo && $numero_documento && $fk_rol && $fk_fondo_pension && $fk_cargo && $fk_tipo_documento && $fk_eps && $updated_at && $usuario->token == $token && isset($clave) )
+        if($nombres && $apellidos && $correo && $numero_documento && $fk_rol && $fk_tipo_contrato && $fk_cargo && $fk_tipo_documento  && $salario && $updated_at && $usuario->token == $token && isset($clave)  )
         {
             
             if(!Login::verificarSiExisteEmail($correo) || Login::verificarSiExisteEmailUpdate($correo,$id))
@@ -209,7 +213,7 @@ class UsuariosController extends Usuario{
                  }
 
                 $token1 = $this->seguridad->encryptToken(str_replace(' ','',$nombres.$numero_documento.$apellidos));
-                parent::UpdateUser($nombres,$apellidos,$correo,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_fondo_pension,$fk_cargo,$fk_tipo_documento,$fk_eps,$token1,$updated_at,$id);
+                parent::UpdateUser($nombres,$apellidos,$correo,$salario,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token1,$updated_at,$id);
                 echo json_encode(['ok' => 'usuarioActualizado']);
 
 
