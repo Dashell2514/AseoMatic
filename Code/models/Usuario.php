@@ -71,6 +71,18 @@ class Usuario extends DataBase{
         }
     }
 
+    static function showImgUserStatic($id)
+    {
+        try {
+            $stm = parent::conectar()->prepare("SELECT us.image img_usuario FROM users us WHERE us.id= ?");
+            $stm->bindParam(1,$id,PDO::PARAM_INT);
+            $stm->execute();
+            return $stm->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die('Murio DeleteNew'.$e->getMessage());
+        }
+    }
+
     public function storeUser($nombres,$apellidos,$correo,$salario,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token)
     {
         try {

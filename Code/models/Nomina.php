@@ -177,7 +177,7 @@ class Nomina extends DataBase{
             p.final_date fecha_hasta,
             p.user_id fk_usuario,
             p.salary valor,
-            us.id id_usuario,
+            us.id id_usuario
             FROM payrolls p LEFT JOIN concepts c ON c.payroll_id= p.id LEFT JOIN users us ON us.id= p.user_id WHERE p.user_id = $fk_usuario GROUP BY p.id ORDER BY p.id DESC");
             $str->execute();
             return $str->fetchAll(PDO::FETCH_OBJ);

@@ -84,8 +84,8 @@
                   <label for="fk_usuario" class="text-shadow-1 text-custom text-capitalize">Autor</label>
                   <select name="fk_usuario" id="fk_usuario" class="form-control ">
                     <option value="" selected="true">-- Seleccione --</option>
-                    <?php foreach (Administrador::allTable('usuarios') as $user) { ?>
-                      <option value="<?php echo $user->id_usuario ?>"><?php echo $user->nombres." ".$user->apellidos ?></option>
+                    <?php foreach (Administrador::allTable('users') as $user) { ?>
+                      <option value="<?php echo $user->id ?>"><?php echo $user->name." ".$user->lastname ?></option>
                     <?php } ?>
                   </select>
             </div>
@@ -150,8 +150,8 @@
             <div class="form-group col-md-6 col-sm-12">
                   <label for="update_fk_usuario" class="text-shadow-1 text-custom text-capitalize">Autor</label>
                   <select name="update_fk_usuario" id="update_fk_usuario" class="form-control ">
-                    <?php foreach (Administrador::allTable('usuarios') as $user) { ?>
-                      <option value="<?php echo $user->id_usuario ?>"><?php echo $user->nombres." ".$user->apellidos ?></option>
+                    <?php foreach (Administrador::allTable('users') as $user) { ?>
+                      <option value="<?php echo $user->id ?>"><?php echo $user->name." ".$user->lastname ?></option>
                     <?php } ?>
                   </select>
                 </div>

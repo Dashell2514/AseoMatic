@@ -134,13 +134,13 @@
                         <h2 class="text-center font-weight-bold display-4">Noticias</h2>
                         <div class="owl-carousel owl-theme breadcrumb" id="noticias_row">
                         <?php 
-                            foreach(Administrador::allTable('noticias') as $noticia){ ?>
+                            foreach(Administrador::allTable('news') as $noticia){ ?>
                             <div class="card item ">
-                                <img src="<?php echo $noticia->imagen_noticia?>" class="card-img-top" alt="...">
+                                <img src="<?php echo $noticia->image?>" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title font-weight-bold"><?php echo $noticia->titulo_noticia?></h5>
-                                    <p class="card-subtitle"><?php echo Login::limitar_cadena($noticia->descripcion_noticia,80,'...')?></p>
-                                    <a data-id="<?php echo $noticia->id_noticia?>" data-tipo="noticia"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow">Leer Mas</a>
+                                    <h5 class="card-title font-weight-bold"><?php echo $noticia->title?></h5>
+                                    <p class="card-subtitle"><?php echo Login::limitar_cadena($noticia->description,80,'...')?></p>
+                                    <a data-id="<?php echo $noticia->id?>" data-tipo="noticia"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow">Leer Mas</a>
                                 </div>
                             </div>
 
@@ -201,13 +201,13 @@
                         <h2 class="text-center font-weight-bold display-4">Eventos</h2>
                         <div class="owl-carousel owl-theme breadcrumb " id="eventos_row">
                             <?php 
-                            foreach(Administrador::allTable('eventos') as $evento){ ?>
+                            foreach(Administrador::allTable('events') as $evento){ ?>
                             <div class="card item ">
-                                <img src="<?php echo $evento->imagen_evento?>" class="card-img-top" alt="...">
+                                <img src="<?php echo $evento->image?>" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title font-weight-bold"><?php echo $evento->titulo_evento?></h5>
-                                    <p class="card-subtitle"><?php echo Login::limitar_cadena($evento->descripcion_evento,100,'...')?></p>
-                                    <a data-id="<?php echo $evento->id_evento?>" data-tipo="evento"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow text-white">Leer Mas</a>
+                                    <h5 class="card-title font-weight-bold"><?php echo $evento->title?></h5>
+                                    <p class="card-subtitle"><?php echo Login::limitar_cadena($evento->description,100,'...')?></p>
+                                    <a data-id="<?php echo $evento->id?>" data-tipo="evento"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow text-white">Leer Mas</a>
                                 </div>
                             </div>
 

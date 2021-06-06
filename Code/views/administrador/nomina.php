@@ -10,7 +10,7 @@
       <div class="col-12 ">
         <table class="table  w-100  table-responsive-lg">
         
-            <input type="text" id="buscador" class="form-control text-white bg-dark " placeholder="Buscador">
+            <input type="text" id="buscador" class="form-control text-white bg-dark " placeholder="Buscador por número de documento">
           <thead class="thead-dark">
             <tr>
               <th colspan="1">#</th>
@@ -65,8 +65,8 @@
                   <label for="usuario" class="text-shadow-1 text-custom">Usuario</label>
                   <select name="usuario" tabindex="1" id="usuario" class="form-control text-capitalize" >
                   <option value="" selected="true">---Seleccione---</option>
-                      <?php foreach (Administrador::allTable("usuarios") as $usuario) { ?>
-                      <option value="<?php echo $usuario->id_usuario?>"><?php echo $usuario->nombres." ".$usuario->apellidos ?></option>
+                      <?php foreach (Administrador::allTable("users") as $usuario) { ?>
+                      <option value="<?php echo $usuario->id?>"><?php echo $usuario->name." ".$usuario->lastname ?></option>
                     <?php } ?>
                   </select>
                 </div>
@@ -109,8 +109,8 @@
                 <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
                 <select name="contable" tabindex="5" id="contable" tabindex="7" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
-                  <?php foreach (Administrador::allTable('asiento_contable') as $asiento_contable) { ?>
-                    <option value="<?php echo $asiento_contable->id_asiento_contable ?>"><?php echo $asiento_contable->asiento_contable ?></option>
+                  <?php foreach (Administrador::allTable('accounting_entry') as $asiento_contable) { ?>
+                    <option value="<?php echo $asiento_contable->id ?>"><?php echo $asiento_contable->name ?></option>
                   <?php } ?>
                 </select>         
           </div>
@@ -126,8 +126,8 @@
                 <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
                 <select name="tipo_concepto" tabindex="6" id="tipo_concepto" tabindex="7" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
-                  <?php foreach (Administrador::allTable('tipo_concepto') as $tipo_concepto) { ?>
-                    <option value="<?php echo $tipo_concepto->id_tipo_concepto ?>"><?php echo $tipo_concepto->tipo_concepto ?></option>
+                  <?php foreach (Administrador::allTable('types_concepts') as $tipo_concepto) { ?>
+                    <option value="<?php echo $tipo_concepto->id ?>"><?php echo $tipo_concepto->name ?></option>
                   <?php } ?>
                 </select>
 
@@ -322,8 +322,8 @@
                 <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
                 <select name="update_contable" tabindex="5" id="update_contable" tabindex="7" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
-                  <?php foreach (Administrador::allTable('asiento_contable') as $asiento_contable) { ?>
-                    <option value="<?php echo $asiento_contable->id_asiento_contable ?>"><?php echo $asiento_contable->asiento_contable ?></option>
+                  <?php foreach (Administrador::allTable('accounting_entry') as $asiento_contable) { ?>
+                    <option value="<?php echo $asiento_contable->id ?>"><?php echo $asiento_contable->name ?></option>
                   <?php } ?>
                 </select>
           </div> 
@@ -336,8 +336,8 @@
                 <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
                 <select name="update_tipo_concepto" tabindex="6" id="update_tipo_concepto" tabindex="7" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
-                  <?php foreach (Administrador::allTable('tipo_concepto') as $tipo_concepto) { ?>
-                    <option value="<?php echo $tipo_concepto->id_tipo_concepto ?>"><?php echo $tipo_concepto->tipo_concepto ?></option>
+                  <?php foreach (Administrador::allTable('types_concepts') as $tipo_concepto) { ?>
+                    <option value="<?php echo $tipo_concepto->id ?>"><?php echo $tipo_concepto->name ?></option>
                   <?php } ?>
                 </select>
 
