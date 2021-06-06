@@ -41,12 +41,7 @@ btnSaveArray.addEventListener('click',(e)=>{
                 fk_asiento_contable :asientoContable.value,
                 valor : valor.value,
                 tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
-                fk_tipo_concepto: tipo_concepto.value
-             
-                
-               
-               
-                
+                fk_tipo_concepto: tipo_concepto.value 
             }
 
 
@@ -529,9 +524,9 @@ const showUpdateConcepts = (datos,count,method) =>{
     <th class="text-capitalize" >${datos.asiento_contable}</th>
     <th class="text-capitalize" >${datos.tipo_concepto}</th>
     <th  >${datos.valor}</th>
-    ${ (method=='update') ? `<th ><i data-target="BorrarConcepto" data-id="${datos.id_concepto}" class="delete-svg position-absolute"></i></th>` : '' }
+    ${ (method=='update') ? `<th class="i-separated" ><i data-target="BorrarConcepto" data-id="${datos.id_concepto}" class="delete-svg "></i></th>` : '' }
     </tr>`;
-
+ 
     const meter =document.createElement('tr');
     meter.innerHTML=html;
     if(method == 'update'){

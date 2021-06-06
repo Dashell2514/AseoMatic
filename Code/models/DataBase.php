@@ -3,7 +3,7 @@
 class DataBase{
 
     private const DB_HOST = 'localhost';
-    private const DB_DATABASE = 'aseomatic';
+    private const DB_DATABASE = 'databaseaseomatic';
     private const DB_USER = 'root';
     private const DB_PASSWORD = '';
     private const DB_CHARSET = 'charset:utf8';

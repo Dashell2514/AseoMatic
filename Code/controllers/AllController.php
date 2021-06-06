@@ -82,7 +82,7 @@ class AllController{
                     // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
         
                     $mail->send();
-                    Usuario::emailLog($nombreContact,$apellidoContact,$generoContact,$correoContact,$asuntoContact,$mensajeContact,$fechaContact);
+                    Usuario::emailLog($nombreContact,$apellidoContact,$correoContact,$asuntoContact,$mensajeContact,$fechaContact);
                     
                     return true;
                     // return json_encode(['ok' => 'FCE']); // Formulario Contacto Enviado

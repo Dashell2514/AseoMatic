@@ -267,7 +267,7 @@ if(  location.search == '' || location.search == '?c=All&m=index')
     const showModalEN = (data)=>{
         const showModal = document.getElementById('showModal').textContent=`${(data.titulo_noticia) ? 'Noticias':'Eventos'}`;
         const showTitle = document.getElementById('show_title').textContent=`${(data.titulo_noticia) ? data.titulo_noticia : data.titulo_evento}`;
-        const showDescription = document.getElementById('show_description').innerHTML=`${(data.descripcion_noticia) ? data.descripcion_noticia : data.descripcion_evento}`;
+        // const showDescription = document.getElementById('show_description').innerHTML=`${(data.descripcion_noticia) ? data.descripcion_noticia : data.descripcion_evento}`;
         const showDate = document.getElementById('show_date').textContent=`${data.nombres} ${data.apellidos} ${data.fecha_publicado}`;
         const showImg = document.getElementById('show_prev_img').src=`${(data.imagen_noticia)? data.imagen_noticia : data.imagen_evento}`;
     }

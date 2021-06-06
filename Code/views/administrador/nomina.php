@@ -46,7 +46,7 @@
 <!-- ? Modal Create-->
 <div class="modal fade" id="ModalAddNomina" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
 
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content  bg-dark text-white">
       <div class="modal-header border-0 b-custom">
         <h5 class="modal-title text-center h4 font-weight-bold text-shadow-1
@@ -99,36 +99,30 @@
       
         <div class="row">
                    <!--Descripcion-->
-          <div class="col-md-6 col-lg-4 col-sm-6 col-6">
+          <div class="col-6">
                   <label for="descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripcion Nomina</label>
                   <textarea name="descripcion_nomina" id="descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
            </div>
           <!--FIN Descripcion-->
            <!--Asiento contable-->
-          <div class="col-md-6 col-lg-4 col-sm-6 col-6">
+          <div class="col-6">
                 <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
                 <select name="contable" tabindex="5" id="contable" tabindex="7" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
                   <?php foreach (Administrador::allTable('asiento_contable') as $asiento_contable) { ?>
                     <option value="<?php echo $asiento_contable->id_asiento_contable ?>"><?php echo $asiento_contable->asiento_contable ?></option>
                   <?php } ?>
-                </select>
-
-              
-            <div class="mt-2">
-              <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
-              <input type="text" name="valor" tabindex="7" id="valor"placeholder="Valor" class="form-control bg-white">
-            </div>
-         
-
-           
+                </select>         
           </div>
+
+
+       
 
 
    
           <!--FIN Asiento contable-->
           <!--Valor-->
-          <div class="col-md-6 col-lg-4 col-sm-6 col-6">
+          <div class="col-6">
                 <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
                 <select name="tipo_concepto" tabindex="6" id="tipo_concepto" tabindex="7" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
@@ -139,25 +133,30 @@
 
           </div>
           
+          <div class="col-6">
+              <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
+              <input type="text" name="valor" tabindex="7" id="valor"placeholder="Valor" class="form-control bg-white">
+            </div>
           <!--FIN VALOR-->
   
-              <div class="col-lg-8 col-md-12 col-sm-12 col-12 mt-3 ">
+              <div class="col-lg-8 col-md-12 col-sm-12 col-12 mt-5 ">
                 <!-- <ul id="lista_concepto" class="list-group text-dark">
                  
                 </ul> -->
 
-                <table class="table table-responsive-lg ">
-                  <thead class="thead-dark">
-                    <th >#</th>
-                    <th >Descripcion</th>
-                    <th >Asiento Contable</th>
-                    <th >Tipo Concepto</th>
-                    <th >Valor</th>
-                  </thead>
-                  <tbody id="lista_concepto">
-                   
-                  </tbody>
-                </table>
+                  <table class="table w-100 table-responsive-lg  ">
+                    <thead class="thead-dark">
+                      <th >#</th>
+                      <th >Descripcion</th>
+                      <th >Asiento Contable</th>
+                      <th >Tipo Concepto</th>
+                      <th >Valor</th>
+                      <th >Opcion</th>
+                    </thead>
+                    <tbody id="lista_concepto">
+                    
+                    </tbody>
+                  </table>
               </div>
 
               <div class="col d-flex  justify-content-center align-items-center">

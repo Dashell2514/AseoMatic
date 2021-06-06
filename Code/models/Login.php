@@ -5,7 +5,24 @@ class Login extends DataBase{
     {
         try {
           
-            $stm = parent::conectar()->prepare("SELECT id_usuario,nombres,apellidos,correo,clave,img_usuario,numero_documento,fk_rol,fk_cargo,fk_tipo_documento,fk_tipo_contrato,token,created_at,updated_at,nombre_rol,nombre_cargo FROM usuarios INNER JOIN roles ON usuarios.fk_rol= roles.id_rol INNER JOIN tipos_documentos ON usuarios.fk_tipo_documento=tipos_documentos.id_tipo_documento AND usuarios.correo=? INNER JOIN cargos ON usuarios.fk_cargo=cargos.id_cargo ");
+            $stm = parent::conectar()->prepare("SELECT 
+            us.id id_usuario,
+            us.name nombres,
+            us.lastname apellidos,
+            us.email correo,
+            us.password clave,
+            us.image img_usuario,
+            us.document_number numero_documento,
+            us.role_id fk_rol,
+            us.charges_id fk_cargo,
+            us.document_type_id fk_tipo_documento,
+            us.contract_type_id fk_tipo_contrato,
+            us.token,
+            us.created_at,
+            us.updated_at,
+            roles.name nombre_rol,
+            charges.name nombre_cargo
+            FROM users us INNER JOIN roles ON us.role_id= roles.id INNER JOIN document_types ON us.document_type_id=document_types.id AND us.email=? INNER JOIN charges ON us.charges_id=charges.id");
             $stm->bindParam(1,$email,PDO::PARAM_STR);
             $stm->execute();
             return $stm->fetch(PDO::FETCH_OBJ);
@@ -18,7 +35,9 @@ class Login extends DataBase{
     static public function verificarSiExisteEmail($email)
     {
         try {
-            $stm = parent::conectar()->prepare("SELECT correo FROM usuarios WHERE correo= ? ");
+            $stm = parent::conectar()->prepare("SELECT 
+            us.email correo
+            FROM users us WHERE us.email=?");
             $stm->bindParam(1 ,$email, PDO::PARAM_STR);
             $stm->execute();
             return $stm->fetch(PDO::FETCH_OBJ);
@@ -31,7 +50,9 @@ class Login extends DataBase{
     static public function verificarSiExisteEmailUpdate($email,$id)
     {
         try {
-            $stm = parent::conectar()->prepare("SELECT correo FROM usuarios WHERE correo= ? AND id_usuario=? ");
+            $stm = parent::conectar()->prepare("SELECT 
+            us.email correo
+            FROM users us WHERE us.email= ? AND us.id=?");
             $stm->bindParam(1 ,$email, PDO::PARAM_STR);
             $stm->bindParam(2 ,$id, PDO::PARAM_INT);
             $stm->execute();
