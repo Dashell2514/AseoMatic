@@ -6,56 +6,22 @@ if( location.search =='?c=Nominas&m=index')
 
 
 let arrayConceptos = [];
+let allconceptoUpdate = [];
 const btnCancelModal = document.getElementById('CancelarNomina');
 const IconCancelModal = document.getElementById('cerrarModalNomina');
 const ulConceptos = document.getElementById('lista_concepto');
+const show_lista_concepto= document.getElementById('show_lista_concepto');
+const update_lista_concepto= document.getElementById('update_lista_concepto');
 const btnSaveArray = document.getElementById('guardarArray');
+const guardarArrayUpdate =document.getElementById('guardarArrayUpdate');
 const thBody =document.getElementById('tablaAllNominas');
-// const update_lista_concepto = getElementById('update_lista_concepto');
+let allNominasData= [];
 
-// const CancelModalNomina= document.querySelectorAll("button[data-class='nomina_cancel']").forEach(Element => {
-//     Element.addEventListener('click',()=>{
-        
-//     })
-// });
-
+// ! Conceptos
 const limpiarArrayConceptos = () =>{
     arrayConceptos = [];
     ulConceptos.innerHTML="";
 }
-btnSaveArray.addEventListener('click',(e)=>{
-    e.preventDefault();
-
-    const description = document.getElementById('descripcion_nomina');
-    const asientoContable = document.getElementById('contable');
-    const valor = document.getElementById('valor');
-    const tipo_concepto = document.getElementById('tipo_concepto');
-
-    let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
-
-        if( validacion)
-        {
-            let form = {
-                descripcion : description.value,
-                asiento_contable :asientoContable[asientoContable.value].textContent,
-                fk_asiento_contable :asientoContable.value,
-                valor : valor.value,
-                tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
-                fk_tipo_concepto: tipo_concepto.value 
-            }
-
-
-            arrayConceptos.push(form)
-
-            renderizarConcepto(arrayConceptos);
-            console.log(arrayConceptos.length);
-
-            description.value="";
-            asientoContable.value="";
-            valor.value="";
-        }
-
-})
 
 const validarConceptos = (var1,var2,var3) => {
 
@@ -81,37 +47,8 @@ const validarConceptos = (var1,var2,var3) => {
     }    
 }
 
-const validarInsertNomina = (var1,var2,var3,var4) => {
-
-    if(var1.value == ""){
-        var1.focus();
-        const message = "Ingresar el usuario de la nomina";
-        msgError(message);
-    }
-    else if(var2.value == "")
-    {
-        var2.focus();
-        const message = "Ingresar la fecha de inicio de la nomina";
-        msgError(message);
-    }
-    else if(var3.value == '')
-    {
-        var3.focus();
-        const message = "Ingresar la fecha hasta de la nomina ";
-        msgError(message);
-    }
-    else if(var4.length == 2)
-    {
-        const message = "Ingresar los Conceptos de la Nomina ";
-        msgError(message);
-    } 
-    else{
-        return true;
-    }    
-}
-
-const htmlConceptos = (datos,count) =>{
-    console.log(datos);
+//HTML CONCEPTOS <TD> ETC
+const htmlConceptos = (datos,count, method) =>{
     const fragment = document.createDocumentFragment();
 
     const trConcepto = document.createElement('TR');
@@ -144,23 +81,177 @@ const htmlConceptos = (datos,count) =>{
     trConcepto.append(td5TableConcepto);
 
 
+    if(method == "update" || method == "crear")
+    {
+        const td6TableConcepto =document.createElement('TD');
+        td6TableConcepto.classList.add('i-separated');
+        const itd6TableConcepto = document.createElement('I');
+        itd6TableConcepto.setAttribute('data-target',"BorrarConcepto");
+        itd6TableConcepto.setAttribute('data-id',`${datos.id_concepto}`);
+        itd6TableConcepto.classList.add("delete-svg");
+        td6TableConcepto.append(itd6TableConcepto);
+        trConcepto.append(td6TableConcepto);
+    }
+    
+    
     fragment.append(trConcepto);
     return fragment;
 }
 
 
+const renderizarConcepto=(datos,method = "crear" )=> {
 
-const renderizarConcepto=(datos )=> {
     const fragment = document.createDocumentFragment();
     let count= 0;
     for (const concepto of datos) {
         count++;
-        fragment.append(htmlConceptos(concepto,count));
+        fragment.append(htmlConceptos(concepto,count,method));
     }
-    ulConceptos.innerHTML='';
-    ulConceptos.append(fragment);
+
+    if(method == 'update')
+    {
+        update_lista_concepto.innerHTML=``;
+        update_lista_concepto.appendChild(fragment);
+    }else if(method =='show'){
+        show_lista_concepto.innerHTML='';
+        show_lista_concepto.append(fragment);
+
+    }else if(method =="crear")
+    {
+        ulConceptos.innerHTML='';
+        ulConceptos.append(fragment);
+    }
 }
 
+//Guardar Conceptos creados
+btnSaveArray.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const id = arrayConceptos.length;
+    const description = document.getElementById('descripcion_nomina');
+    const asientoContable = document.getElementById('contable');
+    const valor = document.getElementById('valor');
+    const tipo_concepto = document.getElementById('tipo_concepto');
+
+    let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
+
+        if( validacion)
+        {
+            let form = {
+                id_concepto: id,
+                descripcion : description.value,
+                asiento_contable :asientoContable[asientoContable.value].textContent,
+                fk_asiento_contable :asientoContable.value,
+                valor : valor.value,
+                tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
+                fk_tipo_concepto: tipo_concepto.value 
+            }
+
+
+            arrayConceptos.push(form)
+
+            renderizarConcepto(arrayConceptos);
+           
+
+            description.value="";
+            asientoContable.value="";
+            valor.value="";
+        }
+
+})
+
+guardarArrayUpdate.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const description = document.getElementById('update_descripcion_nomina');
+    const asientoContable = document.getElementById('update_contable');
+    const valor = document.getElementById('update_valor');
+    const tipo_concepto = document.getElementById('update_tipo_concepto');
+    const fk_nomina = document.getElementById('update_nomina');
+    
+
+    let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
+
+        if( validacion)
+        {
+            let count = allconceptoUpdate.length;
+            let form = {
+                id_concepto: count,
+                descripcion : description.value,      
+                fk_asiento_contable :asientoContable.value,
+                tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
+                asiento_contable:asientoContable[asientoContable.value].textContent,
+                valor : valor.value,
+                fk_tipo_concepto: tipo_concepto.value,
+                fk_nomina: fk_nomina.value
+            }
+
+            allconceptoUpdate.push(form)
+            renderizarConcepto(allconceptoUpdate,'update');
+            description.value="";
+            asientoContable.value="";
+            valor.value="";
+        }
+})
+
+//Eliminar conceptos
+ulConceptos.addEventListener('click',(e)=>{
+    e.preventDefault();
+    if(e.target.getAttribute('data-id'))
+    {
+        let idConcepto=e.target.getAttribute('data-id');
+        const filtro = arrayConceptos.filter( user => user.id_concepto== idConcepto)[0];
+        const msg = `${filtro.descripcion} con el valor ${filtro.valor}` 
+        msgQuestion(msg, idConcepto,"crear");
+    }
+})
+
+update_lista_concepto.addEventListener('click',(e)=>{
+    e.preventDefault();
+    if(e.target.getAttribute('data-id'))
+    {
+        let idConcepto=e.target.getAttribute('data-id');
+        const filtro = allconceptoUpdate.filter( user => user.id_concepto == idConcepto)[0];
+        const msg = `${filtro.descripcion} con el valor ${filtro.valor}` 
+        msgQuestion(msg, idConcepto);
+    }
+})
+
+
+//? funcion De Mensaje modal de eliminar concepto
+const msgQuestion = (message, id, tipo = "actualizar") => {
+    Swal.fire({
+        icon: 'warning',
+        html: `<p class="text-white h4 mb-3 text-capitalize">Desea borrar el concepto</p><p class="text-danger text-capitalize h6">${message}</p>`,
+        focusConfirm:true,
+        background : '#343a40',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#6C63FF',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#6C63FF'
+        }).then((result) => {
+        if (result.value) {
+            if(tipo != "crear")
+            {
+                const filtro = allconceptoUpdate.filter( user => user.id_concepto != id);
+                allconceptoUpdate = filtro;
+                renderizarConcepto(allconceptoUpdate,'update'); 
+            }else{
+                const filtro = arrayConceptos.filter( user => user.id_concepto != id);
+                arrayConceptos = filtro;
+                //! borra los conceptos en crear
+                renderizarConcepto(arrayConceptos)
+            }
+        };
+    })
+}
+
+// ! End-Conceptos
+
+
+
+
+
+// ! Nomina
 
 const btnGuardarNomina = document.getElementById('GuardarNomina');
 
@@ -215,7 +306,7 @@ btnGuardarNomina.addEventListener('click',function(e){
 
 })
 
-let allNominasData= [];
+
 
 //? Funcion del html de td para mostrar en tabla en Admin.usuarios.php
 const createTableNominas = (datos,count) =>{
@@ -429,6 +520,37 @@ thBody.addEventListener('click',(e) =>{
 
 
 })
+
+
+const validarInsertNomina = (var1,var2,var3,var4) => {
+
+    if(var1.value == ""){
+        var1.focus();
+        const message = "Ingresar el usuario de la nomina";
+        msgError(message);
+    }
+    else if(var2.value == "")
+    {
+        var2.focus();
+        const message = "Ingresar la fecha de inicio de la nomina";
+        msgError(message);
+    }
+    else if(var3.value == '')
+    {
+        var3.focus();
+        const message = "Ingresar la fecha hasta de la nomina ";
+        msgError(message);
+    }
+    else if(var4.length == 2)
+    {
+        const message = "Ingresar los Conceptos de la Nomina ";
+        msgError(message);
+    } 
+    else{
+        return true;
+    }    
+}
+
 const showUserNomina = (datos)=>{
     const show_user =document.getElementById('show_user').textContent=`${datos.nombres} ${datos.apellidos}`;
     const show_salario =document.getElementById('show_salario').textContent=`${datos.valor}`;
@@ -438,7 +560,7 @@ const showUserNomina = (datos)=>{
 }
 
 
-let allconceptoUpdate = [];
+
 const updateUserNomina = (id,method) =>{
 
     fetch(`?c=Nominas&m=showConceptsID&id=${id}`)
@@ -447,140 +569,11 @@ const updateUserNomina = (id,method) =>{
     .then( data => {
         allconceptoUpdate= [];
         allconceptoUpdate =data;
-        conceptsUpdateFor(method);
+        renderizarConcepto(allconceptoUpdate,method);
     })
     .catch( error => console.log(error));
     
 }
-
-const show_lista_concepto= document.getElementById('show_lista_concepto');
-const update_lista_concepto= document.getElementById('update_lista_concepto');
-
-
-const conceptsUpdateFor = (method) =>{
-    if(method == 'update')
-    {
-        update_lista_concepto.innerHTML=``;
-    }else if(method =='show'){
-        show_lista_concepto.innerHTML='';
-    }
-    let count =0;
-    for (const concepto of allconceptoUpdate) {
-        count++;
-        showUpdateConcepts(concepto,count,method);
-        
-    }
-}
-
-
-//eliminar 
-update_lista_concepto.addEventListener('click',(e)=>{
-    e.preventDefault();
-    if(e.target.getAttribute('data-id'))
-    {
-        let idConcepto=e.target.getAttribute('data-id');
-        const filtro = allconceptoUpdate.filter( user => user.id_concepto == idConcepto)[0];
-        const msg = `${filtro.descripcion} con el valor ${filtro.valor}` 
-        msgQuestion(msg, idConcepto);
-    }
-})
-
-  //? funcion De Mensaje modal y callback de eliminar(deleteUser(id));
-  const msgQuestion = (message, id) => {
-    Swal.fire({
-        icon: 'warning',
-        html: `<p class="text-white h4 mb-3 text-capitalize">Desea borrar el concepto</p><p class="text-danger text-capitalize h6">${message}</p>`,
-        focusConfirm:true,
-        background : '#343a40',
-        confirmButtonText: 'Entendido',
-        confirmButtonColor: '#6C63FF',
-        showCancelButton: true,
-        cancelButtonText: 'Cancelar',
-        cancelButtonColor: '#6C63FF'
-        }).then((result) => {
-        if (result.value) {
-                const filtro = allconceptoUpdate.filter( user => user.id_concepto != id);
-                allconceptoUpdate = filtro;
-                conceptsUpdateFor('update'); 
-        };
-    })
-}
-
-//? peticion para eliminar usuario mediante id
-const deleteUser = (id,token) =>{
-    fetch(`?c=Usuarios&m=destroy&delete_id=${id}&token=${token}`,{
-    }).then( resp =>  (resp.ok) ? Promise.resolve(resp) : Promise.reject(new Error('fallo el delete')))
-    .then( resp => resp.text())
-    .then((data) =>{
-        // se actualiza la tabla
-        showAllUsers();
-    })
-
-}
-
-const showUpdateConcepts = (datos,count,method) =>{
-    let html=`<tr><th>${count}</th>
-    <th class="text-capitalize" >${datos.descripcion}</th>
-    <th class="text-capitalize" >${datos.asiento_contable}</th>
-    <th class="text-capitalize" >${datos.tipo_concepto}</th>
-    <th  >${datos.valor}</th>
-    ${ (method=='update') ? `<th class="i-separated" ><i data-target="BorrarConcepto" data-id="${datos.id_concepto}" class="delete-svg "></i></th>` : '' }
-    </tr>`;
- 
-    const meter =document.createElement('tr');
-    meter.innerHTML=html;
-    if(method == 'update'){
-        update_lista_concepto.appendChild(meter);
-    }else if(method =='show'){
-        show_lista_concepto.appendChild(meter);
-    }
-}
-
-
-const guardarArrayUpdate =document.getElementById('guardarArrayUpdate');
-
-
-let countConcepto = 0;
-guardarArrayUpdate.addEventListener('click',(e)=>{
-    e.preventDefault();
-    const description = document.getElementById('update_descripcion_nomina');
-    const asientoContable = document.getElementById('update_contable');
-    const valor = document.getElementById('update_valor');
-    const tipo_concepto = document.getElementById('update_tipo_concepto');
-    const fk_nomina = document.getElementById('update_nomina');
-    
-
-    let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
-
-        if( validacion)
-        {
-            countConcepto++; 
-            let form = {
-                id_concepto: countConcepto,
-                descripcion : description.value,      
-                fk_asiento_contable :asientoContable.value,
-                tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
-                asiento_contable:asientoContable[asientoContable.value].textContent,
-                valor : valor.value,
-                fk_tipo_concepto: tipo_concepto.value,
-                fk_nomina: fk_nomina.value
-
-             
-            }
-
-
-            allconceptoUpdate.push(form)
-
-            conceptsUpdateFor('update');
-            console.log(allconceptoUpdate);
-
-       
-            description.value="";
-            asientoContable.value="";
-            valor.value="";
-        }
-})
-
 
 const btnUpdateNomina=document.getElementById('UpdateNomina');
 
@@ -630,6 +623,7 @@ btnUpdateNomina.addEventListener('click',(e)=>{
 
     showNominas();
 
-
+    
+// ! Nomina
 
 }

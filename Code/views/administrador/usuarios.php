@@ -170,7 +170,115 @@
 
           <input type="hidden" name="updated_at" value="<?php echo date("Y-m-d")  ?>">
 
+         
+<!-- 
+  //? Nomina
+  -->
 
+          <h3 class="text-shadow-1 text-custom" >Conceptos</h3>
+          <div class="row">
+      
+             <div class="col-md-6 col-lg-6 col-sm-12">
+              <div class="form-group">
+                <label for="fecha_de" class="text-shadow-1 text-custom">Fecha De Ingreso</label>
+                <input type="date"tabindex="2" name="fecha_de" id="fecha_de" class="form-control">
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <div class="form-group">
+                <label for="fecha_hasta" class="text-shadow-1 text-custom">Fecha 
+                    Hasta
+                </label>
+                <input type="date" tabindex="3" name="fecha_hasta" id="fecha_hasta" class="form-control">
+
+              </div>
+            </div>
+          </div>
+
+
+      
+        <div class="row">
+                   <!--Descripcion-->
+          <div class="col-6">
+                  <label for="descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripción Concepto</label>
+                  <textarea name="descripcion_nomina" id="descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
+           </div>
+          <!--FIN Descripcion-->
+           <!--Asiento contable-->
+          <div class="col-6">
+                <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
+                <select name="contable" tabindex="5" id="contable" tabindex="7" class="form-control bg-white">
+                  <option value="" selected="true">---Seleccione---</option>
+                  <?php foreach (Administrador::allTable('accounting_entry') as $asiento_contable) { ?>
+                    <option value="<?php echo $asiento_contable->id ?>"><?php echo $asiento_contable->name ?></option>
+                  <?php } ?>
+                </select>         
+          </div>
+
+
+       
+
+
+   
+          <!--FIN Asiento contable-->
+          <!--Valor-->
+          <div class="col-6 mt-3">
+                <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
+                <select name="tipo_concepto" tabindex="6" id="tipo_concepto" tabindex="7" class="form-control bg-white">
+                  <option value="" selected="true">---Seleccione---</option>
+                  <?php foreach (Administrador::allTable('types_concepts') as $tipo_concepto) { ?>
+                    <option value="<?php echo $tipo_concepto->id ?>"><?php echo $tipo_concepto->name ?></option>
+                  <?php } ?>
+                </select>
+
+          </div>
+          
+          <div class="col-6 mt-3">
+              <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
+              <input type="text" name="valor" tabindex="7" id="valor"placeholder="Valor" class="form-control bg-white">
+            </div>
+          <!--FIN VALOR-->
+  
+              <div class="col-lg-8 col-md-12 col-sm-12 col-12 mt-5 ">
+                <!-- <ul id="lista_concepto" class="list-group text-dark">
+                 
+                </ul> -->
+
+                  <table class="table w-100 table-responsive-lg  ">
+                    <thead class="thead-dark">
+                      <th >#</th>
+                      <th >Descripcion</th>
+                      <th >Asiento Contable</th>
+                      <th >Tipo Concepto</th>
+                      <th >Valor</th>
+                      <th >Opcion</th>
+                    </thead>
+                    <tbody id="lista_concepto">
+                    
+                    </tbody>
+                  </table>
+              </div>
+
+              <div class="col d-flex  justify-content-center align-items-center">
+                <div class="">
+                  <button id="guardarArray" class="mr-3 btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" type="submit">Crear Concepto</button>
+                </div>
+              </div>
+
+                
+            
+            </div>
+          
+
+     
+      
+          <input type="hidden" name="updated_at" value="<?php echo date("Y-m-d")  ?>">
+
+
+<!-- //? End Nomina -->
+
+        
 
 
           <div class="text-right my-2">
