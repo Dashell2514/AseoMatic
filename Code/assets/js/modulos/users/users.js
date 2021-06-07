@@ -641,27 +641,27 @@ if(location.search == '?c=Usuarios&m=show' )
 
     })
 
-    //? funcion De Mensaje modal y callback de eliminar(deleteUser(id));
-    const msgQuestion = (message, id, token) => {
-        Swal.fire({
-            icon: 'warning',
-            html: `<p class="text-white h4 mb-3 text-capitalize">Desea borrar al usuario</p><p class="text-danger text-capitalize h6">${message}</p>`,
-            focusConfirm:true,
-            background : '#343a40',
-            confirmButtonText: 'Entendido',
-            confirmButtonColor: '#6C63FF',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            cancelButtonColor: '#6C63FF'
-            }).then((result) => {
-            if (result.value) {
-                const msg = "El usuarios ha sido eliminado";
-                msgSuccess(msg);
-                deleteUser(id,token);
+    // //? funcion De Mensaje modal y callback de eliminar(deleteUser(id));
+    // const msgQuestion = (message, id, token) => {
+    //     Swal.fire({
+    //         icon: 'warning',
+    //         html: `<p class="text-white h4 mb-3 text-capitalize">Desea borrar al usuario</p><p class="text-danger text-capitalize h6">${message}</p>`,
+    //         focusConfirm:true,
+    //         background : '#343a40',
+    //         confirmButtonText: 'Entendido',
+    //         confirmButtonColor: '#6C63FF',
+    //         showCancelButton: true,
+    //         cancelButtonText: 'Cancelar',
+    //         cancelButtonColor: '#6C63FF'
+    //         }).then((result) => {
+    //         if (result.value) {
+    //             const msg = "El usuarios ha sido eliminado";
+    //             msgSuccess(msg);
+    //             deleteUser(id,token);
     
-            };
-        })
-    }
+    //         };
+    //     })
+    // }
 
     //? peticion para eliminar usuario mediante id
     const deleteUser = (id,token) =>{
@@ -677,6 +677,264 @@ if(location.search == '?c=Usuarios&m=show' )
 
     //? Se ejecuta la para la creacion de los datos cuando acceda a Modulo Usuarios
     showAllUsers()
+
+
+
+// ! Conceptos
+
+let arrayConceptos = [];
+let allconceptoUpdate = [];
+
+const ulConceptos = document.getElementById('lista_concepto');
+const show_lista_concepto= document.getElementById('show_lista_concepto');
+const update_lista_concepto= document.getElementById('update_lista_concepto');
+const btnSaveArray = document.getElementById('guardarArray');
+const guardarArrayUpdate =document.getElementById('guardarArrayUpdate');
+
+
+const limpiarArrayConceptos = () =>{
+    arrayConceptos = [];
+    ulConceptos.innerHTML="";
+}
+
+const validarConceptos = (var1,var2,var3) => {
+
+    if(var1.value == ""){
+        var1.focus();
+        const message = "Ingresar la descripcion del concepto";
+        msgError(message);
+    }
+    else if(var2.value == "")
+    {
+        var2.focus();
+        const message = "Ingresar el Asiento Contable";
+        msgError(message);
+    }
+    else if(var3.value == '')
+    {
+        var3.focus();
+        const message = "Ingresar el valor del concepto ";
+        msgError(message);
+    } 
+    else{
+        return true;
+    }    
+}
+
+//HTML CONCEPTOS <TD> ETC
+const htmlConceptos = (datos,count, method) =>{
+    const fragment = document.createDocumentFragment();
+
+    const trConcepto = document.createElement('TR');
+    trConcepto.classList.add('table-light');
+
+    const tdTableConcepto = document.createElement('TD');
+    tdTableConcepto.textContent = `${count}`;
+    trConcepto.append(tdTableConcepto);
+
+    const td2TableConcepto =document.createElement('TD');
+    td2TableConcepto.textContent = `${datos.descripcion}`;
+    td2TableConcepto.classList.add('text-capitalize');
+
+
+    trConcepto.append(td2TableConcepto);
+
+    const td3TableConcepto =document.createElement('TD');
+    td3TableConcepto.textContent = `${datos.asiento_contable}`;
+
+    trConcepto.append(td3TableConcepto);
+
+    const td4TableConcepto = document.createElement('TD');
+    td4TableConcepto.textContent = `${datos.tipo_concepto}`;
+
+    trConcepto.append(td4TableConcepto);
+
+    const td5TableConcepto =document.createElement('TD');
+    td5TableConcepto.textContent = `${datos.valor}`;
+
+    trConcepto.append(td5TableConcepto);
+
+
+    if(method == "update" || method == "crear")
+    {
+        const td6TableConcepto =document.createElement('TD');
+        td6TableConcepto.classList.add('i-separated');
+        const itd6TableConcepto = document.createElement('I');
+        itd6TableConcepto.setAttribute('data-target',"BorrarConcepto");
+        itd6TableConcepto.setAttribute('data-id',`${datos.id_concepto}`);
+        itd6TableConcepto.classList.add("delete-svg");
+        td6TableConcepto.append(itd6TableConcepto);
+        trConcepto.append(td6TableConcepto);
+    }
+    
+    
+    fragment.append(trConcepto);
+    return fragment;
+}
+
+
+const renderizarConcepto=(datos,method = "crear" )=> {
+
+    const fragment = document.createDocumentFragment();
+    let count= 0;
+    for (const concepto of datos) {
+        count++;
+        fragment.append(htmlConceptos(concepto,count,method));
+    }
+
+    if(method == 'update')
+    {
+        update_lista_concepto.innerHTML=``;
+        update_lista_concepto.appendChild(fragment);
+    }else if(method =='show'){
+        show_lista_concepto.innerHTML='';
+        show_lista_concepto.append(fragment);
+
+    }else if(method =="crear")
+    {
+        ulConceptos.innerHTML='';
+        ulConceptos.append(fragment);
+    }
+}
+
+//Guardar Conceptos creados
+btnSaveArray.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const id = arrayConceptos.length;
+    const description = document.getElementById('descripcion_nomina');
+    const asientoContable = document.getElementById('contable');
+    const valor = document.getElementById('valor');
+    const tipo_concepto = document.getElementById('tipo_concepto');
+
+    let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
+
+        if( validacion)
+        {
+            let form = {
+                id_concepto: id,
+                descripcion : description.value,
+                asiento_contable :asientoContable[asientoContable.value].textContent,
+                fk_asiento_contable :asientoContable.value,
+                valor : valor.value,
+                tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
+                fk_tipo_concepto: tipo_concepto.value 
+            }
+
+
+            arrayConceptos.push(form)
+
+            renderizarConcepto(arrayConceptos);
+           
+
+            description.value="";
+            asientoContable.value="";
+            valor.value="";
+        }
+
+})
+
+guardarArrayUpdate.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const description = document.getElementById('update_descripcion_nomina');
+    const asientoContable = document.getElementById('update_contable');
+    const valor = document.getElementById('update_valor');
+    const tipo_concepto = document.getElementById('update_tipo_concepto');
+    const fk_nomina = document.getElementById('update_nomina');
+    
+
+    let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
+
+        if( validacion)
+        {
+            let count = allconceptoUpdate.length;
+            let form = {
+                id_concepto: count,
+                descripcion : description.value,      
+                fk_asiento_contable :asientoContable.value,
+                tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
+                asiento_contable:asientoContable[asientoContable.value].textContent,
+                valor : valor.value,
+                fk_tipo_concepto: tipo_concepto.value,
+                fk_nomina: fk_nomina.value
+            }
+
+            allconceptoUpdate.push(form)
+            renderizarConcepto(allconceptoUpdate,'update');
+            description.value="";
+            asientoContable.value="";
+            valor.value="";
+        }
+})
+
+//Eliminar conceptos
+ulConceptos.addEventListener('click',(e)=>{
+    e.preventDefault();
+    if(e.target.getAttribute('data-id'))
+    {
+        let idConcepto=e.target.getAttribute('data-id');
+        const filtro = arrayConceptos.filter( user => user.id_concepto== idConcepto)[0];
+        const msg = `${filtro.descripcion} con el valor ${filtro.valor}` 
+        msgQuestion(msg, idConcepto,"crear");
+    }
+})
+
+update_lista_concepto.addEventListener('click',(e)=>{
+    e.preventDefault();
+    if(e.target.getAttribute('data-id'))
+    {
+        let idConcepto=e.target.getAttribute('data-id');
+        const filtro = allconceptoUpdate.filter( user => user.id_concepto == idConcepto)[0];
+        const msg = `${filtro.descripcion} con el valor ${filtro.valor}` 
+        msgQuestion(msg, idConcepto);
+    }
+})
+
+
+//? funcion De Mensaje modal de eliminar concepto
+const msgQuestion = (message, id, tipo = "actualizar") => {
+    Swal.fire({
+        icon: 'warning',
+        html: `<p class="text-white h4 mb-3 text-capitalize">Desea borrar el concepto</p><p class="text-danger text-capitalize h6">${message}</p>`,
+        focusConfirm:true,
+        background : '#343a40',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#6C63FF',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#6C63FF'
+        }).then((result) => {
+        if (result.value) {
+            if(tipo != "crear")
+            {
+                const filtro = allconceptoUpdate.filter( user => user.id_concepto != id);
+                allconceptoUpdate = filtro;
+                renderizarConcepto(allconceptoUpdate,'update'); 
+            }else{
+                const filtro = arrayConceptos.filter( user => user.id_concepto != id);
+                arrayConceptos = filtro;
+                //! borra los conceptos en crear
+                renderizarConcepto(arrayConceptos)
+            }
+        };
+    })
+}
+
+// ?? GET SE DEBE CAMBIAR POR LA QUE TRAE ESTADO 3
+const updateUserNomina = (id,method) =>{
+
+    fetch(`?c=Nominas&m=showConceptsID&id=${id}`)
+    .then(resp => resp.ok  ? Promise.resolve(resp)  : Promise.reject(new Error('Fallos la consulta')))
+    .then(response => response.json())
+    .then( data => {
+        allconceptoUpdate= [];
+        allconceptoUpdate =data;
+        renderizarConcepto(allconceptoUpdate,method);
+    })
+    .catch( error => console.log(error));
+    
+}
+
+// ! End-Conceptos
 
 }
 

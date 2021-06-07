@@ -423,6 +423,93 @@
 
           </div>
 
+
+          <!-- NOMINA -->
+      
+         
+      
+      <div class="row">
+
+      <input type="hidden" name="update_nomina" id="update_nomina">
+                 <!--Descripcion-->
+         <div class="col-md-6 col-lg-4 col-sm-6 col-6">
+                <label for="update_descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripcion Nomina</label>
+                <textarea name="update_descripcion_nomina" id="update_descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
+         </div> 
+        <!--FIN Descripcion-->
+         <!--Asiento contable-->
+         <div class="col-md-6 col-lg-4 col-sm-6 col-6">
+              <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
+              <select name="update_contable" tabindex="5" id="update_contable" tabindex="7" class="form-control bg-white">
+                <option value="" selected="true">---Seleccione---</option>
+                <?php foreach (Administrador::allTable('accounting_entry') as $asiento_contable) { ?>
+                  <option value="<?php echo $asiento_contable->id ?>"><?php echo $asiento_contable->name ?></option>
+                <?php } ?>
+              </select>
+        </div> 
+
+
+ 
+        <!--FIN Asiento contable-->
+        <!--Valor-->
+        <div class="col-md-12 col-lg-4 col-sm-12 col-12">
+              <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
+              <select name="update_tipo_concepto" tabindex="6" id="update_tipo_concepto" tabindex="7" class="form-control bg-white">
+                <option value="" selected="true">---Seleccione---</option>
+                <?php foreach (Administrador::allTable('types_concepts') as $tipo_concepto) { ?>
+                  <option value="<?php echo $tipo_concepto->id ?>"><?php echo $tipo_concepto->name ?></option>
+                <?php } ?>
+              </select>
+
+
+        </div> 
+
+        <div class="col-12 mt-3">
+            <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
+            <input type="text" name="update_valor" tabindex="7" id="update_valor"placeholder="update_Valor" class="form-control bg-white">
+        </div>
+
+        <div class="col-12 mt-3 text-center">
+                <button id="guardarArrayUpdate" class="mr-3 btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" type="submit">Crear Concepto</button>
+        </div>
+
+        
+        <!--FIN VALOR-->
+
+            <div class=" col-12 mt-3 ">
+              <!-- <ul id="lista_concepto" class="list-group text-dark">
+               
+              </ul> -->
+
+              <table class="table table-responsive-lg table-light table-hover ">
+                <thead class="thead-dark">
+                  <th >#</th>
+                  <th >Descripcion</th>
+                  <th >Asiento Contable</th>
+                  <th >Tipo Concepto</th>
+                  <th >Valor</th>
+                  <th >Opcion</th>
+                </thead>
+                <tbody id="update_lista_concepto">
+            
+                </tbody>
+              </table>
+            </div>
+
+        
+
+              
+          
+          </div>
+        
+
+   
+    
+        <input type="hidden" name="updated_at" value="<?php echo date("Y-m-d")  ?>">
+
+
+   <!-- ? NOMINA -->
+
     
   
 
@@ -549,10 +636,46 @@
                 </select>
               </div>
 
+<!-- Nomina -->
 
+
+       
+
+
+      
+          <div class="row">
+                  
+  
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 ">
+
+
+                <table class="table table-responsive-lg table-hover table-light ">
+                  <thead class="thead-dark">
+                    <th >#</th>
+                    <th >Descripcion</th>
+                    <th >Asiento Contable</th>
+                    <th >Tipo Concepto</th>
+                    <th >Valor</th>
+    
+                  </thead>
+                  <tbody id="show_lista_concepto">
+                   
+                  </tbody>
+                </table>
+              </div>
+
+
+                
             
+            </div>
+          
 
-            <input type="hidden" name="updated_at" id="updated_at" value="<?php echo date("Y-m-d")  ?>">
+     
+      
+          <input type="hidden" name="updated_at" value="<?php echo date("Y-m-d")  ?>">
+
+
+<!-- END Nomina -->
 
 
 
