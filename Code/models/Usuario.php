@@ -100,7 +100,7 @@ class Usuario extends DataBase{
             $stm->bindParam(9,$fk_cargo,PDO::PARAM_INT);
             $stm->bindParam(10,$fk_tipo_documento,PDO::PARAM_INT);
             $stm->bindParam(11,$fk_tipo_contrato,PDO::PARAM_INT);
-            $stm->bindParam(12,$token,PDO::PARAM_INT);
+            $stm->bindParam(12,$token,PDO::PARAM_STR);
             $stm->execute();
             
         } catch (Exception $e) {
@@ -145,6 +145,16 @@ class Usuario extends DataBase{
         }
     }
 
+    public function consultarUltimoUsuario(){
+        try{
+            $str = parent::conectar()->prepare("SELECT id FROM users ORDER BY id DESC LIMIT 1");
+            $str->execute();
+            return $str->fetch(PDO::FETCH_OBJ);
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
+
     public function allTable($tabla)
     {
         try {
@@ -173,6 +183,9 @@ class Usuario extends DataBase{
         }
    
     }
+
+
+
 
     
 }

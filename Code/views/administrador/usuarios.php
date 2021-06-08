@@ -241,10 +241,7 @@
           <!--FIN VALOR-->
   
               <div class="col-lg-8 col-md-12 col-sm-12 col-12 mt-5 ">
-                <!-- <ul id="lista_concepto" class="list-group text-dark">
-                 
-                </ul> -->
-
+              
                   <table class="table w-100 table-responsive-lg  ">
                     <thead class="thead-dark">
                       <th >#</th>
@@ -433,7 +430,7 @@
       <input type="hidden" name="update_nomina" id="update_nomina">
                  <!--Descripcion-->
          <div class="col-md-6 col-lg-4 col-sm-6 col-6">
-                <label for="update_descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripcion Nomina</label>
+                <label for="update_descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripción Nomina</label>
                 <textarea name="update_descripcion_nomina" id="update_descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
          </div> 
         <!--FIN Descripcion-->
@@ -535,7 +532,7 @@
 <!-- ? Modal Show-->
 <div class="modal fade w-100" id="ModalShowUser" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable ">
   
     <div class="modal-content  bg-dark text-white">
       <div class="modal-header border-0 b-custom">
@@ -573,7 +570,7 @@
 
               <div class="col-md-6 col-6">
 
-              <div class="d-flex justify-content-center align-items-center ">
+                <div class="d-flex justify-content-center align-items-center ">
                       <img src="" alt="" class="rounded-circle border-0 img-avatar-male" id="show_user_img">
               </div>
 
@@ -597,14 +594,7 @@
                 </select>
               </div>
 
-              <!-- <div class="form-group  col-12 col-sm-6">
-                <label class="text-shadow-1 text-custom">Nomina</label>
-                <select id="show_fondo_pension" class="bg-white d-block text-capitalize" disabled>
-                  <?php foreach (Administrador::allTable('payrolls') as $nomina) { ?>
-                    <option value="<?php echo $nomina->id ?>"><?php echo $nomina->concepts_id ?></option>
-                  <?php } ?>
-                </select>
-              </div> -->
+           
 
                   
           
@@ -620,14 +610,12 @@
               </div>
 
 
-              <div class="form-group  col-12 ">
+              <div class="form-group col-12  col-md-6 mt-3 ">
                 <label class="text-shadow-1 text-custom">Salario</label>
                 <p id="show_salario" class="d-block"></p>
-         
-               
               </div>
 
-              <div class="form-group  col-12 ">
+              <div class="form-group col-12  col-md-6 ">
                 <label  class="text-shadow-1 text-custom">Tipo Contrato</label>
                 <select id="show_tipo_contrato" class="d-block bg-white text-capitalize" disabled>
                   <?php foreach (Administrador::allTable('contract_types') as $tipo_contrato) { ?>
@@ -643,13 +631,13 @@
 
 
       
-          <div class="row">
+          <div class="row table-responsive mx-0 ">
                   
   
-              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 ">
+              <div class="col-12 mt-3 ">
 
 
-                <table class="table table-responsive-lg table-hover table-light ">
+                <table class="table table-responsive-lg table-light table-hover">
                   <thead class="thead-dark">
                     <th >#</th>
                     <th >Descripcion</th>

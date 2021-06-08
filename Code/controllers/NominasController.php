@@ -37,6 +37,11 @@ class NominasController extends Nomina{
         echo json_encode(Nomina::consultarConceptosPorNomina($_REQUEST['id']));
     }
 
+    public function showConceptsFijosID()
+    {
+        echo json_encode(Nomina::conceptosFijos($_REQUEST['id']));
+    }
+
     public function store(){
         $fk_usuario = $_POST['fk_usuario'];
         $fecha_de = $_POST['fecha_de'];
@@ -53,7 +58,8 @@ class NominasController extends Nomina{
             $total = 0;
             for ($i=0; $i < count($arrayDatos); $i++) { 
                 $data = $arrayDatos[$i];
-                parent::createConcept($data->descripcion, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
+                parent::createConcept($data->descripcion, 
+                1,$data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
 
                 if($data->fk_asiento_contable == 2)
                 {
@@ -89,7 +95,7 @@ class NominasController extends Nomina{
             for ($i=0; $i < count($arrayDatos); $i++) { 
                 $data = $arrayDatos[$i];
       
-                parent::createConcept($data->descripcion, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
+                parent::createConcept($data->descripcion,1, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
 
                 if($data->fk_asiento_contable == 2)
                 {

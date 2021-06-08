@@ -47,8 +47,14 @@ class UsuariosController extends Usuario{
            $fk_tipo_contrato = Security::verificateInt( $_POST['fk_tipo_contrato']);
            $salario = Security::verificateInt( $_POST['salario']);
 
-  
-           if($nombres && $apellidos && $correo && $clave1 && $numero_documento && $fk_rol  && $fk_cargo && $fk_tipo_documento && $fk_tipo_contrato && $salario)
+
+
+           //Nomina
+           $fecha_de = $_POST['fecha_de'];
+           $fecha_hasta = $_POST['fecha_hasta'];
+           $arrayDatos = json_decode($_POST['arrayDatos']);
+
+           if($nombres && $apellidos && $correo && $clave1 && $numero_documento && $fk_rol  && $fk_cargo && $fk_tipo_documento && $fk_tipo_contrato && $salario && $fecha_de && $fecha_hasta && $arrayDatos)
            {
 
                if(!Login::verificarSiExisteEmail($correo))
@@ -98,10 +104,46 @@ class UsuariosController extends Usuario{
                         $img_usuario = 'assets/uploud/profile/default.svg';
                     }
 
+
                    $token = $this->seguridad->encryptToken(str_replace(' ','',$nombres.$numero_documento.$apellidos));
                    $clave = password_hash($clave1,PASSWORD_DEFAULT);
                    parent::storeUser($nombres,$apellidos,$correo,$salario,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token);
                    
+                   
+
+                   //?NOMINA
+                   $fk_usuario = parent::consultarUltimoUsuario();
+                   $nomina = new Nomina();
+                   if($fecha_de && $fecha_hasta && $arrayDatos){
+
+                       $nomina->createNomina($fk_usuario->id, $fecha_de, $fecha_hasta);
+           
+                       $lastNomina =$nomina->consultarUltimaNomina();
+                       
+                       $total = 0;
+                       for ($i=0; $i < count($arrayDatos); $i++) { 
+                           $data = $arrayDatos[$i];
+                           $nomina->createConcept($data->descripcion,2, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
+           
+                           if($data->fk_asiento_contable == 2)
+                           {
+                               $total -=$data->valor;
+           
+                           }else{
+                               $total +=$data->valor;
+                           }
+                       }
+                       
+           
+                       $nomina->updateNominaValor($total,$lastNomina->id_nomina);
+                       echo json_encode(['ok'=> 'Creado']);
+                       return;
+                   }else{
+                       return;
+                   }
+
+                   //? END-NOMINA
+
                    echo json_encode(['ok' => 'usuarioCreado']);
 
 
@@ -156,7 +198,13 @@ class UsuariosController extends Usuario{
             $clave =password_hash($clave1,PASSWORD_DEFAULT); 
         }
 
-        if($nombres && $apellidos && $correo && $numero_documento && $fk_rol && $fk_tipo_contrato && $fk_cargo && $fk_tipo_documento  && $salario && $updated_at && $usuario->token == $token && isset($clave)  )
+
+        //Nomina
+        $arrayDatos = json_decode($_POST['arrayDatos']);
+        $fk_nomina = ($_POST['fk_nomina']);
+
+
+        if($nombres && $apellidos && $correo && $numero_documento && $fk_rol && $fk_tipo_contrato && $fk_cargo && $fk_tipo_documento  && $salario && $updated_at && $usuario->token == $token && isset($clave)  && $fk_nomina && $arrayDatos )
         {
             
             if(!Login::verificarSiExisteEmail($correo) || Login::verificarSiExisteEmailUpdate($correo,$id))
@@ -212,6 +260,27 @@ class UsuariosController extends Usuario{
                  }else{
                      $img_usuario = $usuario->img_usuario;
                  }
+
+                 $nomina = new Nomina();
+                 $nomina->deleteTodosConceptos($fk_nomina);
+                 $total = 0;
+                 for ($i=0; $i < count($arrayDatos); $i++) { 
+                    $data = $arrayDatos[$i];
+          
+                    $nomina->createConcept($data->descripcion,2, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
+    
+                    if($data->fk_asiento_contable == 2)
+                    {
+                        $total -=$data->valor;
+    
+                    }else{
+                        $total +=$data->valor;
+                    }
+                   
+                }
+                
+                $nomina->updateNominaValor($total,$fk_nomina);
+
 
                 $token1 = $this->seguridad->encryptToken(str_replace(' ','',$nombres.$numero_documento.$apellidos));
                 parent::UpdateUser($nombres,$apellidos,$correo,$salario,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token1,$updated_at,$id);

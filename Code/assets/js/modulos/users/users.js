@@ -26,6 +26,7 @@ if(location.search == '?c=Usuarios&m=show' )
             if(id.getAttribute('data-target') == '#ModalUpdateUser')
             {
                 showUserId(userIdFilter);
+                updateUserNomina(userIdFilter.id_usuario,"update")
             }
             else if(id.getAttribute('data-target') == '#Delete')
             {
@@ -34,6 +35,8 @@ if(location.search == '?c=Usuarios&m=show' )
             }
             else if(id.getAttribute('data-target') == '#ModalShowUser'){
                 showUserInfo(userIdFilter);
+                updateUserNomina(userIdFilter.id_usuario,"show")
+
             }
         
         }
@@ -472,6 +475,17 @@ if(location.search == '?c=Usuarios&m=show' )
         validarImgUsuariosForm(updateImgUser,updatePrevImgUser,);
     })
 
+    const validarInsertNomina = (conceptos) => {
+        if(conceptos.length == 2)
+        {
+            const message = "Ingresar los Conceptos";
+            msgError(message);
+        } 
+        else{
+            return true;
+        }  
+    }
+
     //? funcion para guardar el usuario en DB en dashboard-admin : usuarios.php modal #ModalAddUser
     const btnSubmitFormUsers = document.getElementById('GuardarUsuario');
     btnSubmitFormUsers.addEventListener('click',(e)=>{
@@ -488,14 +502,18 @@ if(location.search == '?c=Usuarios&m=show' )
         const fk_rol = document.getElementById('rol');
         const salario = document.getElementById('salario');
         const img = userImg.files[0];
+
+        //Nomina
+        const fecha_de = document.getElementById('fecha_de');
+        const fecha_hasta = document.getElementById('fecha_hasta');
+        const arrayConcep = JSON.stringify(arrayConceptos);
         
          const validarForm =  validarFormUsers(nombres,apellidos,correo,numero_documento,fk_rol,fk_tipo_contrato,cargo,tipo_documento);
-
-         
-         if(validarForm == true )
+      
+         if(validarForm == true && validarInsertNomina(arrayConcep) == true )
          {   
              const validarClave = validarFormUsersPass(clave);
-             if(validarClave == true && validateForm() == true){
+             if(validarClave == true && validateForm() == true ){
                 const formData = new FormData();
                 formData.append('nombres',nombres.value.toLowerCase());
                 formData.append('apellidos',apellidos.value.toLowerCase());
@@ -508,6 +526,10 @@ if(location.search == '?c=Usuarios&m=show' )
                 formData.append('fk_tipo_contrato',fk_tipo_contrato.value);
                 formData.append('salario',salario.value);
                 formData.append('user_img',img);
+                formData.append('fecha_de',fecha_de.value);
+                formData.append('fecha_hasta',fecha_hasta.value);
+                formData.append('arrayDatos',arrayConcep);
+        
                 
 
                 fetch('?c=Usuarios&m=store' , 
@@ -577,6 +599,10 @@ if(location.search == '?c=Usuarios&m=show' )
         const clave_antigua = document.getElementById("clave_antigua");
         const img = updateImgUser.files[0];
 
+        //conceptos
+        const fk_nomina = document.getElementById('update_nomina');
+        const conceptoUpdate = JSON.stringify(allconceptoUpdate);
+
         let validar = validarFormUsers(update_nombres,update_apellidos,update_correo,update_numero_documento,update_fk_rol,update_tipo_contrato,update_cargo,update_tipo_documento);
 
         if(update_clave.value == '')
@@ -604,6 +630,8 @@ if(location.search == '?c=Usuarios&m=show' )
             formData.append('token',token.value);
             formData.append('clave_antigua',clave_antigua.value);
             formData.append('update_user_img',img);
+            formData.append('fk_nomina',fk_nomina.value);
+            formData.append('arrayDatos',conceptoUpdate);
     
             fetch('?c=Usuarios&m=update', 
             {
@@ -922,13 +950,17 @@ const msgQuestion = (message, id, tipo = "actualizar") => {
 // ?? GET SE DEBE CAMBIAR POR LA QUE TRAE ESTADO 3
 const updateUserNomina = (id,method) =>{
 
-    fetch(`?c=Nominas&m=showConceptsID&id=${id}`)
+    fetch(`?c=Nominas&m=showConceptsFijosID&id=${id}`)
     .then(resp => resp.ok  ? Promise.resolve(resp)  : Promise.reject(new Error('Fallos la consulta')))
     .then(response => response.json())
     .then( data => {
         allconceptoUpdate= [];
         allconceptoUpdate =data;
         renderizarConcepto(allconceptoUpdate,method);
+        if(method == "update")
+        {
+            document.getElementById('update_nomina').value=`${data[0].id_nomina}`;
+        }
     })
     .catch( error => console.log(error));
     

@@ -14,14 +14,15 @@ class Nomina extends DataBase{
         }
     }
 
-    public function createConcept($descripcion, $fk_asiento_contable, $valor, $fk_tipo_concepto, $fk_nomina){
+    public function createConcept($descripcion,$estado, $fk_asiento_contable, $valor, $fk_tipo_concepto, $fk_nomina){
         try{
-            $str = parent::conectar()->prepare("INSERT INTO concepts(description, accounting_entry_id, value, concepts_id, payroll_id) VALUES (?,?,?,?,?) ");
+            $str = parent::conectar()->prepare("INSERT INTO concepts(description, status, accounting_entry_id, value, concepts_id, payroll_id) VALUES (?,?,?,?,?,?) ");
             $str->bindParam(1,$descripcion,PDO::PARAM_STR);
-            $str->bindParam(2,$fk_asiento_contable,PDO::PARAM_STR);
-            $str->bindParam(3,$valor,PDO::PARAM_STR);
-            $str->bindParam(4,$fk_tipo_concepto,PDO::PARAM_INT);
-            $str->bindParam(5,$fk_nomina,PDO::PARAM_INT);
+            $str->bindParam(2,$estado,PDO::PARAM_INT);
+            $str->bindParam(3,$fk_asiento_contable,PDO::PARAM_STR);
+            $str->bindParam(4,$valor,PDO::PARAM_STR);
+            $str->bindParam(5,$fk_tipo_concepto,PDO::PARAM_INT);
+            $str->bindParam(6,$fk_nomina,PDO::PARAM_INT);
             $str->execute();
         }catch(Exception $e){
             die('mal'.$e->getMessage());
@@ -233,6 +234,52 @@ class Nomina extends DataBase{
             $str->bindParam(1,$valor,PDO::PARAM_INT);
             $str->bindParam(2,$id_nomina,PDO::PARAM_INT);
             $str->execute();
+        }catch(Exception $e){
+            die('Fallo valor en nomina'.$e->getMessage());
+        }
+        
+    }
+
+    public function conceptosFijos($id)
+    {  
+        try{
+            $str = parent::conectar()->prepare("SELECT 
+            us.id id_usuario
+            ,us.name nombre
+            ,us.lastname apellidos
+            ,us.salary salario
+            ,con.id id_concepto
+            ,con.description descripcion
+            ,con.value valor
+            ,con.status estado,
+            con.concepts_id fk_tipo_concepto,
+            con.accounting_entry_id fk_asiento_contable  
+            ,tc.name tipo_concepto,
+            p.id id_nomina,
+            p.initial_date fecha_de,
+            p.final_date fecha_hasta,
+            p.user_id,
+            p.salary valor,
+            tc.id id_tipo_concepto,
+            ae.id id_asiento_contable,
+            ae.name asiento_contable
+            from users us 
+            LEFT JOIN payrolls p ON p.user_id = us.id 
+            LEFT JOIN concepts con ON con.payroll_id = p.id
+            LEFT JOIN types_concepts tc ON con.concepts_id = tc.id
+            LEFT JOIN accounting_entry ae ON con.accounting_entry_id = ae.id
+            where con.status = 2 AND us.id = ?
+            group by 
+            us.id 
+            ,us.name 
+            ,us.lastname 
+            ,us.salary 
+            ,con.value
+            ,con.status
+            ,tc.name");
+            $str->bindParam(1,$id,PDO::PARAM_INT);
+            $str->execute();
+            return $str->fetchAll(PDO::FETCH_OBJ); 
         }catch(Exception $e){
             die('Fallo valor en nomina'.$e->getMessage());
         }
