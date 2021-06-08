@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/quill.snow.css">
 </head>
 
 <body>
@@ -19,7 +20,7 @@
             <div class="bg-dark  " id="sidebar">
                 <p class="diplay-6  text-white my-3 px-2 size-sm text-center text-capitalize"><?php echo $_SESSION['ADMINISTRADOR']->nombre_rol ?></p>
               <div class="img-dashboard d-flex flex-column justify-content-center align-items-center mt-2">
-                <img src="<?php echo $_SESSION['ADMINISTRADOR']->img_usuario?>" class="img-avatar-male" alt="">
+                <img src="<?php $img =Usuario::showImgUserStatic($_SESSION['ADMINISTRADOR']->id_usuario); echo isset($img->img_usuario) ? $img->img_usuario : 'assets/uploud/profile/default.svg' ?>" class="img-avatar-male" alt="imagen de perfil de usuario">
                 <p class="diplay-6  text-white my-3 px-2 size-sm text-center text-capitalize"><?php echo $_SESSION['ADMINISTRADOR']->nombres.' '.$_SESSION['ADMINISTRADOR']->apellidos;?></p>
               </div>
               <div class="menu-settings text-capitalize">

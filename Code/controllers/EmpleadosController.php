@@ -39,6 +39,7 @@ class EmpleadosController extends Empleado{
     public function showPerfil()
     {
         $title = 'Empleado Perfil';
+        $moduloJs = '<script src="assets/js/modulos/employees/employees.js" type="module"></script>';
         require_once 'views/empleado/perfil.php';
         
     }

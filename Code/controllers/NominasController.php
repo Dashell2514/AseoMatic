@@ -21,6 +21,7 @@ class NominasController extends Nomina{
     public function index()
     {
         $title='Nomina';
+        $moduloJs = '<script src="assets/js/modulos/payrolls/payrolls.js" type="module"></script>';
         require_once('views/administrador/nomina.php');
     }
 
@@ -34,6 +35,11 @@ class NominasController extends Nomina{
     public function showConceptsID()
     {
         echo json_encode(Nomina::consultarConceptosPorNomina($_REQUEST['id']));
+    }
+
+    public function showConceptsFijosID()
+    {
+        echo json_encode(Nomina::conceptosFijos($_REQUEST['id']));
     }
 
     public function store(){
@@ -52,7 +58,8 @@ class NominasController extends Nomina{
             $total = 0;
             for ($i=0; $i < count($arrayDatos); $i++) { 
                 $data = $arrayDatos[$i];
-                parent::createConcept($data->descripcion, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
+                parent::createConcept($data->descripcion, 
+                1,$data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
 
                 if($data->fk_asiento_contable == 2)
                 {
@@ -78,7 +85,7 @@ class NominasController extends Nomina{
     public function update()
     {
         $arrayDatos = json_decode($_POST['arrayDatos']);
-        $fk_nomina = $_POST['fk_nomina'];
+        $fk_nomina = ($_POST['fk_nomina']);
     
 
         if($fk_nomina && $arrayDatos){
@@ -88,7 +95,7 @@ class NominasController extends Nomina{
             for ($i=0; $i < count($arrayDatos); $i++) { 
                 $data = $arrayDatos[$i];
       
-                parent::createConcept($data->descripcion, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
+                parent::createConcept($data->descripcion,1, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
 
                 if($data->fk_asiento_contable == 2)
                 {
@@ -99,7 +106,8 @@ class NominasController extends Nomina{
                 }
                
             }
-            parent::updateNominaValor($fk_nomina,$total);
+            
+            parent::updateNominaValor($total,$fk_nomina);
             echo json_encode(['ok'=> 'Creado']);
             return;
         }else{

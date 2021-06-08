@@ -5,7 +5,24 @@ class Usuario extends DataBase{
     public function allUsers()
     {
         try {
-            $stm = parent::conectar()->prepare("SELECT * FROM usuarios INNER JOIN roles ON usuarios.fk_rol=roles.id_rol ORDER BY id_usuario");
+            $stm = parent::conectar()->prepare("SELECT
+            us.id id_usuario,
+            us.name nombres,
+            us.lastname apellidos,
+            us.email correo,
+            us.salary salario,
+            us.password clave,
+            us.image img_usuario,
+            us.document_number numero_documento,
+            us.role_id fk_rol,
+            us.charges_id fk_cargo,
+            us.document_type_id fk_tipo_documento,
+            us.contract_type_id fk_tipo_contrato,
+            us.token,
+            roles.id id_rol,
+            roles.name nombre_rol
+            FROM users us
+            INNER JOIN roles ON us.role_id=roles.id ORDER BY us.id");
             $stm->execute();
             $result = $stm->fetchAll(PDO::FETCH_OBJ);
             return json_encode($result);
@@ -17,7 +34,21 @@ class Usuario extends DataBase{
     public function showUser($id,$token)
     {
         try {
-            $stm = parent::conectar()->prepare("SELECT * FROM usuarios WHERE id_usuario = ? AND token = ? ");
+            // $stm = parent::conectar()->prepare("SELECT * FROM usuarios WHERE id_usuario = ? AND token = ? ");
+            $stm = parent::conectar()->prepare("SELECT us.id id_usuario,
+            us.name nombres,
+            us.lastname apellidos,
+            us.email correo,
+            us.salary salario,
+            us.password clave,
+            us.image img_usuario,
+            us.document_number numero_documento,
+            us.role_id fk_rol,
+            us.charges_id fk_cargo,
+            us.document_type_id fk_tipo_documento,
+            us.contract_type_id fk_tipo_contrato,
+            us.token 
+            FROM users us WHERE us.id=? AND us.token=?");
             $stm->bindParam(1,$id,PDO::PARAM_INT);
             $stm->bindParam(2,$token,PDO::PARAM_STR);
             $stm->execute();
@@ -31,7 +62,19 @@ class Usuario extends DataBase{
     public function showImgUser($id)
     {
         try {
-            $stm = parent::conectar()->prepare("SELECT img_usuario FROM usuarios WHERE id_usuario= ?");
+            $stm = parent::conectar()->prepare("SELECT us.image img_usuario FROM users us WHERE us.id= ?");
+            $stm->bindParam(1,$id,PDO::PARAM_INT);
+            $stm->execute();
+            return $stm->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die('Murio DeleteNew'.$e->getMessage());
+        }
+    }
+
+    static function showImgUserStatic($id)
+    {
+        try {
+            $stm = parent::conectar()->prepare("SELECT us.image img_usuario FROM users us WHERE us.id= ?");
             $stm->bindParam(1,$id,PDO::PARAM_INT);
             $stm->execute();
             return $stm->fetch(PDO::FETCH_OBJ);
@@ -44,7 +87,8 @@ class Usuario extends DataBase{
     {
         try {
 
-            $stm = parent::conectar()->prepare("INSERT INTO usuarios(nombres, apellidos, correo,salario, clave, img_usuario, numero_documento, fk_rol, fk_cargo, fk_tipo_documento, fk_tipo_contrato, token, created_at, updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIME(),CURRENT_TIME())");
+            $stm = parent::conectar()->prepare("INSERT INTO users(name, lastname, email,salary, password, image, document_number, role_id, charges_id, document_type_id, contract_type_id, token, created_at, updated_at)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIME(),CURRENT_TIME())");
             $stm->bindParam(1,$nombres,PDO::PARAM_STR);
             $stm->bindParam(2,$apellidos,PDO::PARAM_STR);
             $stm->bindParam(3,$correo,PDO::PARAM_STR);
@@ -56,7 +100,7 @@ class Usuario extends DataBase{
             $stm->bindParam(9,$fk_cargo,PDO::PARAM_INT);
             $stm->bindParam(10,$fk_tipo_documento,PDO::PARAM_INT);
             $stm->bindParam(11,$fk_tipo_contrato,PDO::PARAM_INT);
-            $stm->bindParam(12,$token,PDO::PARAM_INT);
+            $stm->bindParam(12,$token,PDO::PARAM_STR);
             $stm->execute();
             
         } catch (Exception $e) {
@@ -67,7 +111,7 @@ class Usuario extends DataBase{
     public function UpdateUser($nombres,$apellidos,$correo,$salario,$clave,$img_usuario,$numero_documento,$fk_rol,$fk_cargo,$fk_tipo_documento,$fk_tipo_contrato,$token,$updated_at,$id)
     {
         try {
-            $stm = parent::conectar()->prepare("UPDATE usuarios SET nombres=? ,apellidos=? ,correo=?,salario=?,clave=?,img_usuario = ?,numero_documento=?,fk_rol=?,fk_cargo=?,fk_tipo_documento=?,fk_tipo_contrato=?,token =?,updated_at=? WHERE id_usuario = ?");
+            $stm = parent::conectar()->prepare("UPDATE users SET name=? ,lastname=? ,email=?,salary=?,password=?,image = ?,document_number=?,role_id=?,charges_id=?,document_type_id=?,contract_type_id=?,token =?,updated_at=? WHERE id = ?");
             $stm->bindParam(1,$nombres,PDO::PARAM_STR);
             $stm->bindParam(2,$apellidos,PDO::PARAM_STR);
             $stm->bindParam(3,$correo,PDO::PARAM_STR);
@@ -92,12 +136,22 @@ class Usuario extends DataBase{
     public function deleteUser($id,$token)
     {
         try {
-            $stm = parent::conectar()->prepare("DELETE FROM usuarios WHERE id_usuario= ?  AND token = ? ");
+            $stm = parent::conectar()->prepare("DELETE FROM users WHERE id= ?  AND token = ?");
             $stm->bindParam(1,$id,PDO::PARAM_INT);
             $stm->bindParam(2,$token,PDO::PARAM_STR);
             $stm->execute();
         } catch (Exception $e) {
             die('Murio DeleteUser'.$e->getMessage());
+        }
+    }
+
+    public function consultarUltimoUsuario(){
+        try{
+            $str = parent::conectar()->prepare("SELECT id FROM users ORDER BY id DESC LIMIT 1");
+            $str->execute();
+            return $str->fetch(PDO::FETCH_OBJ);
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
         }
     }
 
@@ -113,23 +167,25 @@ class Usuario extends DataBase{
     }
 
 
-    public static function emailLog($nombreContact,$apellidoContact,$generoContact,$correoContact,$asuntoContact,$mensajeContact,$fecha_envio)
+    public static function emailLog($nombreContact,$apellidoContact,$correoContact,$asuntoContact,$mensajeContact,$fecha_envio)
     {
         try {
-            $stm = parent::conectar()->prepare("INSERT INTO `logs_contactenos` (`nombres_contactenos`, `apellidos_contactenos`, `genero_contactenos`, `correo_contactenos`, `asunto_contactenos`, `mensaje_contactenos`, `fecha_envio`) VALUES ( ?, ?, ?, ?, ?, ?, ?)");
+            $stm = parent::conectar()->prepare("INSERT INTO `logs_contact`(`name`, `lastname`, `email`, `subject`, `message`, `send_date`) VALUES (?,?,?,?,?,?)");
             $stm->bindParam(1,$nombreContact,PDO::PARAM_STR);
             $stm->bindParam(2,$apellidoContact,PDO::PARAM_STR);
-            $stm->bindParam(3,$generoContact,PDO::PARAM_STR);
-            $stm->bindParam(4,$correoContact,PDO::PARAM_STR);
-            $stm->bindParam(5,$asuntoContact,PDO::PARAM_STR);
-            $stm->bindParam(6,$mensajeContact,PDO::PARAM_STR);
-            $stm->bindParam(7,$fecha_envio,PDO::PARAM_STR);
+            $stm->bindParam(3,$correoContact,PDO::PARAM_STR);
+            $stm->bindParam(4,$asuntoContact,PDO::PARAM_STR);
+            $stm->bindParam(5,$mensajeContact,PDO::PARAM_STR);
+            $stm->bindParam(6,$fecha_envio,PDO::PARAM_STR);
             $stm->execute();
         } catch (Exception $e) {
             die('Murio allTable'.$e->getMessage());
         }
    
     }
+
+
+
 
     
 }

@@ -24,9 +24,9 @@
       <script src="assets/js/bootstrap.min.js" ></script>
       <script src="assets/js/owl.carousel.min.js"></script>
       <script src="assets/js/sweetalert2.all.min.js"></script>
-      <script src="assets/js/main.js"></script>
-      <script src="assets/js/modulos.js" type="module"></script>
-      <script src="assets/js/dashboard.js"></script>
+      <script src="assets/js/modulos/main.js" type="module"></script>
+      <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+      <?php echo isset($moduloJs) ? $moduloJs : ''; ?>
     
 </body>
 

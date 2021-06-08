@@ -4,7 +4,7 @@ class Noticia extends DataBase{
     public function allNews()
     {
         try {
-            $stm = parent::conectar()->prepare("SELECT * FROM noticias INNER JOIN usuarios ON noticias.fk_usuario=usuarios.id_usuario ORDER BY titulo_noticia");
+            $stm = parent::conectar()->prepare("SELECT * FROM news INNER JOIN users us ON news.user_id=us.id ORDER BY title");
             $stm->execute();
             $result = $stm->fetchAll(PDO::FETCH_OBJ);
             return json_encode($result);
@@ -18,7 +18,7 @@ class Noticia extends DataBase{
     public function storeAddNew($tituloNoticia,$descripcionNoticia,$fechaPublicacion,$imgNew,$newUser)
     {
         try {
-            $stm = parent::conectar()->prepare("INSERT INTO noticias(titulo_noticia,descripcion_noticia,fecha_publicado,imagen_noticia,fk_usuario) VALUES(?,?,?,?,?)");
+            $stm = parent::conectar()->prepare("INSERT INTO news(title,description,created_at,image,user_id) VALUES(?,?,?,?,?)");
             $stm->bindParam(1,$tituloNoticia,PDO::PARAM_STR);
             $stm->bindParam(2,$descripcionNoticia,PDO::PARAM_STR);
             $stm->bindParam(3,$fechaPublicacion,PDO::PARAM_STR);

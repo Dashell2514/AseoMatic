@@ -20,7 +20,7 @@
             <div class="bg-dark  " id="sidebar">
               <!-- <div class="sidebar-heading text-white text-center">Bienvenido</div> -->
               <div class="img-dashboard d-flex flex-column justify-content-center align-items-center mt-5">
-                <img src="<?php $usuario = json_decode(parent::showProfile($_SESSION['EMPLEADO']->token));echo $usuario->img_usuario;?>" class="img-avatar-male" alt="" id="imgAvatarProfile">
+                <img src="<?php $img =Usuario::showImgUserStatic($_SESSION['EMPLEADO']->id_usuario); echo isset($img->img_usuario) ? $img->img_usuario : 'assets/uploud/profile/default.svg' ?>" class="img-avatar-male" alt="" id="imgAvatarProfile">
                 <p class="diplay-6  text-white my-3 px-2 size-sm text-center text-capitalize"><?php echo $_SESSION['EMPLEADO']->nombres.' '.$_SESSION['EMPLEADO']->apellidos?></p>
               </div>
               <div class="menu-settings text-capitalize" >

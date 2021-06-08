@@ -9,7 +9,7 @@
       <div class="col-12 ">
         <table class="table  w-100  table-responsive-lg">
         
-            <input type="text" id="buscador" class="form-control text-white bg-dark " placeholder="Buscador">
+            <input type="text" id="buscador" class="form-control text-white bg-dark " placeholder="Buscador de Nombres y documento">
           <thead class="thead-dark">
             <tr>
               <th colspan="1">#</th>
@@ -121,8 +121,8 @@
                   Documento</label>
                 <select name="tipo_documento" tabindex="7" id="tipo_documento" class="form-control bg-white">
                   <option value=""   selected="true">-- Seleccione --</option>
-                  <?php foreach (Administrador::allTable('tipos_documentos') as $documento) { ?>
-                    <option value="<?php echo $documento->id_tipo_documento ?>"><?php echo $documento->tipo_documento ?></option>
+                  <?php foreach (Administrador::allTable('document_types') as $documento) { ?>
+                    <option value="<?php echo $documento->id ?>"><?php echo $documento->name ?></option>
                   <?php } ?>
                 </select>
               </div>
@@ -135,8 +135,8 @@
               <label for="cargo" class="text-shadow-1 text-custom">Cargo</label>
               <select name="cargo" id="cargo" tabindex="8"class="form-control bg-white">
                 <option value=""  selected="true">-- Seleccione --</option>
-                <?php foreach (Administrador::allTable('cargos') as $cargo) { ?>
-                  <option value="<?php echo $cargo->id_cargo ?>"><?php echo $cargo->nombre_cargo ?></option>
+                <?php foreach (Administrador::allTable('charges') as $cargo) { ?>
+                  <option value="<?php echo $cargo->id ?>"><?php echo $cargo->name ?></option>
                 <?php } ?>
               </select>
             </div>
@@ -150,7 +150,7 @@
               <select name="rol" id="rol" tabindex="9" class="form-control bg-white">
                 <option value="" selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('roles') as $rol) { ?>
-                  <option value="<?php echo $rol->id_rol ?>"><?php echo $rol->nombre_rol ?></option>
+                  <option value="<?php echo $rol->id ?>"><?php echo $rol->name ?></option>
                 <?php } ?>
               </select>
             </div>
@@ -159,8 +159,8 @@
               <label for="tipo_contrato" class="text-shadow-1 text-custom">Tipo Contrato</label>
               <select name="tipo_contrato" id="tipo_contrato" tabindex="10" class="form-control bg-white">
                 <option value="" selected="true">-- Seleccione --</option>
-                <?php foreach (Administrador::allTable('tipo_contrato') as $tipo_contrato) { ?>
-                  <option value="<?php echo $tipo_contrato->id_tipo_contrato ?>"><?php echo $tipo_contrato->tipo_contrato ?></option>
+                <?php foreach (Administrador::allTable('contract_types') as $tipo_contrato) { ?>
+                  <option value="<?php echo $tipo_contrato->id ?>"><?php echo $tipo_contrato->name ?></option>
                 <?php } ?>
               </select>
             </div>
@@ -170,7 +170,112 @@
 
           <input type="hidden" name="updated_at" value="<?php echo date("Y-m-d")  ?>">
 
+         
+<!-- 
+  //? Nomina
+  -->
 
+          <h3 class="text-shadow-1 text-custom" >Conceptos</h3>
+          <div class="row">
+      
+             <div class="col-md-6 col-lg-6 col-sm-12">
+              <div class="form-group">
+                <label for="fecha_de" class="text-shadow-1 text-custom">Fecha De Ingreso</label>
+                <input type="date"tabindex="2" name="fecha_de" id="fecha_de" class="form-control">
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <div class="form-group">
+                <label for="fecha_hasta" class="text-shadow-1 text-custom">Fecha 
+                    Hasta
+                </label>
+                <input type="date" tabindex="3" name="fecha_hasta" id="fecha_hasta" class="form-control">
+
+              </div>
+            </div>
+          </div>
+
+
+      
+        <div class="row">
+                   <!--Descripcion-->
+          <div class="col-6">
+                  <label for="descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripción Concepto</label>
+                  <textarea name="descripcion_nomina" id="descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
+           </div>
+          <!--FIN Descripcion-->
+           <!--Asiento contable-->
+          <div class="col-6">
+                <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
+                <select name="contable" tabindex="5" id="contable" tabindex="7" class="form-control bg-white">
+                  <option value="" selected="true">---Seleccione---</option>
+                  <?php foreach (Administrador::allTable('accounting_entry') as $asiento_contable) { ?>
+                    <option value="<?php echo $asiento_contable->id ?>"><?php echo $asiento_contable->name ?></option>
+                  <?php } ?>
+                </select>         
+          </div>
+
+
+       
+
+
+   
+          <!--FIN Asiento contable-->
+          <!--Valor-->
+          <div class="col-6 mt-3">
+                <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
+                <select name="tipo_concepto" tabindex="6" id="tipo_concepto" tabindex="7" class="form-control bg-white">
+                  <option value="" selected="true">---Seleccione---</option>
+                  <?php foreach (Administrador::allTable('types_concepts') as $tipo_concepto) { ?>
+                    <option value="<?php echo $tipo_concepto->id ?>"><?php echo $tipo_concepto->name ?></option>
+                  <?php } ?>
+                </select>
+
+          </div>
+          
+          <div class="col-6 mt-3">
+              <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
+              <input type="text" name="valor" tabindex="7" id="valor"placeholder="Valor" class="form-control bg-white">
+            </div>
+          <!--FIN VALOR-->
+  
+              <div class="col-lg-8 col-md-12 col-sm-12 col-12 mt-5 ">
+              
+                  <table class="table w-100 table-responsive-lg  ">
+                    <thead class="thead-dark">
+                      <th >#</th>
+                      <th >Descripcion</th>
+                      <th >Asiento Contable</th>
+                      <th >Tipo Concepto</th>
+                      <th >Valor</th>
+                      <th >Opcion</th>
+                    </thead>
+                    <tbody id="lista_concepto">
+                    
+                    </tbody>
+                  </table>
+              </div>
+
+              <div class="col d-flex  justify-content-center align-items-center">
+                <div class="">
+                  <button id="guardarArray" class="mr-3 btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" type="submit">Crear Concepto</button>
+                </div>
+              </div>
+
+                
+            
+            </div>
+          
+
+     
+      
+          <input type="hidden" name="updated_at" value="<?php echo date("Y-m-d")  ?>">
+
+
+<!-- //? End Nomina -->
+
+        
 
 
           <div class="text-right my-2">
@@ -261,8 +366,8 @@
               <label for="update_tipo_documento" class="text-shadow-1 text-custom">Tipo Documento</label>
               <select name="update_tipo_documento" id="update_tipo_documento" class="form-control bg-white text-capitalize">
                 <option value="" selected="true">-- Seleccione --</option>
-                <?php foreach (Administrador::allTable('tipos_documentos') as $documento) { ?>
-                  <option value="<?php echo $documento->id_tipo_documento ?>"><?php echo $documento->tipo_documento ?></option>
+                <?php foreach (Administrador::allTable('document_types') as $documento) { ?>
+                  <option value="<?php echo $documento->id ?>"><?php echo $documento->name ?></option>
                 <?php } ?>
               </select>
 
@@ -280,7 +385,7 @@
               <select name="update_rol" id="update_rol" class="form-control bg-white text-capitalize">
                 <option value="" selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('roles') as $rol) { ?>
-                  <option value="<?php echo $rol->id_rol ?>"><?php echo $rol->nombre_rol ?></option>
+                  <option value="<?php echo $rol->id ?>"><?php echo $rol->name ?></option>
                 <?php } ?>
               </select>
 
@@ -292,8 +397,8 @@
               <label for="update_cargo" class="text-shadow-1 text-custom">Cargo</label>
               <select name="update_cargo" id="update_cargo" class="form-control bg-white text-capitalize">
                 <option value="" selected="true">-- Seleccione --</option>
-                <?php foreach (Administrador::allTable('cargos') as $cargo) { ?>
-                  <option value="<?php echo $cargo->id_cargo ?>"><?php echo $cargo->nombre_cargo ?></option>
+                <?php foreach (Administrador::allTable('charges') as $cargo) { ?>
+                  <option value="<?php echo $cargo->id ?>"><?php echo $cargo->name ?></option>
                 <?php } ?>
               </select>
 
@@ -304,8 +409,8 @@
               <label for="update_tipo_contrato" class="text-shadow-1 text-custom">Tipo Contrato</label>
               <select name="update_tipo_contrato" id="update_tipo_contrato" class="form-control bg-white text-capitalize">
                 <option value="" selected="true">-- Seleccione --</option>
-                <?php foreach (Administrador::allTable('tipo_contrato') as $tipo_contrato) { ?>
-                  <option value="<?php echo $tipo_contrato->id_tipo_contrato ?>"><?php echo $tipo_contrato->tipo_contrato ?></option>
+                <?php foreach (Administrador::allTable('contract_types') as $tipo_contrato) { ?>
+                  <option value="<?php echo $tipo_contrato->id ?>"><?php echo $tipo_contrato->name ?></option>
                 <?php } ?>
               </select>
 
@@ -314,6 +419,93 @@
      
 
           </div>
+
+
+          <!-- NOMINA -->
+      
+         
+      
+      <div class="row">
+
+      <input type="hidden" name="update_nomina" id="update_nomina">
+                 <!--Descripcion-->
+         <div class="col-md-6 col-lg-4 col-sm-6 col-6">
+                <label for="update_descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripción Nomina</label>
+                <textarea name="update_descripcion_nomina" id="update_descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
+         </div> 
+        <!--FIN Descripcion-->
+         <!--Asiento contable-->
+         <div class="col-md-6 col-lg-4 col-sm-6 col-6">
+              <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
+              <select name="update_contable" tabindex="5" id="update_contable" tabindex="7" class="form-control bg-white">
+                <option value="" selected="true">---Seleccione---</option>
+                <?php foreach (Administrador::allTable('accounting_entry') as $asiento_contable) { ?>
+                  <option value="<?php echo $asiento_contable->id ?>"><?php echo $asiento_contable->name ?></option>
+                <?php } ?>
+              </select>
+        </div> 
+
+
+ 
+        <!--FIN Asiento contable-->
+        <!--Valor-->
+        <div class="col-md-12 col-lg-4 col-sm-12 col-12">
+              <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
+              <select name="update_tipo_concepto" tabindex="6" id="update_tipo_concepto" tabindex="7" class="form-control bg-white">
+                <option value="" selected="true">---Seleccione---</option>
+                <?php foreach (Administrador::allTable('types_concepts') as $tipo_concepto) { ?>
+                  <option value="<?php echo $tipo_concepto->id ?>"><?php echo $tipo_concepto->name ?></option>
+                <?php } ?>
+              </select>
+
+
+        </div> 
+
+        <div class="col-12 mt-3">
+            <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
+            <input type="text" name="update_valor" tabindex="7" id="update_valor"placeholder="update_Valor" class="form-control bg-white">
+        </div>
+
+        <div class="col-12 mt-3 text-center">
+                <button id="guardarArrayUpdate" class="mr-3 btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" type="submit">Crear Concepto</button>
+        </div>
+
+        
+        <!--FIN VALOR-->
+
+            <div class=" col-12 mt-3 ">
+              <!-- <ul id="lista_concepto" class="list-group text-dark">
+               
+              </ul> -->
+
+              <table class="table table-responsive-lg table-light table-hover ">
+                <thead class="thead-dark">
+                  <th >#</th>
+                  <th >Descripcion</th>
+                  <th >Asiento Contable</th>
+                  <th >Tipo Concepto</th>
+                  <th >Valor</th>
+                  <th >Opcion</th>
+                </thead>
+                <tbody id="update_lista_concepto">
+            
+                </tbody>
+              </table>
+            </div>
+
+        
+
+              
+          
+          </div>
+        
+
+   
+    
+        <input type="hidden" name="updated_at" value="<?php echo date("Y-m-d")  ?>">
+
+
+   <!-- ? NOMINA -->
 
     
   
@@ -340,7 +532,7 @@
 <!-- ? Modal Show-->
 <div class="modal fade w-100" id="ModalShowUser" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable ">
   
     <div class="modal-content  bg-dark text-white">
       <div class="modal-header border-0 b-custom">
@@ -362,8 +554,8 @@
                 <div class="form-group ">
                     <label  class="text-shadow-1 text-custom">Cargo</label>
                     <select id="show_cargo" class="bg-white d-block text-capitalize" disabled>
-                      <?php foreach (Administrador::allTable('cargos') as $cargo) { ?>
-                        <option value="<?php echo $cargo->id_cargo ?>"><?php echo $cargo->nombre_cargo ?></option>
+                      <?php foreach (Administrador::allTable('charges') as $cargo) { ?>
+                        <option value="<?php echo $cargo->id ?>"><?php echo $cargo->name ?></option>
                       <?php } ?>
                     </select>
                 </div>
@@ -378,7 +570,7 @@
 
               <div class="col-md-6 col-6">
 
-              <div class="d-flex justify-content-center align-items-center ">
+                <div class="d-flex justify-content-center align-items-center ">
                       <img src="" alt="" class="rounded-circle border-0 img-avatar-male" id="show_user_img">
               </div>
 
@@ -396,20 +588,13 @@
               <div class="form-group col-md-6 col-sm-6 col-12">
                 <label class="text-shadow-1 text-custom">Tipo Documento</label>
                 <select id="show_tipo_documento" class="bg-white d-block" text-capitalize  disabled>
-                  <?php foreach (Administrador::allTable('tipos_documentos') as $documento) { ?>
-                    <option class="bg-white" value="<?php echo $documento->id_tipo_documento ?>"><?php echo $documento->tipo_documento ?></option>
+                  <?php foreach (Administrador::allTable('document_types') as $documento) { ?>
+                    <option class="bg-white" value="<?php echo $documento->id ?>"><?php echo $documento->name ?></option>
                   <?php } ?>
                 </select>
               </div>
 
-              <!-- <div class="form-group  col-12 col-sm-6">
-                <label class="text-shadow-1 text-custom">Nomina</label>
-                <select id="show_fondo_pension" class="bg-white d-block text-capitalize" disabled>
-                  <?php foreach (Administrador::allTable('nominas') as $nomina) { ?>
-                    <option value="<?php echo $nomina->id_nomina ?>"><?php echo $nomina->fk_conceptos ?></option>
-                  <?php } ?>
-                </select>
-              </div> -->
+           
 
                   
           
@@ -419,32 +604,66 @@
                 <label  class="text-shadow-1 text-custom">Rol</label>
                 <select id="show_rol"  class="bg-white d-block"  disabled>
                   <?php foreach (Administrador::allTable('roles') as $rol) { ?>
-                    <option value="<?php echo $rol->id_rol ?>"><?php echo $rol->nombre_rol ?></option>
+                    <option value="<?php echo $rol->id ?>"><?php echo $rol->name ?></option>
                   <?php } ?>
                 </select>
               </div>
 
 
-              <div class="form-group  col-12 ">
+              <div class="form-group col-12  col-md-6 mt-3 ">
                 <label class="text-shadow-1 text-custom">Salario</label>
                 <p id="show_salario" class="d-block"></p>
-         
-               
               </div>
 
-              <div class="form-group  col-12 ">
+              <div class="form-group col-12  col-md-6 ">
                 <label  class="text-shadow-1 text-custom">Tipo Contrato</label>
                 <select id="show_tipo_contrato" class="d-block bg-white text-capitalize" disabled>
-                  <?php foreach (Administrador::allTable('tipo_contrato') as $tipo_contrato) { ?>
-                    <option value="<?php echo $tipo_contrato->id_tipo_contrato ?>"><?php echo $tipo_contrato->tipo_contrato ?></option>
+                  <?php foreach (Administrador::allTable('contract_types') as $tipo_contrato) { ?>
+                    <option value="<?php echo $tipo_contrato->id ?>"><?php echo $tipo_contrato->name ?></option>
                   <?php } ?>
                 </select>
               </div>
 
+<!-- Nomina -->
 
+
+       
+
+
+      
+          <div class="row table-responsive mx-0 ">
+                  
+  
+              <div class="col-12 mt-3 ">
+
+
+                <table class="table table-responsive-lg table-light table-hover">
+                  <thead class="thead-dark">
+                    <th >#</th>
+                    <th >Descripcion</th>
+                    <th >Asiento Contable</th>
+                    <th >Tipo Concepto</th>
+                    <th >Valor</th>
+    
+                  </thead>
+                  <tbody id="show_lista_concepto">
+                   
+                  </tbody>
+                </table>
+              </div>
+
+
+                
             
+            </div>
+          
 
-            <input type="hidden" name="updated_at" id="updated_at" value="<?php echo date("Y-m-d")  ?>">
+     
+      
+          <input type="hidden" name="updated_at" value="<?php echo date("Y-m-d")  ?>">
+
+
+<!-- END Nomina -->
 
 
 

@@ -36,7 +36,7 @@
                                         foreach (Nomina::consultarNominasPorUsuario($_SESSION['EMPLEADO']->id_usuario) as $nomina) {  ?>
                                             <tr class="table-light">
                                                 <th scope="row"><?php echo $count++ ?></th>
-                                                <td><?php echo $nomina->salario ?></td>
+                                                <td><?php echo $nomina->valor ?></td>
                                                 <td><?php echo $nomina->fecha_de ?></td>
                                                 <td><a target="_blank" href="?c=Pdf&m=downloadpdf&id_nomina=<?php echo $nomina->id_nomina?>" class="position-absolute pdf-svg"></a></td>
                                             </tr>
