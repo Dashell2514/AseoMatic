@@ -250,7 +250,7 @@ if(  location.search == '' || location.search == '?c=All&m=index')
         const id=e.target.getAttribute('data-id');
         if( id && e.target.getAttribute('data-tipo')=='noticia')
         {
-            showModal('noticias','id_noticia','noticia',id)
+            showModal('news',id)
         }
       
     })
@@ -260,25 +260,25 @@ if(  location.search == '' || location.search == '?c=All&m=index')
         const id=e.target.getAttribute('data-id');
         if( id && e.target.getAttribute('data-tipo')=='evento')
         {
-            showModal('eventos','id_evento','evento',id)
+            showModal('events',id)
         }
     })
 
-    const showModalEN = (data)=>{
-        const showModal = document.getElementById('showModal').textContent=`${(data.titulo_noticia) ? 'Noticias':'Eventos'}`;
-        const showTitle = document.getElementById('show_title').textContent=`${(data.titulo_noticia) ? data.titulo_noticia : data.titulo_evento}`;
-        // const showDescription = document.getElementById('show_description').innerHTML=`${(data.descripcion_noticia) ? data.descripcion_noticia : data.descripcion_evento}`;
-        const showDate = document.getElementById('show_date').textContent=`${data.nombres} ${data.apellidos} ${data.fecha_publicado}`;
-        const showImg = document.getElementById('show_prev_img').src=`${(data.imagen_noticia)? data.imagen_noticia : data.imagen_evento}`;
+    const showModalEN = (data,type = "news")=>{
+        const showModal = document.getElementById('showModal').textContent=`${(type == 'news') ? 'Noticias':'Eventos'}`;
+        const showTitle = document.getElementById('show_title').textContent=`${(data.title) ? data.title : ''}`;
+        const showDescription = document.getElementById('show_description').innerHTML=`${(data.description) ? data.description : ''}`;
+        const showDate = document.getElementById('show_date').textContent=`${data.name} ${data.lastname} ${data.updated_at}`;
+        const showImg = document.getElementById('show_prev_img').src=`${(data.image)? data.image : ''}`;
     }
 
-    const showModal = (tabla,campo,tipo,id) =>{
-        fetch(`?c=All&m=showModal&tabla=${tabla}&campo=${campo}&tipo=${tipo}&id=${id}`)
+    const showModal = (tabla,id) =>{
+        fetch(`?c=All&m=showModal&tabla=${tabla}&id=${id}`)
         .then(response => response.ok ? Promise.resolve(response) : Promise.reject(new Error('Fallo la consulta News')))
         .then(response => response.json())
         .then(data => {
  
-        showModalEN(data);
+        showModalEN(data,tabla);
    
         }).catch( console.log);
     }

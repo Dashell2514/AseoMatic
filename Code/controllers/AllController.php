@@ -1,5 +1,6 @@
-<?php 
+<?php
 
+use Illuminate\Support\Facades\Date;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -104,14 +105,75 @@ class AllController{
 
     public function showModal()
     {
-        if($_REQUEST['tabla'] &&  $_REQUEST['campo'] &&  $_REQUEST['tipo'] &&  $_REQUEST['id']){
-            echo json_encode(Administrador::allTableId($_REQUEST['tabla'],$_REQUEST['campo'],$_REQUEST['tipo'],$_REQUEST['id']));
+        
+        if($_REQUEST['tabla'] && $_REQUEST['id']){
+            echo json_encode(Administrador::allTableId($_REQUEST['tabla'],$_REQUEST['id']));
         }else{
             header('location:?c=All&m=index');
         }
   
     }
 
-    
+    static function daysEndMonth($method = "DaysMonth"){
 
+        $total_mes = cal_days_in_month(CAL_GREGORIAN, date("m"), date("Y"));
+    
+        
+        if ($method == "remainingDays") {
+            $transcurrido = date("d");
+            return $total_mes - $transcurrido;        
+        } else {
+            return $total_mes;
+        }
+        
+        
+    
+    }
+
+    static function automaticPayroll()
+    {
+        // $fechaActual= new DateTime( );
+        // $fechaMes = $fechaActual;
+        $remainingDays = AllController::daysEndMonth("remainingDays");
+        if ( $remainingDays == 1 ) {
+            // echo json_encode(['hoy'=> 'ok']);
+            $daysMonth = AllController::daysEndMonth(); //dias del mes
+            $dateFrom = date("Y-m-d" ,mktime(0, 0, 0, date("m")  , date("d")-($daysMonth-1), date("Y")));
+            // $dateFrom = date("Y-m-d" ,mktime(0, 0, 0, 6  , 30-(29), 2021)); EJEMPLO DE LO QUE HACE 
+            $dateTo = date("Y-m-d");
+            $usersId = Usuario::usersId(); //id usuarios
+            if ($usersId){
+                $nomina= new Nomina();
+                for ($i=0; $i < count($usersId); $i++) { 
+                    $nomina->createNomina($usersId[$i],$dateFrom,$dateTo); //se crea las nominas 
+                    $userConcepts= $nomina->conceptosFijos($usersId[$i]); //se obtienen los conceptos fijos
+                    $lastPayroll = $nomina->consultarUltimaNomina(); //fk_nomina
+
+                    $total = 0;
+                    for ($j=0; $j < count($userConcepts); $j++) { 
+                        $data = $userConcepts[$j];
+              
+                        $nomina->createConcept($data->descripcion,1, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $lastPayroll->id_nomina);
+        
+                        if($data->fk_asiento_contable == 2)
+                        {
+                            $total -=$data->valor;
+        
+                        }else{
+                            $total +=$data->valor;
+                        }
+                    }
+                    $nomina->updateNominaValor($total,$lastPayroll->id_nomina); //salary 
+                }
+                return;
+            }
+        }
+        else
+        {
+            echo json_encode(['faltan'=>$remainingDays]);
+            return;
+        }
+            
+    }
+    
 }

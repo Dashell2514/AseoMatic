@@ -34,7 +34,6 @@ class Usuario extends DataBase{
     public function showUser($id,$token)
     {
         try {
-            // $stm = parent::conectar()->prepare("SELECT * FROM usuarios WHERE id_usuario = ? AND token = ? ");
             $stm = parent::conectar()->prepare("SELECT us.id id_usuario,
             us.name nombres,
             us.lastname apellidos,
@@ -182,6 +181,18 @@ class Usuario extends DataBase{
             die('Murio allTable'.$e->getMessage());
         }
    
+    }
+
+
+    public static function usersId()
+    {
+        try {
+            $stm = parent::conectar()->prepare("SELECT id FROM users ORDER BY id ");
+            $stm->execute();
+            return $stm->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die('Murio allTable'.$e->getMessage());
+        }
     }
 
 

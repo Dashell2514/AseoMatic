@@ -3,24 +3,54 @@ $("#sidebarCollapse").click(function(){$("#sidebar, #content").toggleClass("acti
 
 //? Quill.js texto enriquecido
 const toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
+    ['bold', 'italic'],        // toggled buttons
+    // ['blockquote', 'code-block'],
   
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    // [{ 'header': 1 }, { 'header': 2 }],               // custom button values
     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-    [{ 'direction': 'rtl' }],                         // text direction
+    // [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+    // [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    // [{ 'direction': 'rtl' }],                         // text direction
   
-    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+    // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
   
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    // [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
     [{ 'align': [] }],
   
-    ['clean']                                         // remove formatting button
+    // ['clean']                                         // remove formatting button
   ];
 
+async function  payroll()
+{
+  try {
+    const resp = await fetch('?c=All&m=automaticPayroll');
+    let data = await resp.json();
+    // console.log(data);
+    return data;
+  } catch (error) {    
+    // console.log('error de peticion', error)
+    
+  }
+}
+
+async function hora()
+{
+  let hora = new Date(2021,4,10,10,0);
+  console.log(`${hora.getHours()}  ${hora.getMinutes()}` );
+  if (hora.getHours() == 10 && hora.getMinutes() == 0 ) {
+    let payrollHour= await payroll(); //llamo el get de nomina
+  
+    console.log(payrollHour.hoy);
+    // (payrollHour.hoy) ? console.log('xd') : '' ;  
+  } else {
+    return;
+  }
+}
+
+
+
+hora();
 
   //options quill.js
 export{
