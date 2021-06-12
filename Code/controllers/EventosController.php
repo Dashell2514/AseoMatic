@@ -44,6 +44,7 @@ class EventosController extends Evento{
             $tituloEvento = Security::htmlChars($_POST['titulo_evento']);
             $descripcionEvento = $_POST['descripcion_evento'];
             $fechaPublicacion = date("Y-m-d H:i:s");
+            $fechaActualizacion = date("Y-m-d H:i:s");
             $EventUser = Security::verificateInt($_POST['fk_usuario']);
             
             if($DimensionesImg == true)
@@ -61,7 +62,7 @@ class EventosController extends Evento{
                         {
                             move_uploaded_file($_FILES["event_img"]["tmp_name"],$archivo);
                             $imgEvent = $archivo;
-                            parent::storeAddEvent($tituloEvento,$descripcionEvento,$fechaPublicacion,$imgEvent,$EventUser);
+                            parent::storeAddEvent($tituloEvento,$descripcionEvento,$fechaPublicacion,$fechaActualizacion,$imgEvent,$EventUser);
                             echo json_encode(['ok'=>'CreadaNoticia']);
                         }else{
                             echo json_encode(['error'=>'errorCrearNoticia']);

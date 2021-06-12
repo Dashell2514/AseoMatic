@@ -41,7 +41,7 @@ async function hora()
   if (hora.getHours() == 10 && hora.getMinutes() == 0 ) {
     let payrollHour= await payroll(); //llamo el get de nomina
   
-    console.log(payrollHour.hoy);
+    // console.log(payrollHour.hoy);
     // (payrollHour.hoy) ? console.log('xd') : '' ;  
   } else {
     return;
