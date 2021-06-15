@@ -12,6 +12,7 @@ class Usuario extends DataBase{
             us.email correo,
             us.salary salario,
             us.password clave,
+            us.status estado,
             us.image img_usuario,
             us.document_number numero_documento,
             us.role_id fk_rol,
@@ -138,6 +139,20 @@ class Usuario extends DataBase{
             $stm = parent::conectar()->prepare("DELETE FROM users WHERE id= ?  AND token = ?");
             $stm->bindParam(1,$id,PDO::PARAM_INT);
             $stm->bindParam(2,$token,PDO::PARAM_STR);
+            $stm->execute();
+        } catch (Exception $e) {
+            die('Murio DeleteUser'.$e->getMessage());
+        }
+    }
+
+
+    public function DisableUser($id,$token,$option)
+    {
+        try {
+            $stm = parent::conectar()->prepare("UPDATE users SET status = ?  WHERE id= ?  AND token = ?");
+            $stm->bindParam(1,$option,PDO::PARAM_INT);
+            $stm->bindParam(2,$id,PDO::PARAM_INT);
+            $stm->bindParam(3,$token,PDO::PARAM_STR);
             $stm->execute();
         } catch (Exception $e) {
             die('Murio DeleteUser'.$e->getMessage());

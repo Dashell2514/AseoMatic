@@ -1,5 +1,7 @@
 <?php
 
+use Faker\Core\Number;
+
 class UsuariosController extends Usuario{
 
         private $seguridad;
@@ -313,6 +315,18 @@ class UsuariosController extends Usuario{
                 }
                 parent::deleteUser($id,$token);
            }
+       }
+       //? Funcion para Deshabilitar un usuario
+       public function disable()
+       {
+           $id=$this->seguridad->verificateInt($_REQUEST['delete_id']);
+           $token = $_REQUEST['token'];
+           $option = $this->seguridad->verificateInt(intval($_REQUEST['option']));
+           if($id && $token && $option)
+           {
+               parent::DisableUser($id,$token,$option);
+           }
+           return;
        }
    
     

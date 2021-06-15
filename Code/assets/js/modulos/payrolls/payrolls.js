@@ -368,16 +368,15 @@ const createTableNominas = (datos,count) =>{
     td9TableAllUsers.append(iTd9);
     
 
-    // let aTd9 =document.createElement('A');
-    // aTd9.classList.add('edit-btn');
+    if (Date.parse(datos.fecha_hasta) > Date.now()) {
+        let iATd9 =document.createElement('I');
+        iATd9.id= `${datos.id_nomina}`;
+        iATd9.classList.add('edit-svg');
+        iATd9.setAttribute('data-toggle','modal');
+        iATd9.setAttribute('data-target','#ModalUpdateNomina');
+        td9TableAllUsers.append(iATd9);
+    }
 
-    let iATd9 =document.createElement('I');
-    iATd9.id= `${datos.id_nomina}`;
-    iATd9.classList.add('edit-svg');
-    iATd9.setAttribute('data-toggle','modal');
-    iATd9.setAttribute('data-target','#ModalUpdateNomina');
-
-    td9TableAllUsers.append(iATd9);
 
    
 

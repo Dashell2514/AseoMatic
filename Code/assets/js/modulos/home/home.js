@@ -77,6 +77,11 @@ if(  location.search == '' || location.search == '?c=All&m=index')
                     const message = "El usuario no existe";
                     msgError(message);
                 }
+                else if(data.error =='incorrectoUser'){
+                    nombre_usuario.focus();
+                    const message = "El usuario esta deshabilitado contactese con un administrador";
+                    msgError(message);
+                }
                 else if(data.fk_rol)
                 {
                     if(data.fk_rol == '1')
