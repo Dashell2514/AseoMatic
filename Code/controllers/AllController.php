@@ -57,14 +57,14 @@ class AllController{
                     $mail->isSMTP();                                            // Send using SMTP
                     $mail->Host       = 'smtp.mailtrap.io';                    // Set the SMTP server to send through
                     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-                    $mail->Username   = '028de6b4dea01b';                     // SMTP username
-                    $mail->Password   = 'ab1fceab36503b';
+                    $mail->Username   = '';                     // SMTP username
+                    $mail->Password   = '';
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; 
                     $mail->Port       = 2525;
 
                     //Recipients
                     $mail->setFrom('aseomatic@gmail.com',$asuntoContact);
-                    $mail->addAddress('aseomatic@gmail.com');     // Add a recipient
+                    $mail->addAddress('aseomatic22@gmail.com');     // Add a recipient
                     // $mail->addCC('cc@example.com');
                     // $mail->addBCC('bcc@example.com');
         
@@ -135,18 +135,20 @@ class AllController{
         // $fechaActual= new DateTime( );
         // $fechaMes = $fechaActual;
         $remainingDays = AllController::daysEndMonth("remainingDays");
-        if ( $remainingDays == 1 ) {
-            // echo json_encode(['hoy'=> 'ok']);
+        // echo json_encode(['hoy'=> $remainingDays]);
+        // return;
+        if ( $remainingDays == 14 ) {
             $daysMonth = AllController::daysEndMonth(); //dias del mes
             $dateFrom = date("Y-m-d" ,mktime(0, 0, 0, date("m")  , date("d")-($daysMonth-1), date("Y")));
             // $dateFrom = date("Y-m-d" ,mktime(0, 0, 0, 6  , 30-(29), 2021)); EJEMPLO DE LO QUE HACE 
             $dateTo = date("Y-m-d");
             $usersId = Usuario::usersId(); //id usuarios
+            
             if ($usersId){
                 $nomina= new Nomina();
                 for ($i=0; $i < count($usersId); $i++) { 
-                    $nomina->createNomina($usersId[$i],$dateFrom,$dateTo); //se crea las nominas 
-                    $userConcepts= $nomina->conceptosFijos($usersId[$i]); //se obtienen los conceptos fijos
+                    $nomina->createNomina($usersId[$i]->id,$dateFrom,$dateTo); //se crea las nominas 
+                    $userConcepts= $nomina->conceptosFijos($usersId[$i]->id); //se obtienen los conceptos fijos
                     $lastPayroll = $nomina->consultarUltimaNomina(); //fk_nomina
 
                     $total = 0;

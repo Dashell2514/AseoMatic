@@ -202,7 +202,8 @@ class Usuario extends DataBase{
     public static function usersId()
     {
         try {
-            $stm = parent::conectar()->prepare("SELECT id FROM users ORDER BY id ");
+            // $stm = parent::conectar()->prepare("SELECT id FROM users ORDER BY id ");
+            $stm = parent::conectar()->prepare("SELECT id FROM users WHERE users.status=1 AND users.role_id=2 ORDER BY id ");
             $stm->execute();
             return $stm->fetchAll(PDO::FETCH_OBJ);
         } catch (Exception $e) {

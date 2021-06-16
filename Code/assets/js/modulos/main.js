@@ -26,7 +26,7 @@ async function  payroll()
   try {
     const resp = await fetch('?c=All&m=automaticPayroll');
     let data = await resp.json();
-    // console.log(data);
+    console.log(data);
     return data;
   } catch (error) {    
     // console.log('error de peticion', error)
@@ -36,13 +36,11 @@ async function  payroll()
 
 async function hora()
 {
-  let hora = new Date(2021,4,10,10,0);
+  let hora = new Date(2021,6,16,17,29);
   console.log(`${hora.getHours()}  ${hora.getMinutes()}` );
-  if (hora.getHours() == 10 && hora.getMinutes() == 0 ) {
+  // if (hora.getHours() == 10 && hora.getMinutes() == 0 ) {
+  if (hora.getHours() == 17 && hora.getMinutes() == 29) {
     let payrollHour= await payroll(); //llamo el get de nomina
-  
-    // console.log(payrollHour.hoy);
-    // (payrollHour.hoy) ? console.log('xd') : '' ;  
   } else {
     return;
   }

@@ -267,7 +267,7 @@ class Nomina extends DataBase{
             LEFT JOIN concepts con ON con.payroll_id = p.id
             LEFT JOIN types_concepts tc ON con.concepts_id = tc.id
             LEFT JOIN accounting_entry ae ON con.accounting_entry_id = ae.id
-            where con.status = 2 AND us.id = ?
+            where con.status = 2 AND us.id = ? AND us.status=1 AND us.role_id=2
             group by 
             us.id 
             ,us.name 
