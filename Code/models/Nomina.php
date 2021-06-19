@@ -1,13 +1,14 @@
 <?php
 
 class Nomina extends DataBase{
-    public function createNomina($id_usuario, $dateFrom, $dateTo){
+    public function createNomina($id_usuario, $dateFrom, $dateTo,$status=1){
         try{
-            $str = parent::conectar()->prepare("INSERT INTO payrolls(user_id, initial_date, final_date)
-            VALUES (?,?,?) ");
+            $str = parent::conectar()->prepare("INSERT INTO payrolls(user_id, initial_date, final_date,status)
+            VALUES (?,?,?,?) ");
             $str->bindParam(1,$id_usuario,PDO::PARAM_INT);
             $str->bindParam(2,$dateFrom,PDO::PARAM_STR);
             $str->bindParam(3,$dateTo,PDO::PARAM_STR);
+            $str->bindParam(4,$status,PDO::PARAM_INT);
             $str->execute();
         }catch(Exception $e){
             die('mal'.$e->getMessage());
@@ -277,6 +278,29 @@ class Nomina extends DataBase{
             ,con.status
             ,tc.name");
             $str->bindParam(1,$id,PDO::PARAM_INT);
+            $str->execute();
+            return $str->fetchAll(PDO::FETCH_OBJ); 
+        }catch(Exception $e){
+            die('Fallo valor en nomina'.$e->getMessage());
+        }
+        
+    }
+
+
+    public function ValidarSiExisteNomina($id,$initial_date,$final_date)
+    {  
+        try{
+            $str = parent::conectar()->prepare("SELECT * FROM `payrolls`  WHERE (payrolls.initial_date  
+            BETWEEN ? 
+            AND ?
+            OR payrolls.final_date BETWEEN ? 
+            AND ? )
+            AND payrolls.user_id=? ");
+            $str->bindParam(1,$initial_date,PDO::PARAM_STR);
+            $str->bindParam(2,$final_date,PDO::PARAM_STR);
+            $str->bindParam(3,$initial_date,PDO::PARAM_STR);
+            $str->bindParam(4,$final_date,PDO::PARAM_STR);
+            $str->bindParam(5,$id,PDO::PARAM_INT);
             $str->execute();
             return $str->fetchAll(PDO::FETCH_OBJ); 
         }catch(Exception $e){

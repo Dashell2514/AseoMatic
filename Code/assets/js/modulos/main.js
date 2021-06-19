@@ -21,18 +21,19 @@ const toolbarOptions = [
     // ['clean']                                         // remove formatting button
   ];
 
-async function  payroll()
+async function  payroll(day = 1)
 {
   try {
-    const resp = await fetch('?c=All&m=automaticPayroll');
+    const resp = await fetch(`?c=AutomaticPayrolls&m=automaticPayroll&day=${day}`);
     let data = await resp.json();
     console.log(data);
     return data;
   } catch (error) {    
     // console.log('error de peticion', error)
-    
+    return;
   }
 }
+
 
 async function hora()
 {
@@ -45,7 +46,6 @@ async function hora()
     return;
   }
 }
-
 
 
 hora();

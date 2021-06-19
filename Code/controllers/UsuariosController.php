@@ -118,7 +118,7 @@ class UsuariosController extends Usuario{
                    $nomina = new Nomina();
                    if($fecha_de && $fecha_hasta && $arrayDatos){
 
-                       $nomina->createNomina($fk_usuario->id, $fecha_de, $fecha_hasta);
+                       $nomina->createNomina($fk_usuario->id, $fecha_de, $fecha_hasta,2);
            
                        $lastNomina =$nomina->consultarUltimaNomina();
                        
