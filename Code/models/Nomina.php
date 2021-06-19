@@ -128,8 +128,11 @@ class Nomina extends DataBase{
             t.id id_tipo_concepto,
             t.name tipo_concepto,
             ac.id id_asiento_contable,
-            ac.name asiento_contable          
-            FROM concepts c LEFT JOIN types_concepts t ON c.concepts_id = t.id LEFT JOIN accounting_entry ac ON c.accounting_entry_id = ac.id WHERE c.payroll_id = $id_nomina  ORDER BY c.id DESC");
+            ac.name asiento_contable,
+            p.initial_date fecha_de,
+            p.final_date fecha_hasta         
+            FROM concepts c LEFT JOIN types_concepts t ON c.concepts_id = t.id LEFT JOIN accounting_entry ac ON c.accounting_entry_id = ac.id 
+            LEFT JOIN payrolls p on c.payroll_id=p.id WHERE c.payroll_id = $id_nomina  ORDER BY c.id DESC");
             $str->execute();
             return $str->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $e){
@@ -214,10 +217,10 @@ class Nomina extends DataBase{
         }
     }
 
-    public function updateNomina($id_usuario, $dateFrom, $dateTo, $id_nomina){
+    public function updateNomina($salary, $dateFrom, $dateTo, $id_nomina){
         try{
-            $str = parent::conectar()->prepare("UPDATE payrolls SET user_id = ?, initial_date = ?, final_date = ? WHERE id = ?");
-            $str->bindParam(1,$id_usuario,PDO::PARAM_INT);
+            $str = parent::conectar()->prepare("UPDATE payrolls SET  salary = ?, initial_date = ?, final_date = ? WHERE id = ?");
+            $str->bindParam(1,$salary,PDO::PARAM_INT);
             $str->bindParam(2,$dateFrom,PDO::PARAM_STR);
             $str->bindParam(3,$dateTo,PDO::PARAM_STR);            
             $str->bindParam(4,$id_nomina,PDO::PARAM_INT);

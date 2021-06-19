@@ -47,8 +47,11 @@ async function hora()
   }
 }
 
-
 hora();
+
+setInterval(() => {
+  hora();
+}, 300000);
 
   //options quill.js
 export{

@@ -86,8 +86,9 @@ class NominasController extends Nomina{
     {
         $arrayDatos = json_decode($_POST['arrayDatos']);
         $fk_nomina = ($_POST['fk_nomina']);
+        $update_fecha_de = ($_POST['update_fecha_de']);
+        $update_fecha_hasta = ($_POST['update_fecha_hasta']);
     
-
         if($fk_nomina && $arrayDatos){
             
             parent::deleteTodosConceptos($fk_nomina);
@@ -107,7 +108,7 @@ class NominasController extends Nomina{
                
             }
             
-            parent::updateNominaValor($total,$fk_nomina);
+            parent::updateNomina($total,$update_fecha_de,$update_fecha_hasta,$fk_nomina);
             echo json_encode(['ok'=> 'Creado']);
             return;
         }else{

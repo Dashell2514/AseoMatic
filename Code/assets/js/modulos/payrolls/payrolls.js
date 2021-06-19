@@ -110,6 +110,8 @@ const renderizarConcepto=(datos,method = "crear" )=> {
 
     if(method == 'update')
     {
+        document.getElementById('update_fecha_de').value=`${datos[0].fecha_de}`;
+        document.getElementById('update_fecha_hasta').value=datos[0].fecha_hasta;
         update_lista_concepto.innerHTML=``;
         update_lista_concepto.appendChild(fragment);
     }else if(method =='show'){
@@ -580,11 +582,15 @@ btnUpdateNomina.addEventListener('click',(e)=>{
     e.preventDefault();
 
     const fk_nomina = document.getElementById('update_nomina');
+    const update_fecha_de = document.getElementById('update_fecha_de');
+    const update_fecha_hasta = document.getElementById('update_fecha_hasta');
     const conceptoUpdate = JSON.stringify(allconceptoUpdate);
   
-    if(conceptoUpdate.length != 2){
+    if(validarInsertNomina(fk_nomina,update_fecha_de,update_fecha_hasta,conceptoUpdate)){
         const formData = new FormData();
         formData.append('fk_nomina',fk_nomina.value);
+        formData.append('update_fecha_de',update_fecha_de.value);
+        formData.append('update_fecha_hasta',update_fecha_hasta.value);
         formData.append('arrayDatos',conceptoUpdate);
         fetch('?c=Nominas&m=update',
         {
@@ -601,6 +607,8 @@ btnUpdateNomina.addEventListener('click',(e)=>{
                 const msg ='La Nomina se ha Actualizado';
                 msgSuccess(msg);
                 allconceptoUpdate = [];
+                update_fecha_de.value="";
+                update_fecha_hasta.value="";
                 showNominas();
             
             }else{
@@ -613,11 +621,7 @@ btnUpdateNomina.addEventListener('click',(e)=>{
 
             
         })
-    }else{
-        const msg ='Debe haber minimo 1 concepto';
-        msgError(msg);
     }
-
 })
 
     showNominas();
