@@ -3,6 +3,7 @@
         "ext-calendar": "*",
         "mpdf/mpdf": "^8.0",
         "ext-mbstring": "^7.4",
-        "phpmailer/phpmailer": "^6.2"
+        "phpmailer/phpmailer": "^6.2",
+        "vlucas/phpdotenv": "^5.3"
     }
 }
