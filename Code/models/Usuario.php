@@ -12,6 +12,7 @@ class Usuario extends DataBase{
             us.email correo,
             us.salary salario,
             us.password clave,
+            us.status estado,
             us.image img_usuario,
             us.document_number numero_documento,
             us.role_id fk_rol,
@@ -34,7 +35,6 @@ class Usuario extends DataBase{
     public function showUser($id,$token)
     {
         try {
-            // $stm = parent::conectar()->prepare("SELECT * FROM usuarios WHERE id_usuario = ? AND token = ? ");
             $stm = parent::conectar()->prepare("SELECT us.id id_usuario,
             us.name nombres,
             us.lastname apellidos,
@@ -145,6 +145,20 @@ class Usuario extends DataBase{
         }
     }
 
+
+    public function DisableUser($id,$token,$option)
+    {
+        try {
+            $stm = parent::conectar()->prepare("UPDATE users SET status = ?  WHERE id= ?  AND token = ?");
+            $stm->bindParam(1,$option,PDO::PARAM_INT);
+            $stm->bindParam(2,$id,PDO::PARAM_INT);
+            $stm->bindParam(3,$token,PDO::PARAM_STR);
+            $stm->execute();
+        } catch (Exception $e) {
+            die('Murio DeleteUser'.$e->getMessage());
+        }
+    }
+
     public function consultarUltimoUsuario(){
         try{
             $str = parent::conectar()->prepare("SELECT id FROM users ORDER BY id DESC LIMIT 1");
@@ -182,6 +196,19 @@ class Usuario extends DataBase{
             die('Murio allTable'.$e->getMessage());
         }
    
+    }
+
+
+    public static function usersId()
+    {
+        try {
+            // $stm = parent::conectar()->prepare("SELECT id FROM users ORDER BY id ");
+            $stm = parent::conectar()->prepare("SELECT id FROM users WHERE users.status=1 AND users.role_id=2 ORDER BY id ");
+            $stm->execute();
+            return $stm->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die('Murio allTable'.$e->getMessage());
+        }
     }
 
 

@@ -4,11 +4,14 @@
 class NominasController extends Nomina{
 
     private $seguridad;
+    private $validacion;
 
     public function __construct()
     {
         try
         {
+            require_once 'controllers/AutomaticPayrollsController.php';
+            $this->validacion = new AutomaticPayrollsController();
             $this->seguridad = new Security();
             $this->seguridad->seguridadAdministrador();
         }catch(Exception $e)
@@ -47,7 +50,14 @@ class NominasController extends Nomina{
         $fecha_de = $_POST['fecha_de'];
         $fecha_hasta = $_POST['fecha_hasta'];
         $arrayDatos = json_decode($_POST['arrayDatos']);
-    
+        
+        
+        if($this->validacion->validacionNominaPorFechas($fk_usuario,$fecha_de,$fecha_hasta))
+        {
+            echo json_encode(['error' => 'Ya existe una nomina de ese mes']);
+            return;
+        }
+
 
         if($fk_usuario && $fecha_de && $fecha_hasta && $arrayDatos){
 
@@ -84,10 +94,20 @@ class NominasController extends Nomina{
 
     public function update()
     {
+    
         $arrayDatos = json_decode($_POST['arrayDatos']);
         $fk_nomina = ($_POST['fk_nomina']);
-    
+        $update_fecha_de = ($_POST['update_fecha_de']);
+        $update_fecha_hasta = ($_POST['update_fecha_hasta']);
 
+        $fk_usuario = Nomina::consultarUnaNomina($fk_nomina);
+
+        if($this->validacion->validacionNominaPorFechas($fk_usuario->fk_usuario,$update_fecha_de,$update_fecha_hasta))
+        {
+            echo json_encode(['error' => 'Ya existe una nomina de ese mes']);
+            return;
+        }
+    
         if($fk_nomina && $arrayDatos){
             
             parent::deleteTodosConceptos($fk_nomina);
@@ -107,7 +127,7 @@ class NominasController extends Nomina{
                
             }
             
-            parent::updateNominaValor($total,$fk_nomina);
+            parent::updateNomina($total,$update_fecha_de,$update_fecha_hasta,$fk_nomina);
             echo json_encode(['ok'=> 'Creado']);
             return;
         }else{

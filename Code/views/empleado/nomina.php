@@ -33,14 +33,16 @@
 
                                         <?php  
                                         $count =1;
-                                        foreach (Nomina::consultarNominasPorUsuario($_SESSION['EMPLEADO']->id_usuario) as $nomina) {  ?>
+                                        foreach (Nomina::consultarNominasPorUsuario($_SESSION['EMPLEADO']->id_usuario) as $nomina) { 
+                                            if ($nomina->fecha_de <= date('Y-m-d') && $nomina->fecha_hasta <= date("Y-m-d")  ) {
+                                            ?>
                                             <tr class="table-light">
                                                 <th scope="row"><?php echo $count++ ?></th>
                                                 <td><?php echo $nomina->valor ?></td>
-                                                <td><?php echo $nomina->fecha_de ?></td>
+                                                <td><?php echo "De: $nomina->fecha_de Hasta:     $nomina->fecha_hasta" ?></td>
                                                 <td><a target="_blank" href="?c=Pdf&m=downloadpdf&id_nomina=<?php echo $nomina->id_nomina?>" class="position-absolute pdf-svg"></a></td>
                                             </tr>
-                                        <?php } ?>
+                                        <?php } } ?>
                                        
 
                                     </tbody>

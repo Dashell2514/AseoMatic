@@ -1,5 +1,6 @@
-<?php 
+<?php
 
+use Illuminate\Support\Facades\Date;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -56,14 +57,14 @@ class AllController{
                     $mail->isSMTP();                                            // Send using SMTP
                     $mail->Host       = 'smtp.mailtrap.io';                    // Set the SMTP server to send through
                     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-                    $mail->Username   = '028de6b4dea01b';                     // SMTP username
-                    $mail->Password   = 'ab1fceab36503b';
+                    $mail->Username   = '';                     // SMTP username
+                    $mail->Password   = '';
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; 
                     $mail->Port       = 2525;
 
                     //Recipients
                     $mail->setFrom('aseomatic@gmail.com',$asuntoContact);
-                    $mail->addAddress('aseomatic@gmail.com');     // Add a recipient
+                    $mail->addAddress('aseomatic22@gmail.com');     // Add a recipient
                     // $mail->addCC('cc@example.com');
                     // $mail->addBCC('bcc@example.com');
         
@@ -104,14 +105,13 @@ class AllController{
 
     public function showModal()
     {
-        if($_REQUEST['tabla'] &&  $_REQUEST['campo'] &&  $_REQUEST['tipo'] &&  $_REQUEST['id']){
-            echo json_encode(Administrador::allTableId($_REQUEST['tabla'],$_REQUEST['campo'],$_REQUEST['tipo'],$_REQUEST['id']));
+        
+        if($_REQUEST['tabla'] && $_REQUEST['id']){
+            echo json_encode(Administrador::allTableId($_REQUEST['tabla'],$_REQUEST['id']));
         }else{
             header('location:?c=All&m=index');
         }
   
     }
-
     
-
 }

@@ -3,24 +3,55 @@ $("#sidebarCollapse").click(function(){$("#sidebar, #content").toggleClass("acti
 
 //? Quill.js texto enriquecido
 const toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
+    ['bold', 'italic'],        // toggled buttons
+    // ['blockquote', 'code-block'],
   
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    // [{ 'header': 1 }, { 'header': 2 }],               // custom button values
     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-    [{ 'direction': 'rtl' }],                         // text direction
+    // [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+    // [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    // [{ 'direction': 'rtl' }],                         // text direction
   
-    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+    // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
   
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    // [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
     [{ 'align': [] }],
   
-    ['clean']                                         // remove formatting button
+    // ['clean']                                         // remove formatting button
   ];
 
+async function  payroll(day = 1)
+{
+  try {
+    const resp = await fetch(`?c=AutomaticPayrolls&m=automaticPayroll&day=${day}`);
+    let data = await resp.json();
+    console.log(data);
+    return data;
+  } catch (error) {    
+    // console.log('error de peticion', error)
+    return;
+  }
+}
+
+
+async function hora()
+{
+  let hora = new Date(2021,6,16,17,29);
+  console.log(`${hora.getHours()}  ${hora.getMinutes()}` );
+  // if (hora.getHours() == 10 && hora.getMinutes() == 0 ) {
+  if (hora.getHours() == 17 && hora.getMinutes() == 29) {
+    let payrollHour= await payroll(); //llamo el get de nomina
+  } else {
+    return;
+  }
+}
+
+hora();
+
+setInterval(() => {
+  hora();
+}, 300000);
 
   //options quill.js
 export{
