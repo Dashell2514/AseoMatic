@@ -27,12 +27,16 @@
                                            
                                         </tr>
                                     </thead>
-                                    <tbody>
 
                                     <tbody>
 
                                         <?php  
                                         $count =1;
+                                        if (!Nomina::consultarNominasPorUsuario($_SESSION['EMPLEADO']->id_usuario)) {
+                                            echo '<div class="w-100 alert alert-info text-capitalize text-center b-custom text-white" role="alert">
+                                            No se han encontrado desprendibles de pago.
+                                            </div>';
+                                        }
                                         foreach (Nomina::consultarNominasPorUsuario($_SESSION['EMPLEADO']->id_usuario) as $nomina) { 
                                             if ($nomina->fecha_de <= date('Y-m-d') && $nomina->fecha_hasta <= date("Y-m-d")  ) {
                                             ?>
@@ -256,12 +260,7 @@
 
 
 
-                            <div class="row text-white mb-3 ">
-                                <div class="col-12 text-center d-flex justify-content-center align-items-center">
-                                    <a data-hover="Algo Inusual" class=" w-75  text-decoration-none button--scale-text-1  font-weight-bold  b-custom text-white rounded-lg" data-toggle="modal" data-target="#informationModal">Algo Inusual</a>
-                                </div>
-
-                            </div>
+                       
 
 
                         </div>
@@ -276,52 +275,5 @@
 </main>
 
 <!-- ? End Main -->
-
-
-
-
-
-
-
-<!-- ? Modal -->
-<div class="modal fade" id="informationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content bg-dark text-white">
-            <div class="modal-header border-0">
-                <h5 class="modal-title text-center h4 font-weight-bold text-shadow-1 text-custom" id="informationModal">Reportar Problema </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="#" method="POST">
-                    <div class="form-group">
-                        <label for="asunto_reporte" class=" text-custom " >Asunto</label>
-                        <input type="asunto_reporte" class="form-control bg-white input-custom  "required  id="asunto_reporte">
-                    </div>
-                    <div class="form-group">
-                        <label for="descripcion_reporte" class=" text-custom">Descripcion</label>
-                        <textarea name="descripcion_reporte" required id="descripcion_reporte" cols="20" class="form-control bg-white input-custom"  rows="3"></textarea>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="numero_reporte" class=" text-custom">Numero de Nomina</label>
-                        <input type="number" class="form-control bg-white input-custom"  required id="numero_reporte">
-                    </div>
-
-                    <div class="d-flex justify-content-start align-items-center">
-                        <button  type="button" class="mr-3 btn-custom b-r-custom text-decoration-none  font-weight-bold  b-custom text-white rounded-lg">Enviar</button>
-
-                        <button type="button" class=" btn-custom b-r-custom text-decoration-none  font-weight-bold  b-custom text-white rounded-lg" data-dismiss="modal">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- ? End Modal -->
 
 <?php require_once 'layout/footer.php'?>

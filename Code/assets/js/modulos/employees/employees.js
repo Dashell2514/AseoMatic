@@ -3,7 +3,6 @@ import { msgError,msgSuccess } from "./../message.js";
 import { validatePasswordModerate} from "./../validation.js";
 if( location.search == '?c=Empleados&m=showPerfil')
 {
-    console.log('xd');
     const ShowProfile = () =>{
         fetch('?c=Empleados&m=show')
         .then( (response) => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error Show Empleado')))
@@ -72,7 +71,7 @@ if( location.search == '?c=Empleados&m=showPerfil')
        })
 
 
-       const validatePassProfile= (paramClave,passConfirm,img) =>
+       const validatePassProfile= (paramClave,passConfirm) =>
        {
             if(paramClave.value == ""){
                 paramClave.focus();
@@ -97,10 +96,28 @@ if( location.search == '?c=Empleados&m=showPerfil')
                 const message = "Las contraseñas no coinciden ";
                 msgError(message);
             } 
-            else if(img.src =='' || img.alt == 'image not found'){
-                const msg = 'Ingrese la imagen';
-                
-                msgError(msg);
+            else{
+                return true;
+            }    
+       }
+       const validatePassUpdate= (paramClave,passConfirm) =>
+       {
+            if(paramClave.value == ""){
+                paramClave.focus();
+                const message = "Ingresar la contraseña Actual";
+                msgError(message);
+            }
+            else if(passConfirm.value == "")
+            {
+                passConfirm.focus();
+                const message = "Ingresar la Nueva de contraseña";
+                msgError(message);
+            }
+            else if(validatePasswordModerate(passConfirm.value) == false)
+            {
+                passConfirm.focus();
+                const message = "Clave no valida Debe tener 1 letra minúscula, 1 letra mayúscula, 1 número y tener al menos 8 caracteres.";
+                msgError(message);
             }
             else{
                 return true;
@@ -112,9 +129,65 @@ if( location.search == '?c=Empleados&m=showPerfil')
 
 
        const btnSubmitProfile = document.getElementById('updateProfile');
+       const btnSubmitPass = document.getElementById('btnupdatePassword');
 
 
+       const validateImg = (img) =>{
+            if(img.src =='' || img.alt == 'image not found'){
+                const msg = 'Ingrese la imagen';
+                msgError(msg);
+            }else{
+                return true;
+            }
+       }
 
+
+       const updatePass = () => 
+       {
+            const tokenPerfil = document.getElementById('token_perfil');
+            const validate_password = document.getElementById('validate_password');
+            const new_password = document.getElementById('new_password');
+
+            const validate = validatePassUpdate(validate_password,new_password);
+
+            if(validate == true)
+            {
+                const data = new FormData();
+                data.append('token_perfil', tokenPerfil.value);
+                data.append('validate_password', validate_password.value);
+                data.append('new_password', new_password.value);
+                fetch('?c=Empleados&m=updatePass',{
+                    method: 'POST',
+                    body : data
+                })
+                .then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('fallo actualizacion Contraseña')))
+                .then(data => data.json())
+                .then(data => {
+
+                    if(data.error == 'CI'){ 
+                        const msg ='La Contraseña Actual es Incorrecta';
+                        msgError(msg);
+                        validate_password.focus();
+                    }
+                    else if(data.error){ 
+                        const msg ='Fallo la actualizacion del usuario';
+                        msgError(msg);
+                    }
+                    else if(data.ok == 'CA'){
+
+                        $('#updatePassword').modal('hide')
+                        let message = 'Contraseña Actualizada';
+                        msgSuccess(message);
+                        ShowProfile();
+                        validate_password.value="";
+                        new_password.value="";
+                        
+                    }  
+                })
+            }
+       }
+
+        //UpdateIMG
        const updateProfile  = () =>{
 
             const tokenPerfil = document.getElementById('token_perfil');
@@ -122,7 +195,7 @@ if( location.search == '?c=Empleados&m=showPerfil')
             const ConfirmPerfil = document.getElementById('confirm_password_perfil');
             const imgProfile=imgNew.files[0];
 
-            const validate = validatePassProfile(passPerfil,ConfirmPerfil,prevImg)
+            const validate = validatePassProfile(passPerfil,ConfirmPerfil);
         
 
             if(validate == true)
@@ -140,13 +213,22 @@ if( location.search == '?c=Empleados&m=showPerfil')
                 .then(data => data.json())
                 .then(data => {
 
-                    if(data.error){ 
+                    console.log(data)
+                    if(data.error == 'CI'){ 
+                        const msg ='Contraseña Incorrecta';
+                        msgError(msg);
+                    }
+                    else if(data.error == 'IV'){ 
+                        const msg ='Ingrese una imagen';
+                        msgError(msg);
+                    }
+                    else if(data.error){ 
                         const msg ='Fallo la actualizacion del usuario';
                         msgError(msg);
                     }
                     else if(data.ok){
 
-                        let message = 'Contraseña Actualizada';
+                        let message = 'Imagen Actualizada';
 
                         msgSuccess(message);
                         ShowProfile();
@@ -163,7 +245,12 @@ if( location.search == '?c=Empleados&m=showPerfil')
        btnSubmitProfile.addEventListener('click',(e)=>{
            e.preventDefault();
            updateProfile();
+       })
 
+
+       btnSubmitPass.addEventListener('click',(e)=>{
+           e.preventDefault();
+           updatePass();
        })
 
   
