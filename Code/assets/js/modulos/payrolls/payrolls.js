@@ -293,11 +293,23 @@ btnGuardarNomina.addEventListener('click',function(e){
                 fecha_hasta.value="";
                 showNominas();
             }else{
-                const msg ='Error Fallo';
-                msgError(msg)
-                setTimeout(() => {
-                    location="?c=All&m=index";
-                }, 1500);
+
+                if(data.error =='Ya existe una nomina de ese mes')
+                {   
+                    const msg =data.error;
+                    msgError(msg) 
+                    return
+                }
+                else
+                {
+                    const msg ='Error Fallo';
+                    msgError(msg)
+                    setTimeout(() => {
+                        location="?c=All&m=index";
+                    }, 1500);
+                }                
+
+               
             }
 
             
@@ -612,11 +624,21 @@ btnUpdateNomina.addEventListener('click',(e)=>{
                 showNominas();
             
             }else{
-                const msg ='Error Fallo';
-                msgError(msg)
-                setTimeout(() => {
-                    location="?c=All&m=index";
-                }, 1500);
+
+                if(data.error =='Ya existe una nomina de ese mes')
+                {   
+                    const msg =data.error;
+                    msgError(msg) 
+                    return
+                }
+                else
+                {
+                    const msg ='Error Fallo';
+                    msgError(msg)
+                    setTimeout(() => {
+                        location="?c=All&m=index";
+                    }, 1500);
+                } 
             }
 
             

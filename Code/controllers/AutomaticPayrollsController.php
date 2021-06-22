@@ -59,7 +59,6 @@ class AutomaticPayrollsController
                 for ($i = 0; $i < count($usersId); $i++) {
 
                     if ($this->validacionNominaPorFechas($usersId[$i]->id, $dateFrom, $dateTo)) {
-                        echo json_encode(['hoy' => $this->validacionNominaPorFechas($usersId[$i]->id, $dateFrom, $dateTo)]);
                         continue; //se salta el ciclo si ya tiene nomina en esa fecha creada
                     }
                     $this->nomina->createNomina($usersId[$i]->id, $dateFrom, $dateTo); //se crea las nominas 
