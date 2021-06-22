@@ -139,8 +139,8 @@
                                 <img src="<?php echo $noticia->image?>" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title font-weight-bold"><?php echo $noticia->title?></h5>
-                                    <p class="card-subtitle"><?php echo Login::limitar_cadena($noticia->description,80,'...')?></p>
-                                    <a data-id="<?php echo $noticia->id?>" data-tipo="noticia"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow">Leer Mas</a>
+                                    <p class="card-subtitle"><?php echo Login::limitar_cadena($noticia->description,75,'...')?></p>
+                                    <a data-id="<?php echo $noticia->id?>" data-tipo="noticia"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow text-white">Leer Mas</a>
                                 </div>
                             </div>
 
@@ -184,7 +184,7 @@
 
 
         <div class="d-flex justify-content-end align-items-center">
-              <button type="button"  class="btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" data-dismiss="modal">Cerrar</button>
+              <button type="button"  class="font-weight-bold btn btn-grow font-weight-bold text-white rounded-lg" data-dismiss="modal">Cerrar</button>
         </div>
 
 
