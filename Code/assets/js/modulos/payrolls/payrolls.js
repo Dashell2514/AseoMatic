@@ -1,2 +1,654 @@
-import { msgError,msgSuccess } from "../message.js";import {  liMostrar, TableAndpagination, pagina} from "../pagination.js";if("?c=Nominas&m=index"==location.search){let e=[],t=[];document.getElementById("CancelarNomina"),document.getElementById("cerrarModalNomina");const a=document.getElementById("lista_concepto"),n=document.getElementById("show_lista_concepto"),o=document.getElementById("update_lista_concepto"),c=document.getElementById("guardarArray"),i=document.getElementById("guardarArrayUpdate"),d=document.getElementById("tablaAllNominas");let r=[];const l=()=>{e=[],a.innerHTML=""},s=(e,t,a)=>{if(""==e.value){e.focus(),msgError("Ingresar la descripcion del concepto")}else if(""==t.value){t.focus(),msgError("Ingresar el Asiento Contable")}else{if(""!=a.value)return!0;a.focus(),msgError("Ingresar el valor del concepto ")}},m=(e,t,a)=>{const n=document.createDocumentFragment(),o=document.createElement("TR");o.classList.add("table-light");const c=document.createElement("TD");c.textContent=`${t}`,o.append(c);const i=document.createElement("TD");i.textContent=`${e.descripcion}`,i.classList.add("text-capitalize"),o.append(i);const d=document.createElement("TD");d.textContent=`${e.asiento_contable}`,o.append(d);const r=document.createElement("TD");r.textContent=`${e.tipo_concepto}`,o.append(r);const l=document.createElement("TD");if(l.textContent=`${e.valor}`,o.append(l),"update"==a||"crear"==a){const t=document.createElement("TD");t.classList.add("i-separated");const a=document.createElement("I");a.setAttribute("data-target","BorrarConcepto"),a.setAttribute("data-id",`${e.id_concepto}`),a.classList.add("delete-svg"),t.append(a),o.append(t)}return n.append(o),n},u=(e,t="crear")=>{const c=document.createDocumentFragment();let i=0;for(const a of e)i++,c.append(m(a,i,t));"update"==t?(document.getElementById("update_fecha_de").value=`${e[0].fecha_de}`,document.getElementById("update_fecha_hasta").value=e[0].fecha_hasta,o.innerHTML="",o.appendChild(c)):"show"==t?(n.innerHTML="",n.append(c)):"crear"==t&&(a.innerHTML="",a.append(c))};c.addEventListener("click",t=>{t.preventDefault();const a=e.length,n=document.getElementById("descripcion_nomina"),o=document.getElementById("contable"),c=document.getElementById("valor"),i=document.getElementById("tipo_concepto");if(s(n,o,c,i)){let t={id_concepto:a,descripcion:n.value,asiento_contable:o[o.value].textContent,fk_asiento_contable:o.value,valor:c.value,tipo_concepto:i[i.value].textContent,fk_tipo_concepto:i.value};e.push(t),u(e),n.value="",o.value="",c.value=""}}),i.addEventListener("click",e=>{e.preventDefault();const a=document.getElementById("update_descripcion_nomina"),n=document.getElementById("update_contable"),o=document.getElementById("update_valor"),c=document.getElementById("update_tipo_concepto"),i=document.getElementById("update_nomina");if(s(a,n,o,c)){let e={id_concepto:t.length,descripcion:a.value,fk_asiento_contable:n.value,tipo_concepto:c[c.value].textContent,asiento_contable:n[n.value].textContent,valor:o.value,fk_tipo_concepto:c.value,fk_nomina:i.value};t.push(e),u(t,"update"),a.value="",n.value="",o.value=""}}),a.addEventListener("click",t=>{if(t.preventDefault(),t.target.getAttribute("data-id")){let a=t.target.getAttribute("data-id");const n=e.filter(e=>e.id_concepto==a)[0],o=`${n.descripcion} con el valor ${n.valor}`;p(o,a,"crear")}}),o.addEventListener("click",e=>{if(e.preventDefault(),e.target.getAttribute("data-id")){let a=e.target.getAttribute("data-id");const n=t.filter(e=>e.id_concepto==a)[0],o=`${n.descripcion} con el valor ${n.valor}`;p(o,a)}});const p=(a,n,o="actualizar")=>{Swal.fire({icon:"warning",html:`<p class="text-white h4 mb-3 text-capitalize">Desea borrar el concepto</p><p class="text-danger text-capitalize h6">${a}</p>`,focusConfirm:!0,background:"#343a40",confirmButtonText:"Entendido",confirmButtonColor:"#6C63FF",showCancelButton:!0,cancelButtonText:"Cancelar",cancelButtonColor:"#6C63FF"}).then(a=>{if(a.value)if("crear"!=o){const e=t.filter(e=>e.id_concepto!=n);u(t=e,"update")}else{const t=e.filter(e=>e.id_concepto!=n);u(e=t)}})};document.getElementById("GuardarNomina").addEventListener("click",function(t){t.preventDefault();const a=document.getElementById("usuario"),n=document.getElementById("fecha_de"),o=document.getElementById("fecha_hasta"),c=JSON.stringify(e);if(_(a,n,o,c)){const e=new FormData;e.append("fk_usuario",a.value),e.append("fecha_de",n.value),e.append("fecha_hasta",o.value),e.append("arrayDatos",c),fetch("?c=Nominas&m=store",{method:"POST",body:e}).then(e=>e.ok?Promise.resolve(e):Promise.reject(new Error("Error al Crear Nomina"))).then(e=>e.json()).then(e=>{if(e.ok){$("#ModalAddNomina").modal("hide"),msgSuccess("La Nomina se ha creado"),l(),a.value="",n.value="",o.value="",E()}else{if("Ya existe una nomina de ese mes"==e.error){const t=e.error;return void msgError(t)}msgError("Error Fallo"),setTimeout(()=>{location="?c=All&m=index"},1500)}})}});const g=(e,t)=>{const a=document.createDocumentFragment(),n=document.createElement("TR");n.classList.add("table-light");const o=document.createElement("TD");o.setAttribute("colspan","1"),o.textContent=`${t}`,n.append(o);const c=document.createElement("TD");c.setAttribute("colspan","2"),c.classList.add("text-capitalize"),c.textContent=`${e.numero_documento}`,n.append(c);const i=document.createElement("TD");i.setAttribute("colspan","2"),i.classList.add("text-capitalize"),i.textContent=`${e.nombres} ${e.apellidos}`,n.append(i);const d=document.createElement("TD");d.textContent=`${e.valor}`,n.append(d);const r=document.createElement("TD");r.textContent=`${e.fecha_de}`,n.append(r);const l=document.createElement("TD");l.classList.add("text-capitalize"),l.textContent=`${e.fecha_hasta}`,n.append(l);const s=document.createElement("TD");s.classList.add("i-separated");let m=document.createElement("I");if(m.id=`${e.id_nomina}`,m.setAttribute("data-toggle","modal"),m.setAttribute("data-target","#ModalShowNomina"),m.classList.add("show-svg"),s.append(m),Date.parse(e.fecha_hasta)>Date.now()){let t=document.createElement("I");t.id=`${e.id_nomina}`,t.classList.add("edit-svg"),t.setAttribute("data-toggle","modal"),t.setAttribute("data-target","#ModalUpdateNomina"),s.append(t)}let u=document.createElement("A");return u.id=`${e.id_nomina}`,u.classList.add("pdf-svg"),u.setAttribute("href",`?c=Pdf&m=downloadpdf&id_nomina=${e.id_nomina}`),u.setAttribute("target","_blank"),s.append(u),n.append(s),a.append(n),a};liMostrar.addEventListener("click",function(e){if("button"==e.target.localName)if("Siguiente"!=e.target.textContent&&"Anterior"!=e.target.textContent){let t=e.target.textContent;pagina.pagina=Number(t),TableAndpagination(pagina.pagina,pagina.usuariosFila,r,f)}else if("Siguiente"==e.target.textContent){let e=Math.ceil(r.length/pagina.usuariosFila);pagina.pagina<e&&(pagina.pagina+=1,TableAndpagination(pagina.pagina,pagina.usuariosFila,r,f))}else"Anterior"==e.target.textContent&&pagina.pagina>1&&(pagina.pagina-=1,TableAndpagination(pagina.pagina,pagina.usuariosFila,r,f))});const f=e=>{const t=document.createDocumentFragment();let a=0;for(const n of e)a++,t.append(g(n,a));d.innerHTML="",d.append(t)},h=document.getElementById("buscador");h.addEventListener("input",function(e){let t=h.value.toLowerCase();if(d.innerHTML="",""!=t.trim()){let e=1;for(const a of r){-1!=`${a.numero_documento}`.indexOf(t)&&d.appendChild(g(a,e++))}}""==t.trim()&&TableAndpagination(pagina.pagina,pagina.usuariosFila,r,f)});const E=()=>{fetch("?c=Nominas&m=allNominasJson").then(e=>e.ok?Promise.resolve(e):Promise.reject(new Error("Fallos la consulta"))).then(e=>e.json()).then(e=>{r=e,TableAndpagination(pagina.pagina,pagina.usuariosFila,e,f)}).catch(e=>console.log(e))};d.addEventListener("click",e=>{const t=e.target;if(t.getAttribute("id")){const e=t.getAttribute("id"),a=r.filter(t=>t.id_nomina==e)[0];"#ModalUpdateNomina"==t.getAttribute("data-target")?(document.getElementById("update_nomina").value=a.id_nomina,b(a.id_nomina,"update")):"#ModalShowNomina"==t.getAttribute("data-target")&&(v(a),b(a.id_nomina,"show"))}});const _=(e,t,a,n)=>{if(""==e.value){e.focus(),msgError("Ingresar el usuario de la nomina")}else if(""==t.value){t.focus(),msgError("Ingresar la fecha de inicio de la nomina")}else if(""==a.value){a.focus(),msgError("Ingresar la fecha hasta de la nomina ")}else{if(2!=n.length)return!0;msgError("Ingresar los Conceptos de la Nomina ")}},v=e=>{document.getElementById("show_user").textContent=`${e.nombres} ${e.apellidos}`,document.getElementById("show_salario").textContent=`${e.valor}`,document.getElementById("show_fecha_de").textContent=`${e.fecha_de}`,document.getElementById("show_fecha_hasta").textContent=`${e.fecha_hasta}`},b=(e,a)=>{fetch(`?c=Nominas&m=showConceptsID&id=${e}`).then(e=>e.ok?Promise.resolve(e):Promise.reject(new Error("Fallos la consulta"))).then(e=>e.json()).then(e=>{t=[],u(t=e,a)}).catch(e=>console.log(e))};document.getElementById("UpdateNomina").addEventListener("click",e=>{e.preventDefault();const a=document.getElementById("update_nomina"),n=document.getElementById("update_fecha_de"),o=document.getElementById("update_fecha_hasta"),c=JSON.stringify(t);if(_(a,n,o,c)){const e=new FormData;e.append("fk_nomina",a.value),e.append("update_fecha_de",n.value),e.append("update_fecha_hasta",o.value),e.append("arrayDatos",c),fetch("?c=Nominas&m=update",{method:"POST",body:e}).then(e=>e.ok?Promise.resolve(e):Promise.reject(new Error("Error al Crear Nomina"))).then(e=>e.json()).then(e=>{if(e.ok){$("#ModalUpdateNomina").modal("hide"),msgSuccess("La Nomina se ha Actualizado"),t=[],n.value="",o.value="",E()}else{if("Ya existe una nomina de ese mes"==e.error){const t=e.error;return void msgError(t)}msgError("Error Fallo"),setTimeout(()=>{location="?c=All&m=index"},1500)}})}}),E()}
+import { msgError,msgSuccess } from "../message.js";
+import {  liMostrar, TableAndpagination, pagina} from "../pagination.js";
+
+if( location.search =='?c=Nominas&m=index')
+{
+
+
+let arrayConceptos = [];
+let allconceptoUpdate = [];
+const btnCancelModal = document.getElementById('CancelarNomina');
+const IconCancelModal = document.getElementById('cerrarModalNomina');
+const ulConceptos = document.getElementById('lista_concepto');
+const show_lista_concepto= document.getElementById('show_lista_concepto');
+const update_lista_concepto= document.getElementById('update_lista_concepto');
+const btnSaveArray = document.getElementById('guardarArray');
+const guardarArrayUpdate =document.getElementById('guardarArrayUpdate');
+const thBody =document.getElementById('tablaAllNominas');
+let allNominasData= [];
+
+// ! Conceptos
+const limpiarArrayConceptos = () =>{
+    arrayConceptos = [];
+    ulConceptos.innerHTML="";
+}
+
+const validarConceptos = (var1,var2,var3) => {
+
+    if(var1.value == ""){
+        var1.focus();
+        const message = "Ingresar la descripcion del concepto";
+        msgError(message);
+    }
+    else if(var2.value == "")
+    {
+        var2.focus();
+        const message = "Ingresar el Asiento Contable";
+        msgError(message);
+    }
+    else if(var3.value == '')
+    {
+        var3.focus();
+        const message = "Ingresar el valor del concepto ";
+        msgError(message);
+    } 
+    else{
+        return true;
+    }    
+}
+
+//HTML CONCEPTOS <TD> ETC
+const htmlConceptos = (datos,count, method) =>{
+    const fragment = document.createDocumentFragment();
+
+    const trConcepto = document.createElement('TR');
+    trConcepto.classList.add('table-light');
+
+    const tdTableConcepto = document.createElement('TD');
+    tdTableConcepto.textContent = `${count}`;
+    trConcepto.append(tdTableConcepto);
+
+    const td2TableConcepto =document.createElement('TD');
+    td2TableConcepto.textContent = `${datos.descripcion}`;
+    td2TableConcepto.classList.add('text-capitalize');
+
+
+    trConcepto.append(td2TableConcepto);
+
+    const td3TableConcepto =document.createElement('TD');
+    td3TableConcepto.textContent = `${datos.asiento_contable}`;
+
+    trConcepto.append(td3TableConcepto);
+
+    const td4TableConcepto = document.createElement('TD');
+    td4TableConcepto.textContent = `${datos.tipo_concepto}`;
+
+    trConcepto.append(td4TableConcepto);
+
+    const td5TableConcepto =document.createElement('TD');
+    td5TableConcepto.textContent = `${datos.valor}`;
+
+    trConcepto.append(td5TableConcepto);
+
+
+    if(method == "update" || method == "crear")
+    {
+        const td6TableConcepto =document.createElement('TD');
+        td6TableConcepto.classList.add('i-separated');
+        const itd6TableConcepto = document.createElement('I');
+        itd6TableConcepto.setAttribute('data-target',"BorrarConcepto");
+        itd6TableConcepto.setAttribute('data-id',`${datos.id_concepto}`);
+        itd6TableConcepto.classList.add("delete-svg");
+        td6TableConcepto.append(itd6TableConcepto);
+        trConcepto.append(td6TableConcepto);
+    }
+    
+    
+    fragment.append(trConcepto);
+    return fragment;
+}
+
+
+const renderizarConcepto=(datos,method = "crear" )=> {
+
+    const fragment = document.createDocumentFragment();
+    let count= 0;
+    for (const concepto of datos) {
+        count++;
+        fragment.append(htmlConceptos(concepto,count,method));
+    }
+
+    if(method == 'update')
+    {
+        document.getElementById('update_fecha_de').value=`${datos[0].fecha_de}`;
+        document.getElementById('update_fecha_hasta').value=datos[0].fecha_hasta;
+        update_lista_concepto.innerHTML=``;
+        update_lista_concepto.appendChild(fragment);
+    }else if(method =='show'){
+        show_lista_concepto.innerHTML='';
+        show_lista_concepto.append(fragment);
+
+    }else if(method =="crear")
+    {
+        ulConceptos.innerHTML='';
+        ulConceptos.append(fragment);
+    }
+}
+
+//Guardar Conceptos creados
+btnSaveArray.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const id = arrayConceptos.length;
+    const description = document.getElementById('descripcion_nomina');
+    const asientoContable = document.getElementById('contable');
+    const valor = document.getElementById('valor');
+    const tipo_concepto = document.getElementById('tipo_concepto');
+
+    let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
+
+        if( validacion)
+        {
+            let form = {
+                id_concepto: id,
+                descripcion : description.value,
+                asiento_contable :asientoContable[asientoContable.value].textContent,
+                fk_asiento_contable :asientoContable.value,
+                valor : valor.value,
+                tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
+                fk_tipo_concepto: tipo_concepto.value 
+            }
+
+
+            arrayConceptos.push(form)
+
+            renderizarConcepto(arrayConceptos);
+           
+
+            description.value="";
+            asientoContable.value="";
+            valor.value="";
+        }
+
+})
+
+guardarArrayUpdate.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const description = document.getElementById('update_descripcion_nomina');
+    const asientoContable = document.getElementById('update_contable');
+    const valor = document.getElementById('update_valor');
+    const tipo_concepto = document.getElementById('update_tipo_concepto');
+    const fk_nomina = document.getElementById('update_nomina');
+    
+
+    let validacion = validarConceptos(description,asientoContable,valor,tipo_concepto);
+
+        if( validacion)
+        {
+            let count = allconceptoUpdate.length;
+            let form = {
+                id_concepto: count,
+                descripcion : description.value,      
+                fk_asiento_contable :asientoContable.value,
+                tipo_concepto:tipo_concepto[tipo_concepto.value].textContent,
+                asiento_contable:asientoContable[asientoContable.value].textContent,
+                valor : valor.value,
+                fk_tipo_concepto: tipo_concepto.value,
+                fk_nomina: fk_nomina.value
+            }
+
+            allconceptoUpdate.push(form)
+            renderizarConcepto(allconceptoUpdate,'update');
+            description.value="";
+            asientoContable.value="";
+            valor.value="";
+        }
+})
+
+//Eliminar conceptos
+ulConceptos.addEventListener('click',(e)=>{
+    e.preventDefault();
+    if(e.target.getAttribute('data-id'))
+    {
+        let idConcepto=e.target.getAttribute('data-id');
+        const filtro = arrayConceptos.filter( user => user.id_concepto== idConcepto)[0];
+        const msg = `${filtro.descripcion} con el valor ${filtro.valor}` 
+        msgQuestion(msg, idConcepto,"crear");
+    }
+})
+
+update_lista_concepto.addEventListener('click',(e)=>{
+    e.preventDefault();
+    if(e.target.getAttribute('data-id'))
+    {
+        let idConcepto=e.target.getAttribute('data-id');
+        const filtro = allconceptoUpdate.filter( user => user.id_concepto == idConcepto)[0];
+        const msg = `${filtro.descripcion} con el valor ${filtro.valor}` 
+        msgQuestion(msg, idConcepto);
+    }
+})
+
+
+//? funcion De Mensaje modal de eliminar concepto
+const msgQuestion = (message, id, tipo = "actualizar") => {
+    Swal.fire({
+        icon: 'warning',
+        html: `<p class="text-white h4 mb-3 text-capitalize">Desea borrar el concepto</p><p class="text-danger text-capitalize h6">${message}</p>`,
+        focusConfirm:true,
+        background : '#343a40',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#6C63FF',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#6C63FF'
+        }).then((result) => {
+        if (result.value) {
+            if(tipo != "crear")
+            {
+                const filtro = allconceptoUpdate.filter( user => user.id_concepto != id);
+                allconceptoUpdate = filtro;
+                renderizarConcepto(allconceptoUpdate,'update'); 
+            }else{
+                const filtro = arrayConceptos.filter( user => user.id_concepto != id);
+                arrayConceptos = filtro;
+                //! borra los conceptos en crear
+                renderizarConcepto(arrayConceptos)
+            }
+        };
+    })
+}
+
+// ! End-Conceptos
+
+
+
+
+
 // ! Nomina
+
+const btnGuardarNomina = document.getElementById('GuardarNomina');
+
+btnGuardarNomina.addEventListener('click',function(e){
+    e.preventDefault();
+    const fk_usuario = document.getElementById('usuario');
+    const fecha_de = document.getElementById('fecha_de');
+    const fecha_hasta = document.getElementById('fecha_hasta');
+    const arrayConcep = JSON.stringify(arrayConceptos);
+
+    let validar = validarInsertNomina(fk_usuario,fecha_de,fecha_hasta,arrayConcep);
+    if(validar)
+    {
+        const formData = new FormData();
+        formData.append('fk_usuario',fk_usuario.value);
+        formData.append('fecha_de',fecha_de.value);
+        formData.append('fecha_hasta',fecha_hasta.value);
+        formData.append('arrayDatos',arrayConcep);
+
+        fetch('?c=Nominas&m=store',
+        {
+            method: 'POST',
+            body: formData
+        })
+        .then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error al Crear Nomina')))
+        .then(resp => resp.json())
+        .then(data => {
+
+            if(data.ok)
+            {
+                $("#ModalAddNomina").modal('hide');
+                const msg ='La Nomina se ha creado';
+                msgSuccess(msg);
+                limpiarArrayConceptos();
+                fk_usuario.value="";
+                fecha_de.value="";
+                fecha_hasta.value="";
+                showNominas();
+            }else{
+
+                if(data.error =='Ya existe una nomina de ese mes')
+                {   
+                    const msg =data.error;
+                    msgError(msg) 
+                    return
+                }
+                else
+                {
+                    const msg ='Error Fallo';
+                    msgError(msg)
+                    setTimeout(() => {
+                        location="?c=All&m=index";
+                    }, 1500);
+                }                
+
+               
+            }
+
+            
+        })
+    }
+    
+
+
+})
+
+
+
+//? Funcion del html de td para mostrar en tabla en Admin.usuarios.php
+const createTableNominas = (datos,count) =>{
+    const fragment = document.createDocumentFragment();
+    
+    const trTableAllUsers =document.createElement('TR');
+    trTableAllUsers.classList.add('table-light');  
+    
+    const tdTableAllUsers =document.createElement('TD');
+    tdTableAllUsers.setAttribute('colspan', '1');
+    
+    tdTableAllUsers.textContent = `${count}`;
+
+    trTableAllUsers.append(tdTableAllUsers);
+
+    const td2TableAllUsers =document.createElement('TD');
+    td2TableAllUsers.setAttribute('colspan', '2');
+    td2TableAllUsers.classList.add('text-capitalize');
+    td2TableAllUsers.textContent = `${datos.numero_documento}`;
+
+    trTableAllUsers.append(td2TableAllUsers);
+
+    const td3TableAllUsers =document.createElement('TD');
+    td3TableAllUsers.setAttribute('colspan', '2');
+    td3TableAllUsers.classList.add('text-capitalize');
+    td3TableAllUsers.textContent = `${datos.nombres} ${datos.apellidos}`;
+
+    trTableAllUsers.append(td3TableAllUsers);
+
+    const td4TableAllUsers =document.createElement('TD');
+    td4TableAllUsers.textContent = `${datos.valor}`;
+
+    trTableAllUsers.append(td4TableAllUsers);
+
+
+    const td5TableAllUsers =document.createElement('TD');
+    td5TableAllUsers.textContent = `${datos.fecha_de}`;
+    
+    trTableAllUsers.append(td5TableAllUsers);
+
+    const td6TableAllUsers =document.createElement('TD');
+    td6TableAllUsers.classList.add('text-capitalize');
+    td6TableAllUsers.textContent = `${datos.fecha_hasta}`;
+    
+    trTableAllUsers.append(td6TableAllUsers);
+
+
+
+    const td9TableAllUsers =document.createElement('TD');
+    td9TableAllUsers.classList.add('i-separated');
+    // td9TableAllUsers.id=`${datos.id_usuario}`;
+    
+
+    let iTd9 =document.createElement('I');
+    iTd9.id= `${datos.id_nomina}`;
+    iTd9.setAttribute('data-toggle','modal');
+    iTd9.setAttribute('data-target','#ModalShowNomina');
+    iTd9.classList.add('show-svg');
+    td9TableAllUsers.append(iTd9);
+    
+
+    if (Date.parse(datos.fecha_hasta) > Date.now()) {
+        let iATd9 =document.createElement('I');
+        iATd9.id= `${datos.id_nomina}`;
+        iATd9.classList.add('edit-svg');
+        iATd9.setAttribute('data-toggle','modal');
+        iATd9.setAttribute('data-target','#ModalUpdateNomina');
+        td9TableAllUsers.append(iATd9);
+    }
+
+
+   
+
+    let i2Td9 =document.createElement('A');
+    i2Td9.id=`${datos.id_nomina}`;
+    i2Td9.classList.add('pdf-svg');
+    i2Td9.setAttribute('href',`?c=Pdf&m=downloadpdf&id_nomina=${datos.id_nomina}`);
+    i2Td9.setAttribute('target',`_blank`);
+ 
+    td9TableAllUsers.append(i2Td9);
+
+    trTableAllUsers.append(td9TableAllUsers);
+
+
+    fragment.append(trTableAllUsers);
+    return fragment;
+
+}
+
+//? Paginacion 
+
+liMostrar.addEventListener('click',function(e)
+{
+    
+    if(e.target.localName == 'button')
+    {
+        if(e.target.textContent != 'Siguiente' && e.target.textContent != 'Anterior')
+        {
+            let numero = e.target.textContent;
+            pagina.pagina =(Number(numero));
+            TableAndpagination(pagina.pagina,pagina.usuariosFila,allNominasData,renderizarHtml);
+        }
+        
+        else if(e.target.textContent == 'Siguiente')
+        {
+            let page =Math.ceil(allNominasData.length / pagina.usuariosFila);
+
+            if(pagina.pagina < page)
+            {
+                pagina.pagina+=1;
+                TableAndpagination(pagina.pagina,pagina.usuariosFila,allNominasData,renderizarHtml);
+            }
+            
+  
+        }
+        else if(e.target.textContent == 'Anterior'  && pagina.pagina > 1 )
+        {
+            pagina.pagina-=1;
+            TableAndpagination(pagina.pagina,pagina.usuariosFila,allNominasData,renderizarHtml);
+        }
+    
+    }
+ 
+})
+
+
+
+
+const renderizarHtml=(datos )=> {
+    const fragment = document.createDocumentFragment();
+    let count= 0;
+    for (const user of datos) {
+        count++;
+        fragment.append(createTableNominas(user,count));
+    }
+    thBody.innerHTML='';
+    thBody.append(fragment);
+}
+
+const searchName = document.getElementById('buscador');
+searchName.addEventListener('input', function(e)
+{
+    let value=searchName.value.toLowerCase();
+    thBody.innerHTML = '';
+    if(value.trim() != '')
+    {
+        let count = 1;
+        for (const name of allNominasData) {
+           
+            let documento = `${name.numero_documento}`;
+           
+            
+            if(documento.indexOf(value) != -1)
+            {
+                thBody.appendChild(createTableNominas(name,count++));
+            }
+    
+        }
+        
+    }
+
+    if( value.trim() == '')
+    {
+        TableAndpagination(pagina.pagina,pagina.usuariosFila,allNominasData,renderizarHtml);
+    }
+
+})
+
+
+const showNominas= ()=>{
+
+    fetch( `?c=Nominas&m=allNominasJson`)
+    .then(resp => resp.ok  ? Promise.resolve(resp)  : Promise.reject(new Error('Fallos la consulta')))
+    .then(response => response.json())
+    .then( data => {
+        //? se guardar los datos en el array (esto es para detalles y actualizar)
+        allNominasData = data;
+       
+        TableAndpagination(pagina.pagina, pagina.usuariosFila,data,renderizarHtml);  
+    })
+    .catch( error => console.log(error));
+}
+
+
+thBody.addEventListener('click',(e) =>{
+
+    const id = e.target;
+    if( id.getAttribute('id'))
+    {
+        const userId = id.getAttribute('id');
+        // buscar el id que coincida con el id obtenido del evento
+        const userIdFilter =allNominasData.filter( user => user.id_nomina ==userId)[0];
+    
+        if(id.getAttribute('data-target') == '#ModalUpdateNomina')
+        {
+            document.getElementById('update_nomina').value=userIdFilter.id_nomina;
+            updateUserNomina(userIdFilter.id_nomina,'update');
+        }
+        // else if(id.getAttribute('data-target') == '#Delete')
+        // {
+        //     const message= `${userIdFilter.nombres} ${userIdFilter.apellidos} identificado con el documento ${userIdFilter.numero_documento}`
+        //     msgQuestion(message, userIdFilter.id_usuario, userIdFilter.token);
+        // }
+        else if(id.getAttribute('data-target') == '#ModalShowNomina'){
+            showUserNomina(userIdFilter);
+            updateUserNomina(userIdFilter.id_nomina,'show');
+        }
+    
+    }
+
+
+})
+
+
+const validarInsertNomina = (var1,var2,var3,var4) => {
+
+    if(var1.value == ""){
+        var1.focus();
+        const message = "Ingresar el usuario de la nomina";
+        msgError(message);
+    }
+    else if(var2.value == "")
+    {
+        var2.focus();
+        const message = "Ingresar la fecha de inicio de la nomina";
+        msgError(message);
+    }
+    else if(var3.value == '')
+    {
+        var3.focus();
+        const message = "Ingresar la fecha hasta de la nomina ";
+        msgError(message);
+    }
+    else if(var4.length == 2)
+    {
+        const message = "Ingresar los Conceptos de la Nomina ";
+        msgError(message);
+    } 
+    else{
+        return true;
+    }    
+}
+
+const showUserNomina = (datos)=>{
+    const show_user =document.getElementById('show_user').textContent=`${datos.nombres} ${datos.apellidos}`;
+    const show_salario =document.getElementById('show_salario').textContent=`${datos.valor}`;
+    const show_fecha_de =document.getElementById('show_fecha_de').textContent=`${datos.fecha_de}`;
+    const show_fecha_hasta =document.getElementById('show_fecha_hasta').textContent=`${datos.fecha_hasta}`;
+
+}
+
+
+
+const updateUserNomina = (id,method) =>{
+
+    fetch(`?c=Nominas&m=showConceptsID&id=${id}`)
+    .then(resp => resp.ok  ? Promise.resolve(resp)  : Promise.reject(new Error('Fallos la consulta')))
+    .then(response => response.json())
+    .then( data => {
+        allconceptoUpdate= [];
+        allconceptoUpdate =data;
+        renderizarConcepto(allconceptoUpdate,method);
+    })
+    .catch( error => console.log(error));
+    
+}
+
+const btnUpdateNomina=document.getElementById('UpdateNomina');
+
+btnUpdateNomina.addEventListener('click',(e)=>{
+    e.preventDefault();
+
+    const fk_nomina = document.getElementById('update_nomina');
+    const update_fecha_de = document.getElementById('update_fecha_de');
+    const update_fecha_hasta = document.getElementById('update_fecha_hasta');
+    const conceptoUpdate = JSON.stringify(allconceptoUpdate);
+  
+    if(validarInsertNomina(fk_nomina,update_fecha_de,update_fecha_hasta,conceptoUpdate)){
+        const formData = new FormData();
+        formData.append('fk_nomina',fk_nomina.value);
+        formData.append('update_fecha_de',update_fecha_de.value);
+        formData.append('update_fecha_hasta',update_fecha_hasta.value);
+        formData.append('arrayDatos',conceptoUpdate);
+        fetch('?c=Nominas&m=update',
+        {
+            method: 'POST',
+            body: formData
+        })
+        .then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error al Crear Nomina')))
+        .then(resp => resp.json())
+        .then(data => {
+
+            if(data.ok)
+            {
+                $("#ModalUpdateNomina").modal('hide');
+                const msg ='La Nomina se ha Actualizado';
+                msgSuccess(msg);
+                allconceptoUpdate = [];
+                update_fecha_de.value="";
+                update_fecha_hasta.value="";
+                showNominas();
+            
+            }else{
+
+                if(data.error =='Ya existe una nomina de ese mes')
+                {   
+                    const msg =data.error;
+                    msgError(msg) 
+                    return
+                }
+                else
+                {
+                    const msg ='Error Fallo';
+                    msgError(msg)
+                    setTimeout(() => {
+                        location="?c=All&m=index";
+                    }, 1500);
+                } 
+            }
+
+            
+        })
+    }
+})
+
+    showNominas();
+
+    
+// ! Nomina
+
+}

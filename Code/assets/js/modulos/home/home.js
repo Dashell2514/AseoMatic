@@ -1,1 +1,296 @@
-import { msgError,msgSuccess } from "../message.js";import {validateAsunto,validateName,validateEmail } from "../validation.js";if(  location.search == '' || location.search == '?c=All&m=index'){const btnOpenLoginModal=document.getElementById("btn-login");btnOpenLoginModal.addEventListener("click",()=>{const e=document.getElementById("nombre_usuario"),t=document.getElementById("password");e.value="",t.value=""});const validateFormLogin=(e,t)=>{if(""==e.value){e.focus(),msgError("Ingresar correo")}else if(1!=validateEmail(e.value)){t.focus(),msgError("El Correo ingresado no es valido")}else{if(""!=t.value)return!0;t.focus(),msgError("Ingresar clave")}},btnSubmitFormLogin=document.getElementById("loginBtn");btnSubmitFormLogin.addEventListener("click",e=>{e.preventDefault();const t=document.getElementById("nombre_usuario"),o=document.getElementById("password");if(1==validateFormLogin(t,o)){const e=new FormData;e.append("nombre_usuario",t.value),e.append("password",o.value),fetch("?c=Login&m=auth",{method:"POST",body:e}).then(e=>e.ok?Promise.resolve(e):Promise.reject(new Error("Error al Login"))).then(e=>e.json()).then(e=>{if(""==e){msgError("Datos incorrectos")}else if("incorrectoP"==e.error){o.focus(),msgError("Contraseña incorrecta")}else if("incorrectoU&P"==e.error){t.focus(),msgError("El usuario no existe")}else if("incorrectoUser"==e.error){t.focus(),msgError("El usuario esta deshabilitado contactese con un administrador")}else e.fk_rol?"1"==e.fk_rol?location.href="?c=Administradores&m=index":"2"==e.fk_rol&&(location.href="?c=Empleados&m=index"):location.href="?c=All&m=index"}).catch(console.log)}});const validateFormContact=(e,t,o,n,r,a)=>{if(""==e.value){e.focus(),msgError("Ingresar Nombre")}else if(1!=validateName(e.value)){e.focus(),msgError("El Nombre ingresado no es valido")}else if(""==t.value){t.focus(),msgError("Ingresar Apellido")}else if(""==validateName(t.value)){t.focus(),msgError("El Apellido ingresado no es valido")}else if(""==o.value){o.focus(),msgError("Ingresar Correo")}else if(""==validateEmail(o.value)){o.focus(),msgError("El Correo ingresado no es valido")}else if(""==n.value){n.focus(),msgError("Ingresar Asunto")}else if(""==validateAsunto(n.value)){n.focus(),msgError("El Asunto ingresado no es valido")}else if(""==r.value){r.focus(),msgError("Ingresar Mensaje")}else if(document.querySelector('input[name="genero_contact"]:checked')){if(document.querySelector('input[name="terminos_contact"]:checked'))return!0;a.focus(),msgError("Acepte los terminos y condiciones")}else{document.querySelector('input[name="genero_contact"]').focus(),msgError("Ingresar genero")}},btnSubmitFormContact=document.getElementById("form_contacto");btnSubmitFormContact.addEventListener("click",e=>{e.preventDefault();const t=document.getElementById("label_form_contacto"),o=document.getElementById("nombre_contact"),n=document.getElementById("apellido_contact"),r=document.getElementById("email_contact"),a=document.getElementById("asunto_contact"),s=document.getElementById("message_contact"),c=document.getElementById("terminos_contact");if(validateFormContact(o,n,r,a,s,c)){btnSubmitFormContact.setAttribute("disabled",""),t.textContent="Espere";const e=new FormData,l=document.querySelector('input[name="genero_contact"]:checked').value;e.append("nombre_contact",o.value),e.append("apellido_contact",n.value),e.append("email_contact",r.value),e.append("asunto_contact",a.value),e.append("message_contact",s.value),e.append("terminos_contact",c.value),e.append("genero_contact",l),fetch("?c=All&m=formContact",{method:"POST",body:e}).then(e=>e.ok?Promise.resolve(e):Promise.reject(new Error("Error al Login"))).then(e=>{if(e.ok){msgSuccess("Enviado Correctamente"),resetValueFormContact(o,n,r,a,s,c),btnSubmitFormContact.removeAttribute("disabled"),t.textContent="Enviar"}else{msgError("Error No se puedo enviar")}}).catch(console.log)}});const resetValueFormContact=(e,t,o,n,r,a)=>{e.value="",t.value="",o.value="",n.value="",r.value=""},noticiasRow=document.getElementById("noticias_row");noticiasRow.addEventListener("click",e=>{const t=e.target.getAttribute("data-id");t&&"noticia"==e.target.getAttribute("data-tipo")&&showModal("news",t)});const eventosRow=document.getElementById("eventos_row");eventosRow.addEventListener("click",e=>{const t=e.target.getAttribute("data-id");t&&"evento"==e.target.getAttribute("data-tipo")&&showModal("events",t)});const showModalEN=(e,t="news")=>{document.getElementById("showModal").textContent=`${"news"==t?"Noticias":"Eventos"}`,document.getElementById("show_title").textContent=`${e.title?e.title:""}`,document.getElementById("show_description").innerHTML=`${e.description?e.description:""}`,document.getElementById("show_date").textContent=`${e.name} ${e.lastname} ${e.updated_at}`,document.getElementById("show_prev_img").src=`${e.image?e.image:""}`},showModal=(e,t)=>{fetch(`?c=All&m=showModal&tabla=${e}&id=${t}`).then(e=>e.ok?Promise.resolve(e):Promise.reject(new Error("Fallo la consulta News"))).then(e=>e.json()).then(t=>{showModalEN(t,e)}).catch(console.log)};}
+
+// ! JS Login Verificacion Modal
+
+import { msgError,msgSuccess } from "../message.js";
+import {validateAsunto,validateName,validateEmail } from "../validation.js";
+
+if(  location.search == '' || location.search == '?c=All&m=index')
+{ 
+
+    //? function para limpiar los campos del modal #loginModal
+    const btnOpenLoginModal= document.getElementById('btn-login');
+    btnOpenLoginModal.addEventListener('click',()=>{
+        const nombre_usuario = document.getElementById('nombre_usuario');
+        const password = document.getElementById('password');
+        nombre_usuario.value="";
+        password.value="";
+    })
+
+
+    //? Funcion para validar inputs del LoginModal
+    const validateFormLogin= (user,pass) =>{
+        if(user.value == "")
+        {
+            user.focus();
+            const message = "Ingresar correo";
+            msgError(message);
+        }
+        else if(validateEmail(user.value) != true)
+        {
+            pass.focus();
+            const message = "El Correo ingresado no es valido";
+            msgError(message);
+        }
+        else if(pass.value == "")
+        {
+            pass.focus();
+            const message = "Ingresar clave";
+            msgError(message);
+        }
+        else{
+            return true;
+        }
+    }
+
+    //? function para el login  modal #loginModal
+    const  btnSubmitFormLogin = document.getElementById('loginBtn');
+    btnSubmitFormLogin.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const nombre_usuario = document.getElementById('nombre_usuario');
+        const password = document.getElementById('password');
+        let validar = validateFormLogin(nombre_usuario,password);
+        if(validar == true)
+        {
+            const datos = new FormData();
+            datos.append('nombre_usuario',nombre_usuario.value);
+            datos.append('password',password.value);
+            fetch('?c=Login&m=auth' ,{
+                method : 'POST',
+                body : datos
+            }).then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error al Login')))
+            .then(resp => resp.json())
+            .then((data) => {
+                
+                if(data == "")
+                {
+                    const message = "Datos incorrectos";
+                    msgError(message);
+                }
+                else if(data.error == 'incorrectoP')
+                {
+                    password.focus();
+                    const message = "Contraseña incorrecta";
+                    msgError(message);
+                }
+                else if(data.error =='incorrectoU&P'){
+                    nombre_usuario.focus();
+                    const message = "El usuario no existe";
+                    msgError(message);
+                }
+                else if(data.error =='incorrectoUser'){
+                    nombre_usuario.focus();
+                    const message = "El usuario esta deshabilitado contactese con un administrador";
+                    msgError(message);
+                }
+                else if(data.fk_rol)
+                {
+                    if(data.fk_rol == '1')
+                    {
+                        location.href="?c=Administradores&m=index";
+                    }
+                    else if(data.fk_rol =='2')
+                    {
+                        location.href="?c=Empleados&m=index";
+                    }
+                }
+                else{
+                    location.href="?c=All&m=index";
+                }
+            }).catch(console.log);
+        }
+        
+    })
+
+
+
+    //! Index Form Contact
+
+    const validateFormContact= (nombre_contact,apellido_contact,email_contact,asunto_contact,message_contact,terminos_contact) =>{
+
+        if(nombre_contact.value == "")
+        {
+            nombre_contact.focus();
+            const message = "Ingresar Nombre";
+            msgError(message);
+        }
+        else if(validateName(nombre_contact.value) != true)
+        {
+            nombre_contact.focus();
+            const message = "El Nombre ingresado no es valido";
+            msgError(message);
+        }
+        else if(apellido_contact.value == "")
+        {
+            apellido_contact.focus();
+            const message = "Ingresar Apellido";
+            msgError(message);
+        }
+        else if(validateName(apellido_contact.value) == "")
+        {
+            apellido_contact.focus();
+            const message = "El Apellido ingresado no es valido";
+            msgError(message);
+        }
+        else if(email_contact.value == "")
+        {
+            email_contact.focus();
+            const message = "Ingresar Correo";
+            msgError(message);
+        }
+        else if(validateEmail(email_contact.value) == "")
+        {
+            email_contact.focus();
+            const message = "El Correo ingresado no es valido";
+            msgError(message);
+        }
+        else if(asunto_contact.value == "")
+        {
+            asunto_contact.focus();
+            const message = "Ingresar Asunto";
+            msgError(message);
+        }
+        else if(validateAsunto(asunto_contact.value) == "")
+        {
+            asunto_contact.focus();
+            const message = "El Asunto ingresado no es valido";
+            msgError(message);
+        }
+        else if(message_contact.value == "")
+        {
+            message_contact.focus();
+            const message = "Ingresar Mensaje";
+            msgError(message);
+        }
+        else if(!document.querySelector('input[name="genero_contact"]:checked'))
+        {
+            document.querySelector('input[name="genero_contact"]').focus();
+            const message = "Ingresar genero";
+            msgError(message);
+        }
+        else if(!document.querySelector('input[name="terminos_contact"]:checked'))
+        {
+            terminos_contact.focus();
+            const message = "Acepte los terminos y condiciones";
+            msgError(message);
+        }   
+        else{
+            return true;
+        }
+
+    }
+
+    const btnSubmitFormContact = document.getElementById('form_contacto');
+
+    btnSubmitFormContact.addEventListener('click',(e)=>{
+        
+        e.preventDefault();
+
+        const label_form_contacto = document.getElementById('label_form_contacto');
+        const nombre_contact = document.getElementById('nombre_contact');
+        const apellido_contact = document.getElementById('apellido_contact');
+        const email_contact = document.getElementById('email_contact');
+        const asunto_contact = document.getElementById('asunto_contact');
+        const message_contact = document.getElementById('message_contact');
+        const terminos_contact = document.getElementById('terminos_contact');
+       
+
+        const validate = validateFormContact(nombre_contact,apellido_contact,email_contact,asunto_contact,message_contact,terminos_contact);
+
+        if(validate)
+        {
+            btnSubmitFormContact.setAttribute('disabled','');
+            label_form_contacto.textContent="Espere";
+            const datos = new FormData();
+            const genero_contact =document.querySelector('input[name="genero_contact"]:checked').value;
+            
+            datos.append('nombre_contact',nombre_contact.value);
+            datos.append('apellido_contact',apellido_contact.value);
+            datos.append('email_contact',email_contact.value);
+            datos.append('asunto_contact',asunto_contact.value);
+            datos.append('message_contact',message_contact.value);
+            datos.append('terminos_contact',terminos_contact.value);
+            datos.append('genero_contact',genero_contact);
+            fetch('?c=All&m=formContact' ,{
+                method : 'POST',
+                body : datos
+            }).then( response => (response.ok) ? Promise.resolve(response) : Promise.reject(new Error('Error al Login')))
+            .then((data) => {
+
+                if(data.ok)
+                {
+                    const msg = "Enviado Correctamente";
+                    msgSuccess(msg)
+                    resetValueFormContact(nombre_contact,apellido_contact,email_contact,asunto_contact,message_contact,terminos_contact);
+                    btnSubmitFormContact.removeAttribute('disabled');
+                    label_form_contacto.textContent="Enviar"
+                }else{
+                    const message = "Error No se puedo enviar";
+                    msgError(message);
+                }
+                
+            
+            }).catch(console.log);
+
+        }
+
+    })
+
+    const resetValueFormContact = (nombre_contact,apellido_contact,email_contact,asunto_contact,message_contact,terminos_contact)=>{
+        nombre_contact.value='';
+        apellido_contact.value='';
+        email_contact.value='';
+        asunto_contact.value='';
+        message_contact.value='';
+        // terminos_contact.value='';
+        // genero_contact.value='';
+    }
+
+
+    // show news and events
+    
+
+    const noticiasRow= document.getElementById('noticias_row');
+    noticiasRow.addEventListener('click',(e)=>{
+
+        const id=e.target.getAttribute('data-id');
+        if( id && e.target.getAttribute('data-tipo')=='noticia')
+        {
+            showModal('news',id)
+        }
+      
+    })
+
+    const eventosRow =document.getElementById('eventos_row');
+    eventosRow.addEventListener('click',(e)=>{
+        const id=e.target.getAttribute('data-id');
+        if( id && e.target.getAttribute('data-tipo')=='evento')
+        {
+            showModal('events',id)
+        }
+    })
+
+    const showModalEN = (data,type = "news")=>{
+        const showModal = document.getElementById('showModal').textContent=`${(type == 'news') ? 'Noticias':'Eventos'}`;
+        const showTitle = document.getElementById('show_title').textContent=`${(data.title) ? data.title : ''}`;
+        const showDescription = document.getElementById('show_description').innerHTML=`${(data.description) ? data.description : ''}`;
+        const showDate = document.getElementById('show_date').textContent=`${data.name} ${data.lastname} ${data.updated_at}`;
+        const showImg = document.getElementById('show_prev_img').src=`${(data.image)? data.image : ''}`;
+    }
+
+    const showModal = (tabla,id) =>{
+        fetch(`?c=All&m=showModal&tabla=${tabla}&id=${id}`)
+        .then(response => response.ok ? Promise.resolve(response) : Promise.reject(new Error('Fallo la consulta News')))
+        .then(response => response.json())
+        .then(data => {
+ 
+        showModalEN(data,tabla);
+   
+        }).catch( console.log);
+    }
+    
+}
+
+
+
+
+// ! End JS Login
