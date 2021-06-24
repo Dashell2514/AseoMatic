@@ -44,7 +44,7 @@
                                                 <th scope="row"><?php echo $count++ ?></th>
                                                 <td><?php echo $nomina->valor ?></td>
                                                 <td><?php echo "De: $nomina->fecha_de Hasta:     $nomina->fecha_hasta" ?></td>
-                                                <td><a target="_blank" href="?c=Pdf&m=downloadpdf&id_nomina=<?php echo $nomina->id_nomina?>" class="position-absolute pdf-svg"></a></td>
+                                                <td><a target="_blank" href="?c=Pdf&m=downloadpdf&id_nomina=<?php echo $nomina->id_nomina?>&token=<?php echo $_SESSION['EMPLEADO']->token?>" class="position-absolute pdf-svg"></a></td>
                                             </tr>
                                         <?php } } ?>
                                        

@@ -497,10 +497,7 @@
                     <label for="password">Contraseña</label>
                     <input type="password" name="password" id="password" class="form-control bg-grey-dark" placeholder="12345" >
                     
-                  </div>
-
-               <a href="" class="text-decoration-none my-2 d-block text-white"> ¿ olvido su constraseña ?</a>
-              
+                  </div>   
                   <label for="loginBtn" class="font-weight-bold w-100 p-2  btn-custom-default text-center">Login</label>
                 <input  name="loginBtn" type="submit" id="loginBtn" class="input-login">
 

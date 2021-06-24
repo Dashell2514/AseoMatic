@@ -397,7 +397,7 @@ const createTableNominas = (datos,count) =>{
     let i2Td9 =document.createElement('A');
     i2Td9.id=`${datos.id_nomina}`;
     i2Td9.classList.add('pdf-svg');
-    i2Td9.setAttribute('href',`?c=Pdf&m=downloadpdf&id_nomina=${datos.id_nomina}`);
+    i2Td9.setAttribute('href',`?c=Pdf&m=downloadpdf&id_nomina=${datos.id_nomina}&id=${datos.id_usuario}`);
     i2Td9.setAttribute('target',`_blank`);
  
     td9TableAllUsers.append(i2Td9);
