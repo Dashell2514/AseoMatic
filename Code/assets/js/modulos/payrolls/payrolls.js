@@ -110,6 +110,8 @@ const renderizarConcepto=(datos,method = "crear" )=> {
 
     if(method == 'update')
     {
+        document.getElementById('update_fecha_de').value=`${datos[0].fecha_de}`;
+        document.getElementById('update_fecha_hasta').value=datos[0].fecha_hasta;
         update_lista_concepto.innerHTML=``;
         update_lista_concepto.appendChild(fragment);
     }else if(method =='show'){
@@ -291,11 +293,23 @@ btnGuardarNomina.addEventListener('click',function(e){
                 fecha_hasta.value="";
                 showNominas();
             }else{
-                const msg ='Error Fallo';
-                msgError(msg)
-                setTimeout(() => {
-                    location="?c=All&m=index";
-                }, 1500);
+
+                if(data.error =='Ya existe una nomina de ese mes')
+                {   
+                    const msg =data.error;
+                    msgError(msg) 
+                    return
+                }
+                else
+                {
+                    const msg ='Error Fallo';
+                    msgError(msg)
+                    setTimeout(() => {
+                        location="?c=All&m=index";
+                    }, 1500);
+                }                
+
+               
             }
 
             
@@ -368,16 +382,15 @@ const createTableNominas = (datos,count) =>{
     td9TableAllUsers.append(iTd9);
     
 
-    // let aTd9 =document.createElement('A');
-    // aTd9.classList.add('edit-btn');
+    if (Date.parse(datos.fecha_hasta) > Date.now()) {
+        let iATd9 =document.createElement('I');
+        iATd9.id= `${datos.id_nomina}`;
+        iATd9.classList.add('edit-svg');
+        iATd9.setAttribute('data-toggle','modal');
+        iATd9.setAttribute('data-target','#ModalUpdateNomina');
+        td9TableAllUsers.append(iATd9);
+    }
 
-    let iATd9 =document.createElement('I');
-    iATd9.id= `${datos.id_nomina}`;
-    iATd9.classList.add('edit-svg');
-    iATd9.setAttribute('data-toggle','modal');
-    iATd9.setAttribute('data-target','#ModalUpdateNomina');
-
-    td9TableAllUsers.append(iATd9);
 
    
 
@@ -581,11 +594,15 @@ btnUpdateNomina.addEventListener('click',(e)=>{
     e.preventDefault();
 
     const fk_nomina = document.getElementById('update_nomina');
+    const update_fecha_de = document.getElementById('update_fecha_de');
+    const update_fecha_hasta = document.getElementById('update_fecha_hasta');
     const conceptoUpdate = JSON.stringify(allconceptoUpdate);
   
-    if(conceptoUpdate.length != 2){
+    if(validarInsertNomina(fk_nomina,update_fecha_de,update_fecha_hasta,conceptoUpdate)){
         const formData = new FormData();
         formData.append('fk_nomina',fk_nomina.value);
+        formData.append('update_fecha_de',update_fecha_de.value);
+        formData.append('update_fecha_hasta',update_fecha_hasta.value);
         formData.append('arrayDatos',conceptoUpdate);
         fetch('?c=Nominas&m=update',
         {
@@ -602,23 +619,31 @@ btnUpdateNomina.addEventListener('click',(e)=>{
                 const msg ='La Nomina se ha Actualizado';
                 msgSuccess(msg);
                 allconceptoUpdate = [];
+                update_fecha_de.value="";
+                update_fecha_hasta.value="";
                 showNominas();
             
             }else{
-                const msg ='Error Fallo';
-                msgError(msg)
-                setTimeout(() => {
-                    location="?c=All&m=index";
-                }, 1500);
+
+                if(data.error =='Ya existe una nomina de ese mes')
+                {   
+                    const msg =data.error;
+                    msgError(msg) 
+                    return
+                }
+                else
+                {
+                    const msg ='Error Fallo';
+                    msgError(msg)
+                    setTimeout(() => {
+                        location="?c=All&m=index";
+                    }, 1500);
+                } 
             }
 
             
         })
-    }else{
-        const msg ='Debe haber minimo 1 concepto';
-        msgError(msg);
     }
-
 })
 
     showNominas();

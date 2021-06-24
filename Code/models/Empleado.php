@@ -31,17 +31,29 @@ class Empleado extends DataBase
         }
     }
 
-    public function updateProfile($pass,$img,$updated_at,$token)
+    public function updatePassword($pass,$updated_at,$token)
     {
         try {
-            $stm = parent::conectar()->prepare("UPDATE users  SET password=?, image=? ,updated_at=? WHERE token = ?");
+            $stm = parent::conectar()->prepare("UPDATE users  SET password=?,updated_at=? WHERE token = ?");
             $stm->bindParam(1,$pass,PDO::PARAM_STR);
-            $stm->bindParam(2,$img,PDO::PARAM_STR);
-            $stm->bindParam(3,$updated_at,PDO::PARAM_STR);
-            $stm->bindParam(4,$token,PDO::PARAM_STR);
+            $stm->bindParam(2,$updated_at,PDO::PARAM_STR);
+            $stm->bindParam(3,$token,PDO::PARAM_STR);
             $stm->execute();
         } catch (Exception $e) {
-            die('Murio ShowUser'.$e->getMessage());
+            die('Murio UpdatePass'.$e->getMessage());
+        }
+    }
+
+
+    public function updateImg($img,$token)
+    {
+        try {
+            $stm = parent::conectar()->prepare("UPDATE users SET image=?   WHERE token = ?");
+            $stm->bindParam(1,$img,PDO::PARAM_STR);
+            $stm->bindParam(2,$token,PDO::PARAM_STR);
+            $stm->execute();
+        } catch (Exception $e) {
+            die('Murio UpdateImg'.$e->getMessage());
         }
     }
 

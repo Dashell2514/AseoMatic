@@ -11,6 +11,7 @@ class Login extends DataBase{
             us.lastname apellidos,
             us.email correo,
             us.password clave,
+            us.status estado,
             us.image img_usuario,
             us.document_number numero_documento,
             us.role_id fk_rol,

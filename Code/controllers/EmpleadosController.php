@@ -58,9 +58,21 @@ class EmpleadosController extends Empleado{
         $usuario = json_decode(parent::showProfile($token));
         $update_at = date("Y-m-d");
 
+        $password = password_verify($passConfirm, $usuario->clave);
 
-        if($pass == $passConfirm && $token && $update_at )
+
+        if (!empty($_POST['change_img'])) {
+            echo json_encode(['error' => 'IV']); //ImagenVacia
+            return;
+        }
+
+        if($pass && $passConfirm && $usuario && $token && $update_at )
         {
+            if (!$password) {
+                echo json_encode(['error' => 'CI']); //ContaseñaIncorrecta
+                return;
+            }
+
             //img uploud
              //? img si no se pone una img tomara el valor por defecto empty(si esta undefined da false)
              if(empty($_POST['change_img']))
@@ -114,16 +126,46 @@ class EmpleadosController extends Empleado{
                  $imgProfile = $usuario->img_usuario;
              }
 
-            $clave =password_hash($pass,PASSWORD_DEFAULT); 
-
-            parent::updateProfile($clave,$imgProfile,$update_at,$token);
+           
+            parent::updateImg($imgProfile,$token);
 
             // $_SESSION['EMPLEADOS'] = json_decode(parent::showProfile($token));
             echo json_encode(['ok' => 'usuarioActualizado']);
+            return;
 
 
         }else{
             echo json_encode(['error' => 'Fallo']);
+            return;
+        }
+    }
+
+    public function updatePass()
+    {
+        $validate_password = Security::verificatePassword($_POST['validate_password']);
+        $new_password = Security::verificatePassword($_POST['new_password']);
+        $token = $_POST['token_perfil'];
+        $usuario = json_decode(parent::showProfile($token));
+        $update_at = date("Y-m-d");
+        $password = password_verify($validate_password, $usuario->clave);
+
+        
+        if($validate_password && $new_password && $usuario && $update_at )
+        {
+        
+            if ($password) {
+                $clave =password_hash($new_password,PASSWORD_DEFAULT); 
+                parent::updatePassword($clave,$update_at,$token);
+                echo json_encode(['ok' => 'CA']); //ContraseñaActualizada
+                return;
+            }else{
+                echo json_encode(['error' => 'CI']); //ContaseñaIncorrecta
+                return;
+            }
+
+        }else{
+            echo json_encode(['error' => 'Fallo']);
+            return;
         }
     }
 

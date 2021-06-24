@@ -207,13 +207,23 @@ background-color: #6C63FF;
 .show-svg,
 .edit-svg,
 .delete-svg,
-.pdf-svg{
+.pdf-svg,
+.disable-svg,
+.enable-svg{
   height: 25px;
   width: 25px;
   background-size: cover;
   background-repeat: no-repeat;
   margin-left: 5px;
   transition: transform 1s;
+}
+
+.disable-svg,
+.enable-svg{
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 45px;
+  height: 23px;
 }
 
 .show-svg{
@@ -237,6 +247,12 @@ background-color: #6C63FF;
 
 .pdf-svg{
   background-image: url('../svg/pdf.svg');
+}
+.enable-svg{
+  background-image: url('../svg/enable.svg');
+}
+.disable-svg{
+  background-image: url('../svg/disable.svg');
 }
 
 .i-separated{

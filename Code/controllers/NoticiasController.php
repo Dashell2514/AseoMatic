@@ -44,6 +44,7 @@ class NoticiasController extends Noticia
         $tituloNoticia = Security::htmlChars($_POST['titulo_noticia']);
         $descripcionNoticia = $_POST['descripcion_noticia'];
         $fechaPublicacion = date("Y-m-d H:i:s");
+        $fechaActualizacion = date("Y-m-d H:i:s");
         $newUser = Security::verificateInt($_POST['fk_usuario']);
 
         if($DimensionesImg == true)
@@ -63,7 +64,7 @@ class NoticiasController extends Noticia
                       
                         move_uploaded_file($_FILES["new_img"]["tmp_name"],$archivo);
                         $imgNew = $archivo;
-                        parent::storeAddNew($tituloNoticia,$descripcionNoticia,$fechaPublicacion,$imgNew,$newUser);
+                        parent::storeAddNew($tituloNoticia,$descripcionNoticia,$fechaPublicacion,$fechaActualizacion,$imgNew,$newUser);
                         echo json_encode(['ok'=>'CreadaNoticia']);
 
                     }else{
