@@ -5,8 +5,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-// Load Composer's autoloader
-require_once 'vendor/autoload.php';
 
 class AllController{
     
@@ -55,12 +53,12 @@ class AllController{
                     //Server settings
                     $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
                     $mail->isSMTP();                                            // Send using SMTP
-                    $mail->Host       = 'smtp.mailtrap.io';                    // Set the SMTP server to send through
+                    $mail->Host       = $_ENV['MAIL_HOST'];                    // Set the SMTP server to send through
                     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-                    $mail->Username   = '';                     // SMTP username
-                    $mail->Password   = '';
+                    $mail->Username   = $_ENV['MAIL_USERNAME'];                     // SMTP username
+                    $mail->Password   = $_ENV['MAIL_PASSWORD'];
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; 
-                    $mail->Port       = 2525;
+                    $mail->Port       = $_ENV['MAIL_PORT'];
 
                     //Recipients
                     $mail->setFrom('aseomatic@gmail.com',$asuntoContact);

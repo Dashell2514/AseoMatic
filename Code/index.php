@@ -1,6 +1,9 @@
 <?php 
 
 require_once 'core/core.php';
+require_once 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $controller = isset($_GET['c']) ? $_GET['c'] : 'All';
 $method = isset($_GET['m']) ? $_GET['m'] : 'index';
