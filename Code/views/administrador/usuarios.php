@@ -181,7 +181,7 @@
              <div class="col-md-6 col-lg-6 col-sm-12">
               <div class="form-group">
                 <label for="fecha_de" class="text-shadow-1 text-custom">Fecha De Ingreso</label>
-                <input type="date"tabindex="2" name="fecha_de" id="fecha_de" class="form-control">
+                <input type="date"tabindex="11" name="fecha_de" id="fecha_de" class="form-control">
               </div>
             </div>
 
@@ -190,7 +190,7 @@
                 <label for="fecha_hasta" class="text-shadow-1 text-custom">Fecha 
                     Hasta
                 </label>
-                <input type="date" tabindex="3" name="fecha_hasta" id="fecha_hasta" class="form-control">
+                <input type="date" tabindex="12" name="fecha_hasta" id="fecha_hasta" class="form-control">
 
               </div>
             </div>
@@ -202,13 +202,13 @@
                    <!--Descripcion-->
           <div class="col-6">
                   <label for="descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripción Concepto</label>
-                  <textarea name="descripcion_nomina" id="descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
+                  <textarea name="descripcion_nomina" id="descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="13" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
            </div>
           <!--FIN Descripcion-->
            <!--Asiento contable-->
           <div class="col-6">
                 <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
-                <select name="contable" tabindex="5" id="contable" tabindex="7" class="form-control bg-white">
+                <select name="contable" id="contable" tabindex="14" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
                   <?php foreach (Administrador::allTable('accounting_entry') as $asiento_contable) { ?>
                     <option value="<?php echo $asiento_contable->id ?>"><?php echo $asiento_contable->name ?></option>
@@ -225,7 +225,7 @@
           <!--Valor-->
           <div class="col-6 mt-3">
                 <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
-                <select name="tipo_concepto" tabindex="6" id="tipo_concepto" tabindex="7" class="form-control bg-white">
+                <select name="tipo_concepto" id="tipo_concepto" tabindex="15" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
                   <?php foreach (Administrador::allTable('types_concepts') as $tipo_concepto) { ?>
                     <option value="<?php echo $tipo_concepto->id ?>"><?php echo $tipo_concepto->name ?></option>
@@ -236,7 +236,7 @@
           
           <div class="col-6 mt-3">
               <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
-              <input type="text" name="valor" tabindex="7" id="valor"placeholder="Valor" class="form-control bg-white">
+              <input type="text" name="valor" tabindex="16" id="valor"placeholder="Valor" class="form-control bg-white">
             </div>
           <!--FIN VALOR-->
   
@@ -327,12 +327,12 @@
 
                 <div class="form-group">
                   <label for="update_nombres" class="text-shadow-1 text-custom">Nombres</label>
-                  <input type="text" class="form-control bg-white text-capitalize input-custom" name="update_nombres" id="update_nombres">
+                  <input tabindex="1" type="text" class="form-control bg-white text-capitalize input-custom" name="update_nombres" id="update_nombres">
                 </div>
 
                 <div class="form-group">
                   <label for="update_apellidos" class="text-shadow-1 text-custom">Apellidos</label>
-                  <input type="text" class="form-control bg-white text-capitalize input-custom" name="update_apellidos" id="update_apellidos">
+                  <input tabindex="2" type="text" class="form-control bg-white text-capitalize input-custom" name="update_apellidos" id="update_apellidos">
                 </div>
 
             </div>
@@ -340,31 +340,31 @@
             <div class="form-group col-12">
 
                 <label for="update_correo" class="text-shadow-1 text-custom">Correo</label>
-                <input type="email" class="form-control bg-white input-custom" name="update_correo" id="update_correo">
+                <input tabindex="3" type="email" class="form-control bg-white input-custom" name="update_correo" id="update_correo">
 
                 <label for="update_clave" class="text-shadow-1 text-custom">Clave</label>
-                <input type="password" class="form-control bg-white input-custom" name="update_clave" id="update_clave" placeholder="Escriba si quiere modificar la contraseña si no deje en blanco">
+                <input tabindex="4" type="password" class="form-control bg-white input-custom" name="update_clave" id="update_clave" placeholder="Escriba si quiere modificar la contraseña si no deje en blanco">
 
             </div>
 
             <div class="form-group col-md-4 col-sm-12">
 
               <label for="update_numero_documento" class="text-shadow-1 text-custom">Número Documento</label>
-              <input type="text" class="form-control bg-white input-custom" name="update_numero_documento" id="update_numero_documento">
+              <input tabindex="5" type="text" class="form-control bg-white input-custom" name="update_numero_documento" id="update_numero_documento">
 
             </div>
 
             <div class="form-group col-md-4 col-sm-12">
 
               <label for="update_salario" class="text-shadow-1 text-custom">Salario</label>
-              <input type="text" class="form-control bg-white input-custom" name="update_salario" id="update_salario">
+              <input tabindex="6" type="text" class="form-control bg-white input-custom" name="update_salario" id="update_salario">
 
             </div>
 
             <div class="form-group col-md-4 col-sm-12">
 
               <label for="update_tipo_documento" class="text-shadow-1 text-custom">Tipo Documento</label>
-              <select name="update_tipo_documento" id="update_tipo_documento" class="form-control bg-white text-capitalize">
+              <select tabindex="7" name="update_tipo_documento" id="update_tipo_documento" class="form-control bg-white text-capitalize">
                 <option value="" selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('document_types') as $documento) { ?>
                   <option value="<?php echo $documento->id ?>"><?php echo $documento->name ?></option>
@@ -382,7 +382,7 @@
             <div class="form-group  col-sm-12 col-lg-4 col-md-6">
 
               <label for="update_rol" class="text-shadow-1 text-custom">Rol</label>
-              <select name="update_rol" id="update_rol" class="form-control bg-white text-capitalize">
+              <select tabindex="8" name="update_rol" id="update_rol" class="form-control bg-white text-capitalize">
                 <option value="" selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('roles') as $rol) { ?>
                   <option value="<?php echo $rol->id ?>"><?php echo $rol->name ?></option>
@@ -395,7 +395,7 @@
             <div class="form-group  col-sm-12 col-lg-4 col-md-6">
 
               <label for="update_cargo" class="text-shadow-1 text-custom">Cargo</label>
-              <select name="update_cargo" id="update_cargo" class="form-control bg-white text-capitalize">
+              <select  tabindex="9" name="update_cargo" id="update_cargo" class="form-control bg-white text-capitalize">
                 <option value="" selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('charges') as $cargo) { ?>
                   <option value="<?php echo $cargo->id ?>"><?php echo $cargo->name ?></option>
@@ -407,7 +407,7 @@
             <div class="form-group  col-sm-12 col-lg-4 col-md-12">
 
               <label for="update_tipo_contrato" class="text-shadow-1 text-custom">Tipo Contrato</label>
-              <select name="update_tipo_contrato" id="update_tipo_contrato" class="form-control bg-white text-capitalize">
+              <select tabindex="10" name="update_tipo_contrato" id="update_tipo_contrato" class="form-control bg-white text-capitalize">
                 <option value="" selected="true">-- Seleccione --</option>
                 <?php foreach (Administrador::allTable('contract_types') as $tipo_contrato) { ?>
                   <option value="<?php echo $tipo_contrato->id ?>"><?php echo $tipo_contrato->name ?></option>
@@ -431,13 +431,13 @@
                  <!--Descripcion-->
          <div class="col-md-6 col-lg-4 col-sm-6 col-6">
                 <label for="update_descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripción Nomina</label>
-                <textarea name="update_descripcion_nomina" id="update_descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
+                <textarea name="update_descripcion_nomina" id="update_descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="11" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
          </div> 
         <!--FIN Descripcion-->
          <!--Asiento contable-->
          <div class="col-md-6 col-lg-4 col-sm-6 col-6">
               <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
-              <select name="update_contable" tabindex="5" id="update_contable" tabindex="7" class="form-control bg-white">
+              <select name="update_contable" id="update_contable" tabindex="12" class="form-control bg-white">
                 <option value="" selected="true">---Seleccione---</option>
                 <?php foreach (Administrador::allTable('accounting_entry') as $asiento_contable) { ?>
                   <option value="<?php echo $asiento_contable->id ?>"><?php echo $asiento_contable->name ?></option>
@@ -451,7 +451,7 @@
         <!--Valor-->
         <div class="col-md-12 col-lg-4 col-sm-12 col-12">
               <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
-              <select name="update_tipo_concepto" tabindex="6" id="update_tipo_concepto" tabindex="7" class="form-control bg-white">
+              <select name="update_tipo_concepto" id="update_tipo_concepto" tabindex="13" class="form-control bg-white">
                 <option value="" selected="true">---Seleccione---</option>
                 <?php foreach (Administrador::allTable('types_concepts') as $tipo_concepto) { ?>
                   <option value="<?php echo $tipo_concepto->id ?>"><?php echo $tipo_concepto->name ?></option>
@@ -463,7 +463,7 @@
 
         <div class="col-12 mt-3">
             <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
-            <input type="text" name="update_valor" tabindex="7" id="update_valor"placeholder="update_Valor" class="form-control bg-white">
+            <input type="text" name="update_valor" tabindex="14" id="update_valor"placeholder="update_Valor" class="form-control bg-white">
         </div>
 
         <div class="col-12 mt-3 text-center">

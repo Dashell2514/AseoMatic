@@ -31,7 +31,7 @@ if(location.search == '?c=Usuarios&m=show' )
             else if(id.getAttribute('data-target') == '#Delete')
             {
                 const message= `${userIdFilter.nombres} ${userIdFilter.apellidos} identificado con el documento ${userIdFilter.numero_documento}`
-                msgQuestion(message, userIdFilter.id_usuario, userIdFilter.token);
+                msgEnable(message, userIdFilter.id_usuario, userIdFilter.token,userIdFilter.estado);
             }
             else if(id.getAttribute('data-target') == '#ModalShowUser'){
                 showUserInfo(userIdFilter);
@@ -120,7 +120,10 @@ if(location.search == '?c=Usuarios&m=show' )
 
         let i2Td9 =document.createElement('I');
         i2Td9.id=`${datos.id_usuario}`;
-        i2Td9.classList.add('delete-svg');
+        (datos.estado == 1 ) 
+        ? i2Td9.classList.add('enable-svg')
+        : i2Td9.classList.add('disable-svg');
+
         i2Td9.setAttribute('data-toggle','modal');
         i2Td9.setAttribute('data-target','#Delete');
         
@@ -669,32 +672,50 @@ if(location.search == '?c=Usuarios&m=show' )
 
     })
 
-    // //? funcion De Mensaje modal y callback de eliminar(deleteUser(id));
-    // const msgQuestion = (message, id, token) => {
-    //     Swal.fire({
-    //         icon: 'warning',
-    //         html: `<p class="text-white h4 mb-3 text-capitalize">Desea borrar al usuario</p><p class="text-danger text-capitalize h6">${message}</p>`,
-    //         focusConfirm:true,
-    //         background : '#343a40',
-    //         confirmButtonText: 'Entendido',
-    //         confirmButtonColor: '#6C63FF',
-    //         showCancelButton: true,
-    //         cancelButtonText: 'Cancelar',
-    //         cancelButtonColor: '#6C63FF'
-    //         }).then((result) => {
-    //         if (result.value) {
-    //             const msg = "El usuarios ha sido eliminado";
-    //             msgSuccess(msg);
-    //             deleteUser(id,token);
+    //? funcion De Mensaje modal y callback de eliminar(deleteUser(id));
+    const msgEnable = (message, id, token, status) => {
+        Swal.fire({
+            icon: 'warning',
+            html: `<p class="text-white h4 mb-3 text-capitalize">${ (status==1) ? 'Desea Deshabilitar al usuario': 'Desea Hablitar al usuario' }</p><p class="text-danger text-capitalize h6">${message}</p>`,
+            focusConfirm:true,
+            background : '#343a40',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#6C63FF',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#6C63FF'
+            }).then((result) => {
+            if (result.value) {
+                if (status == 1) {
+                    const msg = "El usuario ha sido deshabilitado";  
+                    msgSuccess(msg);
+                    DisableUser(id,token,2);
+                }else{
+                    const msg ="El usuario ha sido Habilitado";
+                    msgSuccess(msg);
+                    DisableUser(id,token,1) 
+                }
     
-    //         };
-    //     })
-    // }
+            };
+        })
+    }
 
-    //? peticion para eliminar usuario mediante id
-    const deleteUser = (id,token) =>{
-        fetch(`?c=Usuarios&m=destroy&delete_id=${id}&token=${token}`,{
-        }).then( resp =>  (resp.ok) ? Promise.resolve(resp) : Promise.reject(new Error('fallo el delete')))
+    
+    // //? peticion para eliminar usuario mediante id
+    // const deleteUser = (id,token) =>{
+    //     fetch(`?c=Usuarios&m=destroy&delete_id=${id}&token=${token}`,{
+    //     }).then( resp =>  (resp.ok) ? Promise.resolve(resp) : Promise.reject(new Error('fallo el delete')))
+    //     .then( resp => resp.text())
+    //     .then((data) =>{
+    //         // se actualiza la tabla
+    //         showAllUsers();
+    //     })
+    
+    // }
+    // //? peticion para Deshabilitar-habilitar usuario mediante id
+    const DisableUser = (id,token,option) =>{
+        fetch(`?c=Usuarios&m=disable&delete_id=${id}&token=${token}&option=${option}`,{
+        }).then( resp =>  (resp.ok) ? Promise.resolve(resp) : Promise.reject(new Error('fallo la deshabilitacion de usuario')))
         .then( resp => resp.text())
         .then((data) =>{
             // se actualiza la tabla
@@ -702,7 +723,6 @@ if(location.search == '?c=Usuarios&m=show' )
         })
     
     }
-
     //? Se ejecuta la para la creacion de los datos cuando acceda a Modulo Usuarios
     showAllUsers()
 

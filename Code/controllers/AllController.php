@@ -1,11 +1,10 @@
-<?php 
+<?php
 
+use Illuminate\Support\Facades\Date;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-// Load Composer's autoloader
-require_once 'vendor/autoload.php';
 
 class AllController{
     
@@ -54,16 +53,16 @@ class AllController{
                     //Server settings
                     $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
                     $mail->isSMTP();                                            // Send using SMTP
-                    $mail->Host       = 'smtp.mailtrap.io';                    // Set the SMTP server to send through
+                    $mail->Host       = $_ENV['MAIL_HOST'];                    // Set the SMTP server to send through
                     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-                    $mail->Username   = '028de6b4dea01b';                     // SMTP username
-                    $mail->Password   = 'ab1fceab36503b';
+                    $mail->Username   = $_ENV['MAIL_USERNAME'];                     // SMTP username
+                    $mail->Password   = $_ENV['MAIL_PASSWORD'];
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; 
-                    $mail->Port       = 2525;
+                    $mail->Port       = $_ENV['MAIL_PORT'];
 
                     //Recipients
                     $mail->setFrom('aseomatic@gmail.com',$asuntoContact);
-                    $mail->addAddress('aseomatic@gmail.com');     // Add a recipient
+                    $mail->addAddress('aseomatic22@gmail.com');     // Add a recipient
                     // $mail->addCC('cc@example.com');
                     // $mail->addBCC('bcc@example.com');
         
@@ -104,14 +103,13 @@ class AllController{
 
     public function showModal()
     {
-        if($_REQUEST['tabla'] &&  $_REQUEST['campo'] &&  $_REQUEST['tipo'] &&  $_REQUEST['id']){
-            echo json_encode(Administrador::allTableId($_REQUEST['tabla'],$_REQUEST['campo'],$_REQUEST['tipo'],$_REQUEST['id']));
+        
+        if($_REQUEST['tabla'] && $_REQUEST['id']){
+            echo json_encode(Administrador::allTableId($_REQUEST['tabla'],$_REQUEST['id']));
         }else{
             header('location:?c=All&m=index');
         }
   
     }
-
     
-
 }

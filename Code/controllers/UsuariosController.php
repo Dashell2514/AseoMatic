@@ -1,5 +1,7 @@
 <?php
 
+use Faker\Core\Number;
+
 class UsuariosController extends Usuario{
 
         private $seguridad;
@@ -116,7 +118,7 @@ class UsuariosController extends Usuario{
                    $nomina = new Nomina();
                    if($fecha_de && $fecha_hasta && $arrayDatos){
 
-                       $nomina->createNomina($fk_usuario->id, $fecha_de, $fecha_hasta);
+                       $nomina->createNomina($fk_usuario->id, $fecha_de, $fecha_hasta,2);
            
                        $lastNomina =$nomina->consultarUltimaNomina();
                        
@@ -313,6 +315,18 @@ class UsuariosController extends Usuario{
                 }
                 parent::deleteUser($id,$token);
            }
+       }
+       //? Funcion para Deshabilitar un usuario
+       public function disable()
+       {
+           $id=$this->seguridad->verificateInt($_REQUEST['delete_id']);
+           $token = $_REQUEST['token'];
+           $option = $this->seguridad->verificateInt(intval($_REQUEST['option']));
+           if($id && $token && $option)
+           {
+               parent::DisableUser($id,$token,$option);
+           }
+           return;
        }
    
     

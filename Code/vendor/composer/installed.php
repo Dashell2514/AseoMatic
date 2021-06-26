@@ -1,82 +1,134 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => 'fb55341959aec6084f0b86e7017889a74d4251b2',
+        'name' => '__root__',
+        'dev' => true,
     ),
-    'reference' => '475db6c3bcedfe29416ab8abf692c20be165b6a8',
-    'name' => '__root__',
-  ),
-  'versions' => 
-  array (
-    '__root__' => 
-    array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '475db6c3bcedfe29416ab8abf692c20be165b6a8',
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => 'fb55341959aec6084f0b86e7017889a74d4251b2',
+            'dev_requirement' => false,
+        ),
+        'graham-campbell/result-type' => array(
+            'pretty_version' => 'v1.0.1',
+            'version' => '1.0.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../graham-campbell/result-type',
+            'aliases' => array(),
+            'reference' => '7e279d2cd5d7fbb156ce46daada972355cea27bb',
+            'dev_requirement' => false,
+        ),
+        'mpdf/mpdf' => array(
+            'pretty_version' => 'v8.0.11',
+            'version' => '8.0.11.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mpdf/mpdf',
+            'aliases' => array(),
+            'reference' => 'af17afbbfa0b6ce76defc8da5d02a73d54f94c64',
+            'dev_requirement' => false,
+        ),
+        'myclabs/deep-copy' => array(
+            'pretty_version' => '1.10.2',
+            'version' => '1.10.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../myclabs/deep-copy',
+            'aliases' => array(),
+            'reference' => '776f831124e9c62e1a2c601ecc52e776d8bb7220',
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '1.10.2',
+            ),
+        ),
+        'paragonie/random_compat' => array(
+            'pretty_version' => 'v9.99.100',
+            'version' => '9.99.100.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../paragonie/random_compat',
+            'aliases' => array(),
+            'reference' => '996434e5492cb4c3edcb9168db6fbb1359ef965a',
+            'dev_requirement' => false,
+        ),
+        'phpmailer/phpmailer' => array(
+            'pretty_version' => 'v6.5.0',
+            'version' => '6.5.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
+            'aliases' => array(),
+            'reference' => 'a5b5c43e50b7fba655f793ad27303cd74c57363c',
+            'dev_requirement' => false,
+        ),
+        'phpoption/phpoption' => array(
+            'pretty_version' => '1.7.5',
+            'version' => '1.7.5.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpoption/phpoption',
+            'aliases' => array(),
+            'reference' => '994ecccd8f3283ecf5ac33254543eb0ac946d525',
+            'dev_requirement' => false,
+        ),
+        'psr/log' => array(
+            'pretty_version' => '1.1.4',
+            'version' => '1.1.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../psr/log',
+            'aliases' => array(),
+            'reference' => 'd49695b909c3b7628b6289db5479a1c204601f11',
+            'dev_requirement' => false,
+        ),
+        'setasign/fpdi' => array(
+            'pretty_version' => 'v2.3.6',
+            'version' => '2.3.6.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../setasign/fpdi',
+            'aliases' => array(),
+            'reference' => '6231e315f73e4f62d72b73f3d6d78ff0eed93c31',
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-ctype' => array(
+            'pretty_version' => 'v1.23.0',
+            'version' => '1.23.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-ctype',
+            'aliases' => array(),
+            'reference' => '46cd95797e9df938fdd2b03693b5fca5e64b01ce',
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-mbstring' => array(
+            'pretty_version' => 'v1.23.0',
+            'version' => '1.23.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
+            'aliases' => array(),
+            'reference' => '2df51500adbaebdc4c38dea4c89a2e131c45c8a1',
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-php80' => array(
+            'pretty_version' => 'v1.23.0',
+            'version' => '1.23.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-php80',
+            'aliases' => array(),
+            'reference' => 'eca0bf41ed421bed1b57c4958bab16aa86b757d0',
+            'dev_requirement' => false,
+        ),
+        'vlucas/phpdotenv' => array(
+            'pretty_version' => 'v5.3.0',
+            'version' => '5.3.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../vlucas/phpdotenv',
+            'aliases' => array(),
+            'reference' => 'b3eac5c7ac896e52deab4a99068e3f4ab12d9e56',
+            'dev_requirement' => false,
+        ),
     ),
-    'mpdf/mpdf' => 
-    array (
-      'pretty_version' => 'v8.0.7',
-      'version' => '8.0.7.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '7daf07f15334ed59a276bd52131dcca48794cdbd',
-    ),
-    'myclabs/deep-copy' => 
-    array (
-      'pretty_version' => '1.10.2',
-      'version' => '1.10.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '776f831124e9c62e1a2c601ecc52e776d8bb7220',
-      'replaced' => 
-      array (
-        0 => '1.10.2',
-      ),
-    ),
-    'paragonie/random_compat' => 
-    array (
-      'pretty_version' => 'v9.99.99',
-      'version' => '9.99.99.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '84b4dfb120c6f9b4ff7b3685f9b8f1aa365a0c95',
-    ),
-    'phpmailer/phpmailer' => 
-    array (
-      'pretty_version' => 'v6.2.0',
-      'version' => '6.2.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'e38888a75c070304ca5514197d4847a59a5c853f',
-    ),
-    'psr/log' => 
-    array (
-      'pretty_version' => '1.1.3',
-      'version' => '1.1.3.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '0f73288fd15629204f9d42b7055f72dacbe811fc',
-    ),
-    'setasign/fpdi' => 
-    array (
-      'pretty_version' => 'v2.3.4',
-      'version' => '2.3.4.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '2b5fb811c04f937ef257ef3f798cebeded33c136',
-    ),
-  ),
 );

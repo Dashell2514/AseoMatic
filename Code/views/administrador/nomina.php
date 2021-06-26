@@ -311,16 +311,36 @@
         <div class="row">
 
         <input type="hidden" name="update_nomina" id="update_nomina">
+
+            
+          
+          <div class="col-md-6 col-lg-6 col-sm-12">
+          <div class="form-group">
+            <label for="update_fecha_de" class="text-shadow-1 text-custom">Fecha Desde</label>
+            <input type="date"tabindex="1" name="update_fecha_de" id="update_fecha_de" class="form-control">
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6 col-sm-12">
+          <div class="form-group">
+            <label for="update_fecha_hasta" class="text-shadow-1 text-custom">Fecha 
+                Hasta
+            </label>
+            <input type="date" tabindex="2" name="update_fecha_hasta" id="update_fecha_hasta" class="form-control">
+
+          </div>
+        </div>
+    
                    <!--Descripcion-->
            <div class="col-md-6 col-lg-4 col-sm-6 col-6">
                   <label for="update_descripcion_nomina" class="text-shadow-1 text-custom text-capitalize">Descripcion Nomina</label>
-                  <textarea name="update_descripcion_nomina" id="update_descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
+                  <textarea name="update_descripcion_nomina" id="update_descripcion_nomina" class="form_contact_textarea form-control" cols="20" rows="2" tabindex="3" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
            </div> 
           <!--FIN Descripcion-->
            <!--Asiento contable-->
            <div class="col-md-6 col-lg-4 col-sm-6 col-6">
                 <label class="text-shadow-1 text-custom text-capitalize">Asiento Contable</label>
-                <select name="update_contable" tabindex="5" id="update_contable" tabindex="7" class="form-control bg-white">
+                <select name="update_contable" tabindex="5" id="update_contable" tabindex="4" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
                   <?php foreach (Administrador::allTable('accounting_entry') as $asiento_contable) { ?>
                     <option value="<?php echo $asiento_contable->id ?>"><?php echo $asiento_contable->name ?></option>
@@ -334,7 +354,7 @@
           <!--Valor-->
           <div class="col-md-12 col-lg-4 col-sm-12 col-12">
                 <label class="text-shadow-1 text-custom text-capitalize">Tipo Concepto</label>
-                <select name="update_tipo_concepto" tabindex="6" id="update_tipo_concepto" tabindex="7" class="form-control bg-white">
+                <select name="update_tipo_concepto" tabindex="5" id="update_tipo_concepto" tabindex="7" class="form-control bg-white">
                   <option value="" selected="true">---Seleccione---</option>
                   <?php foreach (Administrador::allTable('types_concepts') as $tipo_concepto) { ?>
                     <option value="<?php echo $tipo_concepto->id ?>"><?php echo $tipo_concepto->name ?></option>
@@ -346,7 +366,7 @@
 
           <div class="col-12 mt-3">
               <label class="text-shadow-1 text-custom text-capitalize">Valor</label>
-              <input type="text" name="update_valor" tabindex="7" id="update_valor"placeholder="update_Valor" class="form-control bg-white">
+              <input type="text" name="update_valor" tabindex="6" id="update_valor"placeholder="update_Valor" class="form-control bg-white">
           </div>
 
           <div class="col-12 mt-3 text-center">
