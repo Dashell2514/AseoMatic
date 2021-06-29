@@ -140,6 +140,37 @@ class Nomina extends DataBase{
         }
     }
 
+    public static function consultarConceptosPorNominaToken($token,$id_nomina){
+        try{
+            $str = parent::conectar()->prepare("SELECT
+            c.id id_concepto,
+            c.description descripcion,
+            c.status estado,
+            c.value valor,
+            c.concepts_id fk_tipo_concepto,
+            c.payroll_id fk_nomina,
+            c.accounting_entry_id fk_asiento_contable,
+            t.id id_tipo_concepto,
+            t.name tipo_concepto,
+            ac.id id_asiento_contable,
+            ac.name asiento_contable,
+            p.initial_date fecha_de,
+            p.final_date fecha_hasta     
+            FROM concepts c 
+            LEFT JOIN types_concepts t ON c.concepts_id = t.id 
+            LEFT JOIN accounting_entry ac ON c.accounting_entry_id = ac.id 
+            LEFT JOIN payrolls p on c.payroll_id=p.id 
+            LEFT JOIN users on p.user_id =users.id 
+            WHERE users.token = ? AND c.payroll_id =?  ORDER BY c.id DESC");
+            $str->bindParam(1,$token,PDO::PARAM_STR);
+            $str->bindParam(2,$id_nomina,PDO::PARAM_INT);
+            $str->execute();
+            return $str->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $e){
+            die('mal'.$e->getMessage());
+        }
+    }
+
     public static function consultarUnaNomina($id_nomina){
         try{
             $str = parent::conectar()->prepare("SELECT
@@ -298,7 +329,7 @@ class Nomina extends DataBase{
             AND ?
             OR payrolls.final_date BETWEEN ? 
             AND ? )
-            AND payrolls.user_id=? ");
+            AND payrolls.user_id=?  AND payrolls.status =1");
             $str->bindParam(1,$initial_date,PDO::PARAM_STR);
             $str->bindParam(2,$final_date,PDO::PARAM_STR);
             $str->bindParam(3,$initial_date,PDO::PARAM_STR);

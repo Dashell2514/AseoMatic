@@ -1,7 +1,5 @@
 <?php
 
-use Faker\Core\Number;
-
 class UsuariosController extends Usuario{
 
         private $seguridad;

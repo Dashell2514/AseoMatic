@@ -50,7 +50,7 @@ class AutomaticPayrollsController
         if ($remainingDays == $day) {
             $daysMonth = $this->daysEndMonth(); //dias del mes
             // $dateFrom = date("Y-m-d" ,mktime(0, 0, 0, date("m")  , date("d")-($daysMonth-1), date("Y")));
-            $dateFrom = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 16, date("Y")));
+            $dateFrom = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 26, date("Y")));
             // $dateFrom = date("Y-m-d" ,mktime(0, 0, 0, 6  , 30-(29), 2021)); EJEMPLO DE LO QUE HACE 
             $dateTo = date("Y-m-d");
             $usersId = Usuario::usersId(); //id usuarios
