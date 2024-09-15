@@ -1,0 +1,158 @@
+<?php 
+
+
+class NominasController extends Nomina{
+
+    private $seguridad;
+    private $validacion;
+
+    public function __construct()
+    {
+        try
+        {
+            require_once 'controllers/AutomaticPayrollsController.php';
+            $this->validacion = new AutomaticPayrollsController();
+            $this->seguridad = new Security();
+            $this->seguridad->seguridadAdministrador();
+        }catch(Exception $e)
+        {
+            die('Error de Instancia');
+        }
+
+    }
+
+    public function index()
+    {
+        $title='Nomina';
+        $moduloJs = '<script src="assets/js/modulos/payrolls/payrolls.js" type="module"></script>';
+        require_once('views/administrador/nomina.php');
+    }
+
+
+    //? trae la informacion en formato JSON
+    public function allNominasJson()
+    {
+        echo json_encode(parent::consultarTodasLasNominas()); 
+    }
+
+    public function showConceptsID()
+    {
+        echo json_encode(Nomina::consultarConceptosPorNomina($_REQUEST['id']));
+    }
+
+    public function showConceptsFijosID()
+    {
+        echo json_encode(Nomina::conceptosFijos($_REQUEST['id']));
+    }
+
+    public function store(){
+        $fk_usuario = $_POST['fk_usuario'];
+        $fecha_de = $_POST['fecha_de'];
+        $fecha_hasta = $_POST['fecha_hasta'];
+        $arrayDatos = json_decode($_POST['arrayDatos']);
+        
+        
+        if($this->validacion->validacionNominaPorFechas($fk_usuario,$fecha_de,$fecha_hasta))
+        {
+            echo json_encode(['error' => 'Ya existe una nomina de ese mes']);
+            return;
+        }
+
+
+        if($fk_usuario && $fecha_de && $fecha_hasta && $arrayDatos){
+
+            parent::createNomina($fk_usuario, $fecha_de, $fecha_hasta);
+
+            $lastNomina = parent::consultarUltimaNomina();
+            
+            $total = 0;
+            for ($i=0; $i < count($arrayDatos); $i++) { 
+                $data = $arrayDatos[$i];
+                parent::createConcept($data->descripcion, 
+                1,$data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $lastNomina->id_nomina);
+
+                if($data->fk_asiento_contable == 2)
+                {
+                    $total -=$data->valor;
+
+                }else{
+                    $total +=$data->valor;
+                }
+            }
+            
+
+            parent::updateNominaValor($total,$lastNomina->id_nomina);
+            echo json_encode(['ok'=> 'Creado']);
+            return;
+        }else{
+
+            echo json_encode(['error'=> 'Debes llenar todos los campos']);
+            return;
+        }
+
+    }
+
+    public function update()
+    {
+    
+        $arrayDatos = json_decode($_POST['arrayDatos']);
+        $fk_nomina = ($_POST['fk_nomina']);
+        $update_fecha_de = ($_POST['update_fecha_de']);
+        $update_fecha_hasta = ($_POST['update_fecha_hasta']);
+
+        $fk_usuario = Nomina::consultarUnaNomina($fk_nomina);
+
+        if($this->validacion->validacionNominaPorFechas($fk_usuario->fk_usuario,$update_fecha_de,$update_fecha_hasta))
+        {
+            echo json_encode(['error' => 'Ya existe una nomina de ese mes']);
+            return;
+        }
+    
+        if($fk_nomina && $arrayDatos){
+            
+            parent::deleteTodosConceptos($fk_nomina);
+            $total = 0;
+            for ($i=0; $i < count($arrayDatos); $i++) { 
+                $data = $arrayDatos[$i];
+      
+                parent::createConcept($data->descripcion,1, $data->fk_asiento_contable, $data->valor, $data->fk_tipo_concepto, $fk_nomina);
+
+                if($data->fk_asiento_contable == 2)
+                {
+                    $total -=$data->valor;
+
+                }else{
+                    $total +=$data->valor;
+                }
+               
+            }
+            
+            parent::updateNomina($total,$update_fecha_de,$update_fecha_hasta,$fk_nomina);
+            echo json_encode(['ok'=> 'Creado']);
+            return;
+        }else{
+
+            echo json_encode(['error'=> 'Debes llenar todos los campos']);
+            return;
+        }
+    }
+
+   
+
+
+
+    public function destroy(){
+        $id_nomina=$_POST['id'];
+
+        parent::deleteNomina($id_nomina);
+        header('location:?class=Nominas&view=index');
+
+    }
+
+
+
+
+  
+
+
+}

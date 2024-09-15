@@ -16,6 +16,11 @@ class LoginController extends Login{
 
             if($nombre_usuario == $usuario->correo && $password == true)
             {
+                if ($usuario->estado == 2) {
+                    echo json_encode(['error' => 'incorrectoUser']);
+                    return;
+                }
+                
                 if( $usuario->fk_rol == 1)
                 {
                     $_SESSION['ADMINISTRADOR'] = $usuario;

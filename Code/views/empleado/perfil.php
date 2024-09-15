@@ -59,13 +59,26 @@
                                             <input type="password" name="confirm_password_perfil" id="confirm_password_perfil" class="form-control " placeholder=""  >
                                           </div>
                                     </div>
-                                    <div class="col-12 text-center d-flex justify-content-center align-items-center mt-3 mb-4 ">
-                                        <label data-hover="Guardar Cambios"   class=" w-50  text-decoration-none button--scale-text-1  font-weight-bold  b-custom text-white rounded-lg">Guardar Cambios</a>
-                                          <input  class="form-profile__input-file" id ="updateProfile">
+
+                                    </div>
+                                    <div class="text-center row mt-3 mb-4 ">
+                                        <div  class="col-sm-12 col-md-6 " >
+                                          <label data-hover="Cambiar Imagen"   class=" w-100  text-decoration-none button--scale-text-1  font-weight-bold  b-custom text-white rounded-lg">Cambiar Imagen</a>
+                                            <input  class="form-profile__input-file" id="updateProfile">
+                                        </div>
+
+
+                                          <div  class="col-sm-12 col-md-6">
+                                            <label data-hover="Cambiar Contraseña"   class=" w-100  text-decoration-none button--scale-text-1  font-weight-bold  b-custom text-white rounded-lg">Cambiar Contraseña</a>
+                                            <input  class="form-profile__input-file" data-toggle="modal" data-target="#updatePassword" >
+                                          </div>
+                                          
                                     </div>
 
-                                
-                                </div>
+
+                                    
+
+                               
                             </form>
 
                                 
@@ -91,5 +104,41 @@
        </main>
 
        <!-- ? End Main -->
+
+
+<!-- ? Modal -->
+<div class="modal fade" id="updatePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-center h4 font-weight-bold text-shadow-1 text-custom">Cambiar Contraseña </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="validate_password" class=" text-custom " >Contraseña Anterior</label>
+                        <input type="password" class="form-control bg-white input-custom  "required  id="validate_password">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password" class=" text-custom " >Contraseña Nueva</label>
+                        <input type="password" class="form-control bg-white input-custom  "required  id="new_password">
+                    </div>
+                   
+                    <div class="d-flex justify-content-start align-items-center">
+                        <button  type="submit" class="mr-3 btn-custom b-r-custom text-decoration-none  font-weight-bold  b-custom text-white rounded-lg" id="btnupdatePassword">Actualizar Contraseña</button>
+
+                        <button type="button" class=" btn-custom b-r-custom text-decoration-none  font-weight-bold  b-custom text-white rounded-lg" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ? End Modal -->
 
 <?php require_once 'layout/footer.php'?>

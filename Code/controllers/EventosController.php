@@ -26,6 +26,7 @@ class EventosController extends Evento{
         function showEvents()
         {
             $title = "Gestion de Eventos";
+            $moduloJs = '<script src="assets/js/modulos/events/events.js" type="module"></script>';
             require_once 'views/administrador/eventos.php';
         }
     
@@ -41,8 +42,9 @@ class EventosController extends Evento{
             $DimensionesImg =getimagesize($_FILES['event_img']['tmp_name']);
             //POST
             $tituloEvento = Security::htmlChars($_POST['titulo_evento']);
-            $descripcionEvento = Security::htmlChars($_POST['descripcion_evento']);
-            $fechaPublicacion = Security::verificateDate($_POST['fecha_evento']);
+            $descripcionEvento = $_POST['descripcion_evento'];
+            $fechaPublicacion = date("Y-m-d H:i:s");
+            $fechaActualizacion = date("Y-m-d H:i:s");
             $EventUser = Security::verificateInt($_POST['fk_usuario']);
             
             if($DimensionesImg == true)
@@ -60,7 +62,7 @@ class EventosController extends Evento{
                         {
                             move_uploaded_file($_FILES["event_img"]["tmp_name"],$archivo);
                             $imgEvent = $archivo;
-                            parent::storeAddEvent($tituloEvento,$descripcionEvento,$fechaPublicacion,$imgEvent,$EventUser);
+                            parent::storeAddEvent($tituloEvento,$descripcionEvento,$fechaPublicacion,$fechaActualizacion,$imgEvent,$EventUser);
                             echo json_encode(['ok'=>'CreadaNoticia']);
                         }else{
                             echo json_encode(['error'=>'errorCrearNoticia']);
@@ -86,8 +88,8 @@ class EventosController extends Evento{
         {
             $idEvento =Security::verificateInt($_POST['update_id_evento']);
             $tituloEvento = Security::htmlChars($_POST['update_titulo_evento']);
-            $descripcionEvento =Security::htmlChars($_POST['update_descripcion_evento']);
-            $fechaPublicacion = Security::verificateDate($_POST['update_fecha_evento']);
+            $descripcionEvento =$_POST['update_descripcion_evento'];
+            $fechaPublicacion = date("Y-m-d H:i:s");
             $idUser = Security::verificateInt($_POST['update_fk_usuario']);
 
             if($idEvento && $tituloEvento && $descripcionEvento && $fechaPublicacion && $idUser)

@@ -1,13 +1,17 @@
 <?php 
 
+
+
 class DataBase{
 
- 
-
-    public function conectar()
+    public static function conectar()
     {
+       
         try {
-            $pdo = new PDO('mysql:host=localhost;dbname=aseomatic;charset:utf8','root','');
+           
+            $conectionString = "mysql:host=".$_ENV['DB_HOST'].";dbname=".$_ENV['DB_DATABASE'].';charset='.$_ENV['DB_CHARSET'].';port='.$_ENV['DB_PORT'].';';
+            
+            $pdo = new PDO($conectionString, $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
             return $pdo;
         } catch (Exception $e) {

@@ -14,12 +14,10 @@ class Administrador extends DataBase
         }
     }
 
-    static public function allTableId($tabla,$campo,$tipo,$id)
+    static public function allTableId($tabla,$id)
     {
         try {
-            // $stm = parent::conectar()->prepare("SELECT titulo_evento, descripcion_evento,fecha_publicado, imagen_evento, fk_usuario FROM $tabla WHERE $campo=? ");
-
-            $stm = parent::conectar()->prepare("SELECT titulo_$tipo, descripcion_$tipo,fecha_publicado, imagen_$tipo,nombres,apellidos FROM $tabla  INNER JOIN usuarios on  $tabla.fk_usuario=usuarios.id_usuario WHERE $campo=? ");
+            $stm = parent::conectar()->prepare("SELECT n.title, n.description, n.updated_at, n.image,us.name,us.lastname FROM $tabla n INNER JOIN users us on  n.user_id=us.id WHERE n.id=? ");
             $stm->bindParam(1,$id,PDO::PARAM_INT);
             $stm->execute();
             return $stm->fetch(PDO::FETCH_OBJ);

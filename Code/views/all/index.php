@@ -134,13 +134,13 @@
                         <h2 class="text-center font-weight-bold display-4">Noticias</h2>
                         <div class="owl-carousel owl-theme breadcrumb" id="noticias_row">
                         <?php 
-                            foreach(Administrador::allTable('noticias') as $noticia){ ?>
+                            foreach(Administrador::allTable('news') as $noticia){ ?>
                             <div class="card item ">
-                                <img src="<?php echo $noticia->imagen_noticia?>" class="card-img-top" alt="...">
+                                <img src="<?php echo $noticia->image?>" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title font-weight-bold"><?php echo $noticia->titulo_noticia?></h5>
-                                    <p class="card-subtitle"><?php echo Login::limitar_cadena($noticia->descripcion_noticia,80,'...')?></p>
-                                    <a data-id="<?php echo $noticia->id_noticia?>" data-tipo="noticia"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow">Leer Mas</a>
+                                    <h5 class="card-title font-weight-bold"><?php echo $noticia->title?></h5>
+                                    <p class="card-subtitle"><?php echo Login::limitar_cadena($noticia->description,75,'...')?></p>
+                                    <a data-id="<?php echo $noticia->id?>" data-tipo="noticia"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow text-white">Leer Mas</a>
                                 </div>
                             </div>
 
@@ -184,7 +184,7 @@
 
 
         <div class="d-flex justify-content-end align-items-center">
-              <button type="button"  class="btn-custom b-r-custom text-decoration-none font-weight-bold b-custom text-white rounded-lg" data-dismiss="modal">Cerrar</button>
+              <button type="button"  class="font-weight-bold btn btn-grow font-weight-bold text-white rounded-lg" data-dismiss="modal">Cerrar</button>
         </div>
 
 
@@ -201,13 +201,13 @@
                         <h2 class="text-center font-weight-bold display-4">Eventos</h2>
                         <div class="owl-carousel owl-theme breadcrumb " id="eventos_row">
                             <?php 
-                            foreach(Administrador::allTable('eventos') as $evento){ ?>
+                            foreach(Administrador::allTable('events') as $evento){ ?>
                             <div class="card item ">
-                                <img src="<?php echo $evento->imagen_evento?>" class="card-img-top" alt="...">
+                                <img src="<?php echo $evento->image?>" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title font-weight-bold"><?php echo $evento->titulo_evento?></h5>
-                                    <p class="card-subtitle"><?php echo Login::limitar_cadena($evento->descripcion_evento,100,'...')?></p>
-                                    <a data-id="<?php echo $evento->id_evento?>" data-tipo="evento"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow">Leer Mas</a>
+                                    <h5 class="card-title font-weight-bold"><?php echo $evento->title?></h5>
+                                    <p class="card-subtitle"><?php echo Login::limitar_cadena($evento->description,100,'...')?></p>
+                                    <a data-id="<?php echo $evento->id?>" data-tipo="evento"data-toggle="modal" data-target="#ModalNews" class="btn btn-grow text-white">Leer Mas</a>
                                 </div>
                             </div>
 
@@ -307,12 +307,12 @@
             	                    <label for="">Sexo</label>
             	                      <div class="form-check">
             	                        <div class="form-check-label ">
-            	                         <input class="form-check-input " name="genero_contact"  type="radio">Hombre
+            	                         <input class="form-check-input" value="hombre" name="genero_contact"  type="radio">Hombre
             	                        </div>
             	                      </div>
             	                      <div class="form-check">
             	                        <label class="form-check-label ">
-            	                          <input class="form-check-input " name="genero_contact" type="radio">Mujer
+            	                          <input class="form-check-input " value="mujer" name="genero_contact" type="radio">Mujer
             	                        </div>        
             	               </div>
             	             </div>
@@ -320,8 +320,8 @@
             	              <div class="form-group row">
             	                <div class="col-12 text-center">
             	                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
-            	                        <input type="checkbox" class="custom-control-input" name="terminos_contact" id="terminos_contact">
-            	                        <label class="custom-control-label"  for="terminos_contact">Acepto Terminos y Condiciones</label>
+            	                        <input type="checkbox" class="custom-control-input" name="terminos_contact"  value="atc" id="terminos_contact">
+            	                        <label class="custom-control-label" for="terminos_contact">Acepto Terminos y Condiciones</label>
             	                    </div>
             	                 </div>
             	                    
@@ -329,7 +329,7 @@
             	              <div class="row justify-content-center">
             	                <div class="col-4 ">
             	                    
-            	                    <label for="form_contacto" class="font-weight-bold w-100 p-2  btn-custom text-center">Enviar</label>
+            	                    <label for="form_contacto" id="label_form_contacto" class="font-weight-bold w-100 p-2  btn-custom text-center">Enviar</label>
             	                    <input type="submit" name="form_contacto" id="form_contacto" class="input-login">
               
             	               </div>
@@ -497,10 +497,7 @@
                     <label for="password">Contraseña</label>
                     <input type="password" name="password" id="password" class="form-control bg-grey-dark" placeholder="12345" >
                     
-                  </div>
-
-               <a href="" class="text-decoration-none my-2 d-block text-white"> ¿ olvido su constraseña ?</a>
-              
+                  </div>   
                   <label for="loginBtn" class="font-weight-bold w-100 p-2  btn-custom-default text-center">Login</label>
                 <input  name="loginBtn" type="submit" id="loginBtn" class="input-login">
 

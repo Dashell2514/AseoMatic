@@ -5,7 +5,15 @@ class Evento extends DataBase
     public function allEvent()
     {
         try {
-            $stm = parent::conectar()->prepare("SELECT * FROM eventos INNER JOIN usuarios ON eventos.fk_usuario=usuarios.id_usuario ORDER BY fecha_publicado");
+            $stm = parent::conectar()->prepare("SELECT n.id id_evento,
+            n.title titulo_evento,
+            n.description descripcion_evento,
+            n.updated_at fecha_publicado,
+            n.image imagen_evento,
+            n.user_id fk_usuario,
+            us.name nombres,
+            us.lastname apellidos
+            FROM events n INNER JOIN users us ON n.user_id=us.id ORDER BY n.updated_at");
             $stm->execute();
             $result = $stm->fetchAll(PDO::FETCH_OBJ);
             return json_encode($result);
@@ -15,15 +23,16 @@ class Evento extends DataBase
     }
 
 
-    public function storeAddEvent($tituloEvento,$descripcionEvento,$fechaPublicacion,$imgEvent,$EventUser)
+    public function storeAddEvent($tituloEvento,$descripcionEvento,$fechaPublicacion,$fechaActualizacion,$imgEvent,$EventUser)
     {
         try {
-            $stm = parent::conectar()->prepare("INSERT INTO eventos(titulo_evento,descripcion_evento,fecha_publicado,imagen_evento,fk_usuario) VALUES(?,?,?,?,?)");
+            $stm = parent::conectar()->prepare("INSERT INTO events(title,description,created_at,updated_at,image,user_id) VALUES(?,?,?,?,?,?)");
             $stm->bindParam(1,$tituloEvento,PDO::PARAM_STR);
             $stm->bindParam(2,$descripcionEvento,PDO::PARAM_STR);
             $stm->bindParam(3,$fechaPublicacion,PDO::PARAM_STR);
-            $stm->bindParam(4,$imgEvent,PDO::PARAM_STR);
-            $stm->bindParam(5,$EventUser,PDO::PARAM_STR);
+            $stm->bindParam(4,$fechaActualizacion,PDO::PARAM_STR);
+            $stm->bindParam(5,$imgEvent,PDO::PARAM_STR);
+            $stm->bindParam(6,$EventUser,PDO::PARAM_STR);
             $stm->execute();
             
         } catch (Exception $e) {
@@ -34,7 +43,7 @@ class Evento extends DataBase
     public function updateEvent($tituloEvento,$descripcionEvento,$fechaPublicacion,$imgEvent,$fkUser,$idEvento)
     {
         try {
-            $stm =parent::conectar()->prepare("UPDATE eventos SET titulo_evento= ?, descripcion_evento=? ,fecha_publicado=?,imagen_evento=?,fk_usuario=? WHERE id_evento = ?");
+            $stm =parent::conectar()->prepare("UPDATE events SET title= ?, description=? ,updated_at=?,image=?,user_id=? WHERE id = ?");
             $stm->bindParam(1,$tituloEvento,PDO::PARAM_STR);
             $stm->bindParam(2,$descripcionEvento,PDO::PARAM_STR);
             $stm->bindParam(3,$fechaPublicacion,PDO::PARAM_STR);
@@ -51,7 +60,7 @@ class Evento extends DataBase
     public function showImgEvent($id)
     {
         try {
-            $stm = parent::conectar()->prepare("SELECT imagen_evento FROM eventos WHERE id_evento= ?");
+            $stm = parent::conectar()->prepare("SELECT e.image imagen_evento FROM events e WHERE id= ?");
             $stm->bindParam(1,$id,PDO::PARAM_INT);
             $stm->execute();
             return $stm->fetch(PDO::FETCH_OBJ);
@@ -63,7 +72,7 @@ class Evento extends DataBase
     public function deletEvent($id)
     {
         try {
-            $stm = parent::conectar()->prepare("DELETE FROM eventos WHERE id_evento= ?");
+            $stm = parent::conectar()->prepare("DELETE FROM events WHERE id= ?");
             $stm->bindParam(1,$id,PDO::PARAM_INT);
             $stm->execute();
         } catch (Exception $e) {

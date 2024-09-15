@@ -59,9 +59,8 @@
                   <input type="text" class="form-control bg-white input-custom" name="titulo_evento" placeholder="Juanito salio a pescar y salio Pescado" id="titulo_evento">
                 </div>
 
-                <div class="form-group">
-                  <label for="descripcion_evento" class="text-shadow-1 text-custom text-capitalize">descripcion De Evento</label>
-                  <textarea name="descripcion_evento" id="descripcion_evento" class="form-control" cols="20" rows="4" placeholder="Juanito salio a pescar y salio Pescado xd"></textarea>
+                <div class="form-group bg-white">
+                  <div id="descripcion_evento"  class="text-dark" ></div>
                 </div>
               
 
@@ -85,12 +84,11 @@
                   <label for="fk_usuario" class="text-shadow-1 text-custom text-capitalize">Autor</label>
                   <select name="fk_usuario" id="fk_usuario" class="form-control ">
                     <option value="" selected="true">-- Seleccione --</option>
-                    <?php foreach (Administrador::allTable('usuarios') as $user) { ?>
-                      <option value="<?php echo $user->id_usuario ?>"><?php echo $user->nombres." ".$user->apellidos ?></option>
+                    <?php foreach (Administrador::allTable('users') as $user) { ?>
+                      <option value="<?php echo $user->id ?>"><?php echo $user->name." ".$user->lastname ?></option>
                     <?php } ?>
                   </select>
             </div>
-              <input type="hidden" name="fecha_evento" id="fecha_evento"value="<?php echo date("Y-m-d") ?>">
 
           </div>
 
@@ -128,9 +126,8 @@
                   <input type="text" class="form-control bg-white input-custom" name="update_titulo_evento" placeholder="Juanito salio a pescar y salio Pescado" id="update_titulo_evento">
                 </div>
 
-                <div class="form-group">
-                  <label for="update_descripcion_evento" class="text-shadow-1 text-custom text-capitalize">descripcion De evento</label>
-                  <textarea name="update_descripcion_evento" id="update_descripcion_evento" class="form-control" cols="20" rows="4"></textarea>
+                <div class="form-group bg-white">
+                  <div id="update_descripcion_evento"  class="text-dark" ></div>
                 </div>
               
 
@@ -153,13 +150,11 @@
             <div class="form-group col-md-6 col-sm-12">
                   <label for="update_fk_usuario" class="text-shadow-1 text-custom text-capitalize">Autor</label>
                   <select name="update_fk_usuario" id="update_fk_usuario" class="form-control ">
-                    <?php foreach (Administrador::allTable('usuarios') as $user) { ?>
-                      <option value="<?php echo $user->id_usuario ?>"><?php echo $user->nombres." ".$user->apellidos ?></option>
+                    <?php foreach (Administrador::allTable('users') as $user) { ?>
+                      <option value="<?php echo $user->id ?>"><?php echo $user->name." ".$user->lastname ?></option>
                     <?php } ?>
                   </select>
                 </div>
-
-            <input type="hidden" name="update_fecha_evento" id="update_fecha_evento"value="<?php echo date("Y-m-d") ?>">
 
           </div>
 

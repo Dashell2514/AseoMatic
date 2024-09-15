@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/quill.snow.css">
 </head>
 
 <body>
@@ -19,13 +20,12 @@
             <div class="bg-dark  " id="sidebar">
                 <p class="diplay-6  text-white my-3 px-2 size-sm text-center text-capitalize"><?php echo $_SESSION['ADMINISTRADOR']->nombre_rol ?></p>
               <div class="img-dashboard d-flex flex-column justify-content-center align-items-center mt-2">
-                <img src="<?php echo $_SESSION['ADMINISTRADOR']->img_usuario?>" class="img-avatar-male" alt="">
+                <img src="<?php $img =Usuario::showImgUserStatic($_SESSION['ADMINISTRADOR']->id_usuario); echo isset($img->img_usuario) ? $img->img_usuario : 'assets/uploud/profile/default.svg' ?>" class="img-avatar-male" alt="imagen de perfil de usuario">
                 <p class="diplay-6  text-white my-3 px-2 size-sm text-center text-capitalize"><?php echo $_SESSION['ADMINISTRADOR']->nombres.' '.$_SESSION['ADMINISTRADOR']->apellidos;?></p>
               </div>
               <div class="menu-settings text-capitalize">
                 <a href="?c=Usuarios&m=show" class="list-group-item list-group-item-action bg-dark text-white">Administrar Usuarios</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Administrar Nominas</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Administrar Certificados</a>
+                <a href="?c=Nominas&m=index" class="list-group-item list-group-item-action bg-dark text-white">Administrar Nominas</a>
                 <a href="?c=Noticias&m=showNews" class="list-group-item list-group-item-action bg-dark text-white">Administrar Noticias</a>
                 <a href="?c=Eventos&m=showEvents" class="list-group-item list-group-item-action bg-dark text-white">Administrar Eventos</a>
                 <a href="?c=Login&m=destroy" class="list-group-item list-group-item-action bg-dark text-white">Salir</a>
@@ -42,9 +42,6 @@
   
               <button type="button" id="sidebarCollapse" class="btn btn-primary  b-custom ">
                 &#9776;
-              </button>    
-
-             
-
-              
-          </div>
+              </button>   
+               
+            </div>
